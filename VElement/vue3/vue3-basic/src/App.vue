@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import HelloWorld from "./components/HelloWorld.vue";
-import { ref, Ref } from "vue";
-
+import { provide, ref, Ref } from "vue";
+import { langKey } from "./keys";
 
 // props
 interface User {
@@ -13,12 +13,17 @@ const user = {
   age: 12,
 };
 
-
 // emits
 const isHiddenAgeText = ref("");
 function onChangeIsHiddenAge(isHidenAge: Ref<boolean>) {
-  isHiddenAgeText.value = isHidenAge.value ? "年龄已经被隐藏" : "年龄已经被展示";
+  isHiddenAgeText.value = isHidenAge.value
+    ? "年龄已经被隐藏"
+    : "年龄已经被展示";
 }
+
+// provide
+const lang = ref("chinese");
+provide(langKey, lang);
 </script>
 
 <template>

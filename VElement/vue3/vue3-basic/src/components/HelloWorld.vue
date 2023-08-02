@@ -1,14 +1,31 @@
 <script setup lang="ts">
-import { computed, reactive, watch, ref, PropType, ToRefs } from "vue";
+import {
+  computed,
+  reactive,
+  watch,
+  ref,
+  PropType,
+  ToRefs,
+  Ref,
+  inject,
+} from "vue";
 import uesMousePosition from "../hooks/uesMousePosition";
 import useURLLoader, { URLLoaderData } from "../hooks/useURLLoader";
+import { langKey, userKey } from "../keys";
 interface User {
   name: string;
   age: number;
 }
-const user = reactive({
-  age: 7,
-});
+// const user = reactive({
+//   age: 7,
+// });
+
+// inject
+// langKey为注入的依赖的键
+const lang = inject(langKey);
+console.log("🚀 ~ file: HelloWorld.vue:26 ~ lang:", lang?.value); // "chinese"
+const iuser = inject(userKey);
+console.log(iuser?.id); // 1
 
 // 组合式函数
 // 官方组合式函数库:https://vueuse.org/
@@ -22,21 +39,36 @@ const { x, y } = uesMousePosition();
 // );
 const { result, loading } = useURLLoader<DogResult>(
   "https://dog.ceo/api/breeds/image/random"
-);
+); // api网址 : https://dog.ceo/dog-api/
 
 // props
-const props = defineProps({
-  user: {
-    type: Object as PropType<User>,
-    required: true,
-  },
+// const props = defineProps({
+//   user: {
+//     type: Object as PropType<User>,
+//   },
+// });
+// 或者
+// const props = defineProps<{ user?: User }>();
+// 添加默认值
+const props = withDefaults(defineProps<{ user?: User }>(), {
+  user: () => ({
+    name: "Alice",
+    age: 10,
+  }),
 });
 const doubleAge = computed(() => props.user.age * 2);
+const user = props.user;
 
 // emits
+type ChangeIsHiddenAgeEmit = (
+  eventName: "changeIsHiddenAge",
+  isHiddenAge: Ref<boolean>
+) => void;
 const isHiddenAge = ref(false);
 const isHiddenText = computed(() => (isHiddenAge.value ? "显示" : "隐藏"));
-const emit = defineEmits(["changeIsHiddenAge"]);
+// const emit = defineEmits(["changeIsHiddenAge"]);
+// 或者
+const emit = defineEmits<ChangeIsHiddenAgeEmit>();
 function toggleIsHiddenAge() {
   isHiddenAge.value = !isHiddenAge.value;
   emit("changeIsHiddenAge", isHiddenAge);

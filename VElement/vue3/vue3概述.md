@@ -118,3 +118,7 @@ module.exports = {
   - 安装插件 : `npm install @vue/eslint-config-typescript --save-dev`
 
   - 修改配置文件(.eslintrc.cjs) : `"extends": ["plugin:vue/vue3-essential", "@vue/eslint-config-typescript"]`
+
+### vue3 新特性
+
+[vue3.3 新特性](https://blog.vuejs.org/posts/vue-3-3)
