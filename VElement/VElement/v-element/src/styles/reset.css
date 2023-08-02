@@ -1,0 +1,94 @@
+/* 用于添加自定义的css默认样式 */
+/* 安装插件 : PostCSS Intellisense and Highlighting  , 解决在.css文件中书写嵌套等语法的报错问题 */
+/* 安装postcss插件 : npm install --save-dev postcss postcss-nested 并进行配置,将postcss的语法解析成css语法，解决.css文件中嵌套写法的语法在运行时报错的问题
+   插件官网：https://github.com/postcss/postcss-nested
+ */
+
+body {
+  font-family: var(--v-font-family);
+  font-weight: 400;
+  font-size: var(--v-font-size-base);
+  color: var(--v-text-color-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: var(--v-color-primary);
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: var(--v-color-primary-light-3);
+  }
+
+  &:active {
+    color: var(--v-color-primary-dark-2);
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--v-text-color-regular);
+  font-weight: inherit;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+h1 {
+  font-size: calc(var(--v-font-size-base) + 6px);
+}
+
+h2 {
+  font-size: calc(var(--v-font-size-base) + 4px);
+}
+
+h3 {
+  font-size: calc(var(--v-font-size-base) + 2px);
+}
+
+h4,
+h5,
+h6,
+p {
+  font-size: inherit;
+}
+
+p {
+  line-height: 1.8;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+sup,
+sub {
+  font-size: calc(var(--v-font-size-base) - 1px);
+}
+
+small {
+  font-size: calc(var(--v-font-size-base) - 2px);
+}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid var(--v-border-color-lighter);
+}
