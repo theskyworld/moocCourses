@@ -1,9 +1,9 @@
 import { PropType } from "vue";
-export type ButtonTypes = "primary" | "sucess" | "warning" | "danger" | "info";
+export type ButtonTypes = "primary" | "success" | "warning" | "danger" | "info";
 export type ButtonSizes = "large" | "small";
 export type NativeType = "button" | "submit" | "reset";
 export interface VButtonInstance {
-  ref: HTMLButtonElement,
+  ref: HTMLButtonElement;
 }
 
 export interface ButtonProps {

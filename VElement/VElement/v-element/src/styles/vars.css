@@ -1,13 +1,25 @@
 /* 在此处声明样式变量名 */
 /* 参考elementPlus中的色彩进行设计 : https: //element-plus.org/zh-CN/component/color.html */
 /* 使用postcss语法 */
+/* 安装插件 : 
+npm install --save-dev postcss postcss-each、 
+npm install --save-dev postcss postcss-for, 
+npm install --save postcss-color-mix
+npm install --save-dev postcss-each-variables
+ */
+/* 插件官网 : 
+https://github.com/madyankin/postcss-each 、
+https://github.com/antyakushev/postcss-for 
+https://github.com/iamstarkov/postcss-color-mix
+https://github.com/awcross/postcss-each-variables
+*/
 
 :root {
   /* colors */
   --v-color-white: #ffffff;
   --v-color-black: #000000;
   /* --v-color-primary : #409eff; */
-  --v-colors: (
+  --colors: (
     primary: #409eff,
     success: #67c23a,
     warning: #e6a23c,
@@ -15,7 +27,7 @@
     info: #909399
   );
 
-  /* @each $val, $color in var(--colors) {
+  @each $val, $color in var(--colors) {
     --v-color-$(val): $(color);
 
     @for $i from 3 to 9 by 2 {
@@ -24,7 +36,7 @@
 
     --v-color-$(val)-light-8: mix(#fff, $(color), 0.8);
     --v-color-$(val)-dark-2: mix(#000, $(color), 0.2);
-  } */
+  }
 
   --v-bg-color: #ffffff;
   --v-bg-color-page: #f2f3f5;
