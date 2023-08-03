@@ -16,6 +16,8 @@
       @click="handleClick()"
     >
       <slot name="title">{{ title }}</slot>
+      <!-- 添加图标 -->
+      <v-icon icon="angle-right" class="header-angle"></v-icon>
     </div>
     <!-- 通过v-show来控制content的是否展示（item的打开或关闭） -->
     <Transition name="slide" v-on="transitionEvents">
@@ -31,6 +33,7 @@
 <script setup lang="ts">
 import { inject, computed } from "vue";
 import { CollapseItemProps, collapseContextKey } from "./types";
+import VIcon from "../Icon/Icon.vue";
 // 重命名组件的对外导出名
 defineOptions({
   name: "VCollapseItem",

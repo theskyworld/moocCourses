@@ -8,6 +8,7 @@
     class="v-icon"
     :class="{ [`v-icon--${type}`]: type }"
     :style="customStyles"
+    v-bind="$attrs"
   >
     <!-- 使用v-bind="$props"将defineProps中定义的属性透传到font-awesome-icon组件上 -->
     <font-awesome-icon v-bind="filteredProps"></font-awesome-icon>

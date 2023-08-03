@@ -43,6 +43,8 @@ setTimeout(() => {
     <v-button type="danger" plain>Danger</v-button><br /><br />
     <v-button size="large">Large</v-button>
     <v-button size="small">Small</v-button><br /><br />
+    <v-button size="large" loading>loading</v-button>
+    <v-button size="small" icon="arrow-up">arrowUp</v-button><br /><br />
 
     <!-- Collapse -->
     <!-- 手风琴模式 -->

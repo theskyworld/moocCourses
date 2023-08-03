@@ -17,12 +17,16 @@
       'is-round': round,
       'is-circle': circle,
       'is-disabled': disabled,
+      'is-loading': loading,
     }"
-    :disabled="disabled"
+    :disabled="disabled || loading"
     :autofocus="autofocus"
     :type="nativeType"
   >
-    <slot />
+    <!-- 添加图标 -->
+    <v-icon icon="spinner" v-if="loading" spin></v-icon>
+    <v-icon :icon="icon" v-if="icon"></v-icon>
+    <span><slot /></span>
   </button>
 </template>
 <!-- 修改当前组件的对外导出组件名 -->
@@ -36,11 +40,11 @@ export default defineComponent({
 <script setup lang="ts">
 import { ref } from "vue";
 import { buttonProps, ButtonProps } from "./types";
+import VIcon from "../Icon/Icon.vue";
 // 修改当前组件的对外导出组件名
 defineOptions({
   name: "VButton",
 });
-
 
 // 使用defineProps声明buttonProps属性
 // 接收使用Button组件时通过组件的属性传值传入的值

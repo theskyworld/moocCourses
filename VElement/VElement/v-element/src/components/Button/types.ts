@@ -13,6 +13,8 @@ export interface ButtonProps {
   round?: boolean;
   circle?: boolean;
   disabled?: boolean;
+  icon?: string;
+  loading?: boolean;
   // button元素内置原生属性
   nativeType?: NativeType; // nativeType即原生button元素的type属性，与这里的type进行区分
   autofocus?: boolean;
