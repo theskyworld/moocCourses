@@ -8,6 +8,10 @@
   >
     <div
       class="v-collapse-item__header"
+      :class="{
+        'is-disabled': disabled,
+        'is-active': isActive,
+      }"
       :id="`item-header-${name}`"
       @click="handleClick()"
     >

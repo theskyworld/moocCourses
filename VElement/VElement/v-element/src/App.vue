@@ -52,6 +52,9 @@ const activeItemsNames = ref(["item1"]);
       <v-collapseItem name="item3" title="title3">
         <div>content3</div>
       </v-collapseItem>
+      <v-collapseItem name="item4" title="title4" disabled>
+        <div>content4</div>
+      </v-collapseItem>
       <p>{{ activeItemsNames }}</p>
     </v-collapse>
   </div>
