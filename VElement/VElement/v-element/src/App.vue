@@ -15,6 +15,7 @@ onMounted(() => {
 
 <template>
   <div>
+    <!-- Button -->
     <v-button ref="vbuttonInstance">default</v-button>
     <v-button plain>plain button</v-button>
     <v-button round>round button</v-button>

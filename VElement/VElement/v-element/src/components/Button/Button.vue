@@ -2,7 +2,7 @@
   <!-- 在Button组件内首先定义一个普通的button元素 -->
   <!-- 然后为其添加固定的类名和动态的类型，以便为其添加对应的样式 -->
   <!-- 动态的类名在使用该Button组件时确定 -->
-  <!-- 例如，使用时，<Button type="primary" plain>button</Button>，
+  <!-- 例如，使用时，通过使用vue组件的属性传值，<Button type="primary" plain>button</Button>，
     最后渲染出的结果为<button class="v-button v-button--primary is-plain">button</button> 
     最后就是一个普通的button元素，加上以上的v-button v-button--primary is-plain类名对应的样式
   -->
@@ -40,7 +40,10 @@ import { buttonProps, ButtonProps } from "./types";
 defineOptions({
   name: "VButton",
 });
+
+
 // 使用defineProps声明buttonProps属性
+// 接收使用Button组件时通过组件的属性传值传入的值
 // 方式一  使用导入的buttonProps变量
 // defineProps(buttonProps);
 
