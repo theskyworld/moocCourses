@@ -18,13 +18,14 @@
       <slot name="title">{{ title }}</slot>
     </div>
     <!-- 通过v-show来控制content的是否展示（item的打开或关闭） -->
-    <div
-      class="v-collapse-item__content"
-      :id="`item-content-${name}`"
-      v-show="isActive"
-    >
-      <slot></slot>
-    </div>
+    <Transition name="slide" v-on="transitionEvents">
+      <div class="v-collapse-item__wrapper" v-show="isActive">
+        <!-- 使用上述的一层div包裹以下的内容，将v-show添加到上层div上，避免出现v-show已经执行（content已经展示）但是动画在之后才出现的动画卡顿问题 -->
+        <div class="v-collapse-item__content" :id="`item-content-${name}`">
+          <slot></slot>
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 <script setup lang="ts">
@@ -49,6 +50,33 @@ const handleClick = () => {
   if (props.disabled) return;
   collapseContext?.handleItemClick(props.name);
   console.log(isActive.value);
+};
+
+// 计算slide动画前后元素的高度
+const transitionEvents: Record<string, (elem: HTMLElement) => void> = {
+  beforeEnter(elem) {
+    elem.style.height = "0px";
+    // 添加overflow属性，避免出现动画过程前后元素位置移位的情况
+    elem.style.overflow = "hidden";
+  },
+  enter(elem) {
+    elem.style.height = `${elem.scrollHeight}px`;
+  },
+  afterEnter(elem) {
+    elem.style.height = "";
+    elem.style.overflow = "";
+  },
+  beforeLeave(elem) {
+    elem.style.height = `${elem.scrollHeight}px`;
+    elem.style.overflow = "hidden";
+  },
+  leave(elem) {
+    elem.style.height = "0px";
+  },
+  afterLeave(elem) {
+    elem.style.height = "";
+    elem.style.overflow = "";
+  },
 };
 </script>
 <style scoped></style>
