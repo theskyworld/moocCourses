@@ -40,4 +40,8 @@ export interface IconProps {
   beatFade?: boolean;
   spinPulse?: boolean;
   spinReverse?: boolean;
+
+  // 新增的自定义属性的类型
+  type?: "primary" | "success" | "warning" | "danger" | "info";
+  color?: string;
 }

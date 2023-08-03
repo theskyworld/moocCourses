@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import VButton from "./components/Button//Button.vue";
-import { VButtonInstance } from "./components//Button/types";
+import { buttonProps, VButtonInstance } from "./components//Button/types";
 import VCollapse from "./components/Collapse/Collapse.vue";
 import VCollapseItem from "./components/Collapse/CollapseItem.vue";
 import VIcon from "./components/Icon/Icon.vue";
@@ -15,6 +15,12 @@ onMounted(() => {
 });
 
 const activeItemsNames = ref([]);
+
+// 测试filteredProps的响应式
+let size = ref<any>("1x");
+setTimeout(() => {
+  size.value = "3x";
+}, 1000);
 </script>
 
 <template>
@@ -99,6 +105,9 @@ const activeItemsNames = ref([]);
     <!-- Icon -->
     <v-icon icon="fa-solid fa-user-secret" size="2xl"></v-icon>
     <v-icon icon="arrow-up" size="2xl" spin></v-icon>
+    <v-icon icon="arrow-up" :size="size" type="primary"></v-icon>
+    <v-icon icon="arrow-up" size="2xl" type="danger"></v-icon>
+    <v-icon icon="arrow-up" size="2xl" color="#ebeef5"></v-icon>
   </div>
 </template>
 
