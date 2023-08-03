@@ -12,6 +12,8 @@ onMounted(() => {
     console.log(vbuttonElem); // button  会自动解包，不需要.value
   }
 });
+
+const activeItemsNames = ref(["item1"]);
 </script>
 
 <template>
@@ -36,7 +38,7 @@ onMounted(() => {
     <v-button size="small">Small</v-button><br /><br />
 
     <!-- Collapse -->
-    <v-collapse>
+    <v-collapse v-model="activeItemsNames" accordion>
       <v-collapseItem name="item1">
         <template #title>
           <h1>title1</h1>
@@ -50,6 +52,7 @@ onMounted(() => {
       <v-collapseItem name="item3" title="title3">
         <div>content3</div>
       </v-collapseItem>
+      <p>{{ activeItemsNames }}</p>
     </v-collapse>
   </div>
 </template>
