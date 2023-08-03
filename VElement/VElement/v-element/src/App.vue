@@ -2,7 +2,8 @@
 import { onMounted, ref } from "vue";
 import VButton from "./components/Button//Button.vue";
 import { VButtonInstance } from "./components//Button/types";
-
+import VCollapse from "./components/Collapse/Collapse.vue";
+import VCollapseItem from "./components/Collapse/CollapseItem.vue";
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
@@ -33,6 +34,23 @@ onMounted(() => {
     <v-button type="danger" plain>Danger</v-button><br /><br />
     <v-button size="large">Large</v-button>
     <v-button size="small">Small</v-button><br /><br />
+
+    <!-- Collapse -->
+    <v-collapse>
+      <v-collapseItem name="item1">
+        <template #title>
+          <h1>title1</h1>
+        </template>
+        <h2>content1 title</h2>
+        <div>content1</div>
+      </v-collapseItem>
+      <v-collapseItem name="item2" title="title2">
+        <div>content2</div>
+      </v-collapseItem>
+      <v-collapseItem name="item3" title="title3">
+        <div>content3</div>
+      </v-collapseItem>
+    </v-collapse>
   </div>
 </template>
 
