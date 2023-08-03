@@ -4,6 +4,7 @@ import VButton from "./components/Button//Button.vue";
 import { VButtonInstance } from "./components//Button/types";
 import VCollapse from "./components/Collapse/Collapse.vue";
 import VCollapseItem from "./components/Collapse/CollapseItem.vue";
+import VIcon from "./components/Icon/Icon.vue";
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
@@ -94,6 +95,10 @@ const activeItemsNames = ref([]);
       <v-collapse-item name="item6" title="disabled" disabled>
       </v-collapse-item>
     </v-collapse>
+
+    <!-- Icon -->
+    <v-icon icon="fa-solid fa-user-secret" size="2xl"></v-icon>
+    <v-icon icon="arrow-up" size="2xl" spin></v-icon>
   </div>
 </template>
 
