@@ -5,6 +5,7 @@ import { buttonProps, VButtonInstance } from "./components//Button/types";
 import VCollapse from "./components/Collapse/Collapse.vue";
 import VCollapseItem from "./components/Collapse/CollapseItem.vue";
 import VIcon from "./components/Icon/Icon.vue";
+import VTooltip from "./components/Tooltip/Tooltip.vue";
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
@@ -110,6 +111,14 @@ setTimeout(() => {
     <v-icon icon="arrow-up" :size="size" type="primary"></v-icon>
     <v-icon icon="arrow-up" size="2xl" type="danger"></v-icon>
     <v-icon icon="arrow-up" size="2xl" color="#ebeef5"></v-icon>
+
+
+    <!-- Tooltip -->
+    <div>
+      <v-tooltip content="hello tooltip">
+        <button type="button">trigger</button>
+      </v-tooltip>
+    </div>
   </div>
 </template>
 
