@@ -1,5 +1,4 @@
-<template>
-  <!-- 在Button组件内首先定义一个普通的button元素 -->
+ <!-- 在Button组件内首先定义一个普通的button元素 -->
   <!-- 然后为其添加固定的类名和动态的类型，以便为其添加对应的样式 -->
   <!-- 动态的类名在使用该Button组件时确定 -->
   <!-- 例如，使用时，通过使用vue组件的属性传值，<Button type="primary" plain>button</Button>，
@@ -7,26 +6,22 @@
     最后就是一个普通的button元素，加上以上的v-button v-button--primary is-plain类名对应的样式
   -->
   <!-- 本质就是对原生的button元素进行样式和功能的封装，但是最后要注意将元素原生的内置属性添加到封装后的Button组件上，以便能够使用 -->
-  <button
-    ref="_ref"
-    class="v-button"
-    :class="{
-      [`v-button--${type}`]: type,
-      [`v-button--${size}`]: size,
-      'is-plain': plain,
-      'is-round': round,
-      'is-circle': circle,
-      'is-disabled': disabled,
-      'is-loading': loading,
-    }"
-    :disabled="disabled || loading"
-    :autofocus="autofocus"
-    :type="nativeType"
-  >
+<template>
+  <button ref="_ref" class="v-button" :class="{
+    [`v-button--${type}`]: type,
+    [`v-button--${size}`]: size,
+    'is-plain': plain,
+    'is-round': round,
+    'is-circle': circle,
+    'is-disabled': disabled,
+    'is-loading': loading,
+  }" :disabled="disabled || loading" :autofocus="autofocus" :type="nativeType">
     <!-- 添加图标 -->
     <v-icon icon="spinner" v-if="loading" spin></v-icon>
     <v-icon :icon="icon" v-if="icon"></v-icon>
-    <span><slot /></span>
+    <span>
+      <slot />
+    </span>
   </button>
 </template>
 <!-- 修改当前组件的对外导出组件名 -->
