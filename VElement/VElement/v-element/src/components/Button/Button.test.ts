@@ -63,7 +63,7 @@ describe("test Button.vue", () => {
         stubs: ["FontAwesomeIcon"],
       },
     });
-    console.log(wrapperElem.html());
+    // console.log(wrapperElem.html());
     // 测试指定的图标是否添加成功
     const iconElem = wrapperElem.findComponent(FontAwesomeIcon);
     expect(iconElem.exists()).toBeTruthy();
@@ -85,6 +85,10 @@ describe("test Button.vue", () => {
       },
     });
     const iconElem = wrapperElem.findComponent(Icon);
+    // console.log(
+    //   "🚀 ~ file: Button.test.ts:88 ~ test ~ iconElem:",
+    //   iconElem.html()
+    // );
     expect(iconElem.exists()).toBeTruthy();
     expect(iconElem.attributes("icon")).toBe("spinner");
     expect(wrapperElem.attributes("disabled")).toBeDefined();

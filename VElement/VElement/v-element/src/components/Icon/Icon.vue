@@ -1,9 +1,9 @@
-<template>
   <!-- 其本质为对fontawesome图标的FontAwesomeIcon组件进行封装 -->
   <!-- 将使用fontawesome时FontAwesomeIcon组件上需要的属性值改为通过Icon组件来传入,通过属性的透传实现值的传递 -->
   <!-- 并同时增加一些自定义的功能 -->
   <!-- :class="{[`v-icon--${type}`] : type}"  增加自定义的type属性功能 -->
   <!-- :style="customStyles"  增加图标自定义的样式,例如color等 -->
+<template>
   <i
     class="v-icon"
     :class="{ [`v-icon--${type}`]: type }"
