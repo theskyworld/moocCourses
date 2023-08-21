@@ -1,4 +1,4 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
 import { mount, VueWrapper } from "@vue/test-utils";
 import Collapse from "./Collapse.vue";
 import { h } from "vue";
@@ -23,9 +23,10 @@ describe("Collapse.vue", () => {
 
     // vite支持直接创建.tsx文件并书写tsx语法
 
+    const onChange = vi.fn();
     const wrapperElem: VueWrapper = mount(
       () => (
-        <Collapse modelValue={["a"]}>
+        <Collapse modelValue={["a"]} onChange={onChange}>
           <CollapseItem name="a" title="Titile A">
             content a
           </CollapseItem>
@@ -72,13 +73,16 @@ describe("Collapse.vue", () => {
     // firstContent的DOM元素上添加display:none属性
     // 测试之前添加attachTo: document.body,
     expect(firstContent.isVisible()).toBeFalsy();
+    expect(onChange).toHaveBeenCalledWith([]);
     await secondHeader.trigger("click");
     expect(secondContent.isVisible()).toBeTruthy();
+    expect(onChange).toHaveBeenCalledWith(["b"]);
 
     // 测试disabled
     const disabledHeader = headers[2];
     expect(disabledHeader.classes()).toContain("is-disabled");
     await disabledHeader.trigger("click");
     expect(disabledContent.isVisible()).toBeFalsy();
+
   });
 });
