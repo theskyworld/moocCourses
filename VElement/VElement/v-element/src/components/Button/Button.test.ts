@@ -2,6 +2,8 @@
 import { describe, test, expect } from "vitest";
 import { mount } from "@vue/test-utils";
 import Button from "./Button.vue";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import Icon from "../Icon/Icon.vue";
 
 describe("test Button.vue", () => {
   // 测试在Button.vue组件挂载之后的容器元素
@@ -45,5 +47,46 @@ describe("test Button.vue", () => {
     // 点击事件应当失效
     wrapperElem.get("button").trigger("click");
     expect(wrapperElem.emitted()).not.toHaveProperty("click");
+  });
+
+  // 测试图标
+  test("icon", () => {
+    const wrapperElem = mount(Button, {
+      props: {
+        icon: "arrow-up",
+      },
+      slots: {
+        default: "icon",
+      },
+      global: {
+        // 模拟将FontAwesomeIcon添加到Button组件下
+        stubs: ["FontAwesomeIcon"],
+      },
+    });
+    console.log(wrapperElem.html());
+    // 测试指定的图标是否添加成功
+    const iconElem = wrapperElem.findComponent(FontAwesomeIcon);
+    expect(iconElem.exists()).toBeTruthy();
+    expect(iconElem.attributes("icon")).toBe("arrow-up");
+  });
+
+  // 测试loading时的图标
+  test("loading", () => {
+    const wrapperElem = mount(Button, {
+      props: {
+        loading: true,
+      },
+      slots: {
+        default: "loading",
+      },
+      global: {
+        // 模拟将Icon组件添加到Button组件下
+        stubs: ["Icon"],
+      },
+    });
+    const iconElem = wrapperElem.findComponent(Icon);
+    expect(iconElem.exists()).toBeTruthy();
+    expect(iconElem.attributes("icon")).toBe("spinner");
+    expect(wrapperElem.attributes("disabled")).toBeDefined();
   });
 });
