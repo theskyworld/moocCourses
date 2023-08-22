@@ -1,6 +1,6 @@
 <script setup lang='ts'>
 import { createPopper, Instance } from '@popperjs/core';
-import { onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { TooltipEmits, TooltipProps, TooltipInstance } from './types';
 import useOnClickOutside from './useOnClickOutside';
 
@@ -40,6 +40,11 @@ let popperInstance: Instance | null = null;
 const events: Record<string, any> = ref({});
 const outerEvents: Record<string, any> = ref({});
 
+
+const popperOptions = computed(() => ({
+    placement: props.placement,
+    ...props.popperOptions,
+}))
 
 // 点击容器元素外部时能自动关闭popper
 const tooltipWrapperElem = ref();
@@ -95,9 +100,7 @@ watch(isOpen, (newValue) => {
     if (newValue) {
         if (triggerNodeElem.value && popperNodeElem.value) {
             // 创建popper实例，用于展示popper
-            popperInstance = createPopper(triggerNodeElem.value, popperNodeElem.value, {
-                placement: props.placement
-            })
+            popperInstance = createPopper(triggerNodeElem.value, popperNodeElem.value, popperOptions.value)
         } else {
             // 销毁popper实例，隐藏popper
             popperInstance?.destroy()

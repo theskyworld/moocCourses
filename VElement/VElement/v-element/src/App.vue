@@ -25,7 +25,7 @@ setTimeout(() => {
 }, 1000);
 
 
-const triggerEvent = ref<Trigger>("hover");
+const triggerEvent = ref<Trigger>("click");
 // 2s后更新popper的触发方式
 // setTimeout(() => {
 //   triggerEvent.value = "click";
@@ -131,7 +131,7 @@ const tooltipElem = ref<TooltipInstance | null>();
 
     <!-- Tooltip -->
     <div >
-      <v-tooltip style="width: 50px; height: 50px" content="hello tooltip" :trigger="triggerEvent">
+      <v-tooltip style="width: 50px; height: 50px" content="hello tooltip" :trigger="triggerEvent" :popperOptions="{ placement: 'top' , strategy : 'fixed'}">
         <v-button type="primary">hello</v-button>
       </v-tooltip>
       <!-- 手动展示/隐藏模式 -->
