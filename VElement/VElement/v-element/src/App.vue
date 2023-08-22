@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { h, onMounted, ref } from "vue";
 import VButton from "./components/Button//Button.vue";
 import { buttonProps, VButtonInstance } from "./components//Button/types";
 import VCollapse from "./components/Collapse/Collapse.vue";
@@ -43,7 +43,8 @@ const menuOptions: MenuOption[] = [
   },
   {
     key: "2",
-    label: "item2",
+    // 值为一个虚拟节点
+    label: h("b", "this should be bold"),
     disabled: true
   },
   {
@@ -152,6 +153,8 @@ const menuOptions: MenuOption[] = [
       <v-icon icon="arrow-up" size="2xl" color="#ebeef5"></v-icon>
     </div>
 
+
+
     <!-- Tooltip -->
     <div>
       <div>
@@ -172,10 +175,9 @@ const menuOptions: MenuOption[] = [
 
     <!-- Dropdown -->
     <div>
-      <v-dropdown placecment="bottom-start"  
-      :trigger="triggerEvent" :menuOptions="menuOptions">
-      <v-button type="primary">dropdown</v-button>
-    </v-dropdown>
+      <v-dropdown placement="top" :trigger="triggerEvent" :menuOptions="menuOptions" :hide-after-click="true">
+        <v-button type="primary">dropdown</v-button>
+      </v-dropdown>
     </div>
   </div>
 </template>

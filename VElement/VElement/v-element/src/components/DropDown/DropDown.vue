@@ -3,13 +3,15 @@ import { DropdownEmits, DropdownInstance, DropdownProps, MenuOption } from './ty
 import VTooltip from '../Tooltip/Tooltip.vue';
 import { TooltipInstance } from '../Tooltip/types';
 import { ref } from 'vue';
-
+import RenderVNode from "./RenderVNode";
 
 
 
 /*********************************导包分界线***************************************/
 /* props */
-const props = defineProps<DropdownProps>();
+const props = withDefaults(defineProps<DropdownProps>(), {
+    hideAfterClick: true,
+})
 /* emits */
 const emits = defineEmits<DropdownEmits>();
 
@@ -45,7 +47,10 @@ function onItemClick(e: MenuOption) {
         return;
     }
 
-    emits("select", e)
+    emits("select", e);
+    if (props.hideAfterClick) {
+        tooltipInstance.value.hide();
+    }
 }
 
 /* watch */
@@ -68,7 +73,10 @@ function onItemClick(e: MenuOption) {
                         <li v-if="item.divided" role="separator" class="divided-placeholder"></li>
                         <li @click="onItemClick(item)" :id="`dropdown-item-${item.key}`" class="v-dropdown__item"
                             :class="{ 'is-disabled': item.disabled, 'is-divided': item.divided }">
-                            {{ item.label }}</li>
+                            <!-- {{ item.label }}</li> -->
+                            <!-- 支持真实DOM节点的渲染，不仅限于字符串 -->
+                            <RenderVNode :vNode="item.label"></RenderVNode>
+                        </li>
                     </template>
                 </ul>
             </template>
