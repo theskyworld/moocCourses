@@ -35,7 +35,7 @@ const tooltipElem = ref<TooltipInstance | null>();
 </script>
 
 <template>
-  <div>
+  <div class="wrapper">
     <div>
       <!-- Button -->
       <v-button ref="vbuttonInstance">default</v-button>
@@ -128,20 +128,28 @@ const tooltipElem = ref<TooltipInstance | null>();
       <v-icon icon="arrow-up" size="2xl" color="#ebeef5"></v-icon>
     </div>
 
-
     <!-- Tooltip -->
-    <div >
-      <v-tooltip style="width: 50px; height: 50px" content="hello tooltip" :trigger="triggerEvent" :popperOptions="{ placement: 'top' , strategy : 'fixed'}" :openDelay="1000" :closeDelay="1000">
-        <v-button type="primary">hello</v-button>
-      </v-tooltip>
-      <!-- 手动展示/隐藏模式 -->
-      <v-button type="primary" @click="tooltipElem?.show">open</v-button>
-      <v-button type="danger" @click="tooltipElem?.hide">close</v-button>
-       <v-tooltip style="width: 200px; height: 50px" content="hello tooltip" manual ref="tooltipElem" placement="top">
-          show popper here : 
+    <div>
+      <div>
+        <v-tooltip style="width: 50px; height: 50px" content="hello tooltip" :trigger="triggerEvent"
+          :popperOptions="{ placement: 'top', strategy: 'fixed' }" :openDelay="1000" :closeDelay="1000">
+          <v-button type="primary">hello</v-button>
         </v-tooltip>
+      </div>
+      <div>
+        <!-- 手动展示/隐藏模式 -->
+        <v-button type="primary" @click="tooltipElem?.show">open</v-button>
+        <v-button type="danger" @click="tooltipElem?.hide">close</v-button>
+        <v-tooltip style="width: 200px; height: 50px" content="hello tooltip" manual ref="tooltipElem" placement="top">
+          show popper here :
+        </v-tooltip>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.wrapper div {
+  margin: 30px 10px;
+}
+</style>
