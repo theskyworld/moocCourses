@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import { createPopper, Instance } from '@popperjs/core';
-import { reactive, ref, watch } from 'vue';
-import { TooltipEmits, TooltipProps } from './types';
+import { onMounted, reactive, ref, watch } from 'vue';
+import { TooltipEmits, TooltipProps, TooltipInstance } from './types';
 import useOnClickOutside from './useOnClickOutside';
 
 /*  */
@@ -44,7 +44,7 @@ const outerEvents: Record<string, any> = ref({});
 // 点击容器元素外部时能自动关闭popper
 const tooltipWrapperElem = ref();
 useOnClickOutside(tooltipWrapperElem, () => {
-    if (props.trigger === "click" && isOpen.value) {
+    if (props.trigger === "click" && isOpen.value && !props.manual) {
         onClose();
     }
 })
@@ -84,8 +84,9 @@ function attachEvents() {
         events.value["click"] = onTogglePopper;
     }
 }
-attachEvents();
-
+if (!props.manual) {
+    attachEvents();
+}
 
 /* watch */
 // 监听isOpen的变化，进行popper实例的创建或销毁
@@ -112,10 +113,30 @@ watch(() => props.trigger, (newTrigger, oldTrigger) => {
         outerEvents.value = {};
         attachEvents();
     }
+});
+
+// 监听manual的变化，实现寿手动和非手动展示/隐藏popper的切换
+watch(() => props.manual, (isManual) => {
+    // 手动模式
+    if (isManual) {
+        events.value = {};
+        outerEvents.value = {};
+        // 非手动模式
+    } else {
+        attachEvents();
+    }
 })
 
-/* hooks */
 
+defineExpose<TooltipInstance>({
+    show: onOpen,
+    hide: onClose,
+})
+/* hooks */
+onMounted(() => {
+    popperInstance?.destroy()
+
+})
 /* useComposition */
 
 </script>

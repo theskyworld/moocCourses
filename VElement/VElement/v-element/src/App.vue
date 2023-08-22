@@ -6,7 +6,7 @@ import VCollapse from "./components/Collapse/Collapse.vue";
 import VCollapseItem from "./components/Collapse/CollapseItem.vue";
 import VIcon from "./components/Icon/Icon.vue";
 import VTooltip from "./components/Tooltip/Tooltip.vue";
-import { Trigger } from "./components/Tooltip/types";
+import { TooltipInstance, Trigger } from "./components/Tooltip/types";
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
@@ -27,9 +27,11 @@ setTimeout(() => {
 
 const triggerEvent = ref<Trigger>("hover");
 // 2s后更新popper的触发方式
-setTimeout(() => {
-  triggerEvent.value = "click";
-}, 2000)
+// setTimeout(() => {
+//   triggerEvent.value = "click";
+// }, 2000)
+
+const tooltipElem = ref<TooltipInstance | null>();
 </script>
 
 <template>
@@ -128,10 +130,16 @@ setTimeout(() => {
 
 
     <!-- Tooltip -->
-    <div style="width: 50px; height: 50px">
-      <v-tooltip content="hello tooltip" :trigger="triggerEvent">
+    <div >
+      <v-tooltip style="width: 50px; height: 50px" content="hello tooltip" :trigger="triggerEvent">
         <v-button type="primary">hello</v-button>
       </v-tooltip>
+      <!-- 手动展示/隐藏模式 -->
+      <v-button type="primary" @click="tooltipElem?.show">open</v-button>
+      <v-button type="danger" @click="tooltipElem?.hide">close</v-button>
+       <v-tooltip style="width: 200px; height: 50px" content="hello tooltip" manual ref="tooltipElem">
+          show popper here : 
+        </v-tooltip>
     </div>
   </div>
 </template>
