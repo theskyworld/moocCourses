@@ -1,7 +1,7 @@
 <script setup lang='ts'>
 import { createPopper, Instance } from '@popperjs/core';
 import { debounce } from 'lodash-es';
-import { computed, onMounted, onUnmounted, ref, toRef, watch } from 'vue';
+import { computed, onUnmounted, ref, toRef, watch } from 'vue';
 import { TooltipEmits, TooltipProps, TooltipInstance } from './types';
 import useOnClickOutside from './useOnClickOutside';
 
@@ -48,6 +48,12 @@ const outerEvents: Record<string, any> = ref({});
 
 const popperOptions = computed(() => ({
     placement: props.placement,
+    modifiers: {
+        name: "offset",
+        options: {
+            offset: [0, 9]
+        }
+    },
     ...props.popperOptions,
 }))
 
@@ -91,8 +97,6 @@ function onTogglePopper() {
 
 function onOpen() {
     openTimes++;
-    console.log("🚀 ~ file: Tooltip.vue:94 ~ onOpen ~ openTimes:", openTimes)
-    
     isOpen.value = true;
     emits("visible-change", true);
 
@@ -101,7 +105,6 @@ function onOpen() {
 
 function onClose() {
     closeTimes++;
-    console.log("🚀 ~ file: Tooltip.vue:94 ~ onOpen ~ closeTimes:", closeTimes)
     isOpen.value = false;
     emits("visible-change", false);
 }
@@ -140,7 +143,7 @@ watch(isOpen, (newValue) => {
     if (newValue) {
         if (triggerNodeElem.value && popperNodeElem.value) {
             // 创建popper实例，用于展示popper
-            popperInstance = createPopper(triggerNodeElem.value, popperNodeElem.value, popperOptions.value)
+            popperInstance = createPopper(triggerNodeElem.value, popperNodeElem.value, popperOptions.value as any)
         } else {
             // 销毁popper实例，隐藏popper
             popperInstance?.destroy()
@@ -201,21 +204,12 @@ onUnmounted(() => {
                 <slot name="content">
                     {{ content }}
                 </slot>
+                <!-- 添加popper的arrow -->
+                <div id="arrow" data-popper-arrow></div>
             </div>
         </Transition>
     </div>
 </template>
-<style scoped>
-.v-tooltip {
-
-    .fade-enter-active,
-    .fade-leave-active {
-        transition: opacity var(--v-transition-duration);
-    }
-
-    .fade-enter-from,
-    .fade-leave-to {
-        opacity: 0;
-    }
-}
+<style scoped lang="scss">
+@import url("./style.scss");
 </style>

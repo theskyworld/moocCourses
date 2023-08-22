@@ -137,7 +137,7 @@ const tooltipElem = ref<TooltipInstance | null>();
       <!-- 手动展示/隐藏模式 -->
       <v-button type="primary" @click="tooltipElem?.show">open</v-button>
       <v-button type="danger" @click="tooltipElem?.hide">close</v-button>
-       <v-tooltip style="width: 200px; height: 50px" content="hello tooltip" manual ref="tooltipElem">
+       <v-tooltip style="width: 200px; height: 50px" content="hello tooltip" manual ref="tooltipElem" placement="top">
           show popper here : 
         </v-tooltip>
     </div>
