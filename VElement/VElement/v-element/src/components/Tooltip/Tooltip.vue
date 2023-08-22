@@ -89,7 +89,7 @@ function onTogglePopper() {
     } else {
         openPopper()
     }
-    // emits('visible-change', isOpen.value);
+    emits('visible-change', isOpen.value);
 }
 
 
