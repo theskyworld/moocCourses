@@ -2,6 +2,7 @@
 import { createPopper, Instance } from '@popperjs/core';
 import { reactive, ref, watch } from 'vue';
 import { TooltipEmits, TooltipProps } from './types';
+import useOnClickOutside from './useOnClickOutside';
 
 /*  */
 
@@ -39,6 +40,14 @@ let popperInstance: Instance | null = null;
 const events: Record<string, any> = ref({});
 const outerEvents: Record<string, any> = ref({});
 
+
+// 点击容器元素外部时能自动关闭popper
+const tooltipWrapperElem = ref();
+useOnClickOutside(tooltipWrapperElem, () => {
+    if (props.trigger === "click" && isOpen.value) {
+        onClose();
+    }
+})
 /* computed */
 
 
@@ -112,7 +121,7 @@ watch(() => props.trigger, (newTrigger, oldTrigger) => {
 </script>
 <template>
     <!-- 将离开的事件回调绑定在外部元素上，避免鼠标一离开触发元素就隐藏popper（即使鼠标在popper上时） -->
-    <div v-on="outerEvents" class="v-tooltip">
+    <div v-on="outerEvents" class="v-tooltip" ref="tooltipWrapperElem">
         <!-- 用于触发的区域 -->
         <!-- 固定的通过click的方式来触发 -->
         <!-- <div @click="onTogglePopper" ref="triggerNodeElem" class="v-tooltip__trigger"> -->
