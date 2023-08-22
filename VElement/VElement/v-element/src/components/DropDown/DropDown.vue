@@ -28,8 +28,8 @@ defineOptions({
 })
 
 defineExpose<DropdownInstance>({
-    show: () => tooltipInstance?.value.show,
-    hide: () => tooltipInstance?.value.hide,
+    show: () => tooltipInstance?.value.show(),
+    hide: () => tooltipInstance?.value.hide(),
 })
 
 
