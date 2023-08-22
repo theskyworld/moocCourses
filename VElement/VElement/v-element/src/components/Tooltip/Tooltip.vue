@@ -19,6 +19,7 @@ defineOptions({
 const props = withDefaults(defineProps<TooltipProps>(), {
     placement: 'bottom',
     trigger: "click",
+    transition: "fade",
 })
 
 /* emits */
@@ -154,9 +155,28 @@ onMounted(() => {
             <slot />
         </div>
         <!-- 用于展示的区域 -->
-        <div v-show="isOpen" ref="popperNodeElem" class="v-tooltip__popper">
-            {{ content }}
-        </div>
+        <Transition :name="transition">
+            <div v-show="isOpen" ref="popperNodeElem" class="v-tooltip__popper">
+                <!-- {{ content }}用于接收普通文本字符串内容 -->
+                <!-- slot用于接收DOM元素、组件等内容 -->
+                <slot name="content">
+                    {{ content }}
+                </slot>
+            </div>
+        </Transition>
     </div>
 </template>
-<style scoped></style>
+<style scoped>
+.v-tooltip {
+
+    .fade-enter-active,
+    .fade-leave-active {
+        transition: opacity var(--v-transition-duration);
+    }
+
+    .fade-enter-from,
+    .fade-leave-to {
+        opacity: 0;
+    }
+}
+</style>

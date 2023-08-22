@@ -11,6 +11,8 @@ export declare interface TooltipProps {
   manual?: boolean;
   // popper的配置选项
   popperOptions?: Partial<Options>;
+  // 定义动画
+  transition?: string;
 }
 
 export declare interface TooltipEmits {
