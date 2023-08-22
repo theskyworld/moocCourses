@@ -7,6 +7,8 @@ import VCollapseItem from "./components/Collapse/CollapseItem.vue";
 import VIcon from "./components/Icon/Icon.vue";
 import VTooltip from "./components/Tooltip/Tooltip.vue";
 import { TooltipInstance, Trigger } from "./components/Tooltip/types";
+import { MenuOption } from "./components/DropDown/types";
+import VDropdown from "./components/DropDown/DropDown.vue";
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
@@ -32,6 +34,28 @@ const triggerEvent = ref<Trigger>("hover");
 // }, 2000)
 
 const tooltipElem = ref<TooltipInstance | null>();
+
+
+const menuOptions: MenuOption[] = [
+  {
+    key: "1",
+    label: "item1",
+  },
+  {
+    key: "2",
+    label: "item2",
+    disabled: true
+  },
+  {
+    key: "3",
+    label: "item3",
+    divided: true,
+  },
+  {
+    key: "4",
+    label: "item4",
+  }
+]
 </script>
 
 <template>
@@ -144,6 +168,14 @@ const tooltipElem = ref<TooltipInstance | null>();
           show popper here :
         </v-tooltip>
       </div>
+    </div>
+
+    <!-- Dropdown -->
+    <div>
+      <v-dropdown placecment="bottom-start"  
+      :trigger="triggerEvent" :menuOptions="menuOptions">
+      <v-button type="primary">dropdown</v-button>
+    </v-dropdown>
     </div>
   </div>
 </template>

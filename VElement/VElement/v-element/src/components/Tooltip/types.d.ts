@@ -4,7 +4,7 @@ import { Placement, Options, Modifier } from "@popperjs/core";
 export declare type Trigger = "hover" | "click";
 
 export declare interface TooltipProps {
-  content: string;
+  content?: string;
   trigger?: Trigger;
   placement?: Placement;
   // 是否通过手动的方式进行popper的展示和隐藏
