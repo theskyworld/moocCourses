@@ -13,6 +13,9 @@ export declare interface TooltipProps {
   popperOptions?: Partial<Options>;
   // 定义动画
   transition?: string;
+  // 展示和隐藏延迟
+  openDelay?: number;
+  closeDelay?: number;
 }
 
 export declare interface TooltipEmits {

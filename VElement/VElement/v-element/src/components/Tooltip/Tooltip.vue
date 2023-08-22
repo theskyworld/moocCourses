@@ -1,6 +1,7 @@
 <script setup lang='ts'>
 import { createPopper, Instance } from '@popperjs/core';
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { debounce } from 'lodash-es';
+import { computed, onMounted, onUnmounted, ref, toRef, watch } from 'vue';
 import { TooltipEmits, TooltipProps, TooltipInstance } from './types';
 import useOnClickOutside from './useOnClickOutside';
 
@@ -20,6 +21,9 @@ const props = withDefaults(defineProps<TooltipProps>(), {
     placement: 'bottom',
     trigger: "click",
     transition: "fade",
+    // 展示和隐藏延迟默认值0
+    openDelay: 0,
+    closeDelay: 0,
 })
 
 /* emits */
@@ -48,12 +52,21 @@ const popperOptions = computed(() => ({
 }))
 
 // 点击容器元素外部时能自动关闭popper
-const tooltipWrapperElem = ref();
+const tooltipWrapperElem = ref<HTMLElement>();
 useOnClickOutside(tooltipWrapperElem, () => {
     if (props.trigger === "click" && isOpen.value && !props.manual) {
-        onClose();
+        closePopper();
     }
 })
+
+// 添加展示和隐藏的延迟，并添加debounce效果
+// eslint-disable-next-line vue/no-setup-props-destructure
+const { openDelay, closeDelay } = props;
+const openDebounce = debounce(onOpen, toRef(openDelay).value);
+const closeDebounce = debounce(onClose, toRef(closeDelay).value);
+
+let openTimes = 0;
+let closeTimes = 0;
 /* computed */
 
 
@@ -64,27 +77,53 @@ useOnClickOutside(tooltipWrapperElem, () => {
 /* methods */
 // 侦听click事件，控制浮层显隐
 function onTogglePopper() {
-    isOpen.value = !isOpen.value;
-    emits('visible-change', isOpen.value);
+    // isOpen.value = !isOpen.value;
+    if (isOpen.value) {
+        closePopper();
+    } else {
+        openPopper()
+    }
+    // emits('visible-change', isOpen.value);
 }
 
+
+
+
 function onOpen() {
+    openTimes++;
+    console.log("🚀 ~ file: Tooltip.vue:94 ~ onOpen ~ openTimes:", openTimes)
+    
     isOpen.value = true;
     emits("visible-change", true);
+
+
 }
 
 function onClose() {
+    closeTimes++;
+    console.log("🚀 ~ file: Tooltip.vue:94 ~ onOpen ~ closeTimes:", closeTimes)
     isOpen.value = false;
     emits("visible-change", false);
 }
+
+function openPopper() {
+    closeDebounce.cancel();
+    openDebounce();
+
+}
+function closePopper() {
+    openDebounce.cancel();
+    closeDebounce();
+}
+
 
 // 动态绑定不同触发事件下的事件回调
 function attachEvents() {
     // hover事件触发
     if (props.trigger === "hover") {
-        events.value["mouseenter"] = onOpen;
+        events.value["mouseenter"] = openPopper;
         // 离开事件的回调绑定外外部元素上
-        outerEvents.value["mouseleave"] = onClose;
+        outerEvents.value["mouseleave"] = closePopper;
         // click事件触发
     } else if (props.trigger === "click") {
         events.value["click"] = onTogglePopper;
@@ -133,11 +172,11 @@ watch(() => props.manual, (isManual) => {
 
 
 defineExpose<TooltipInstance>({
-    show: onOpen,
-    hide: onClose,
+    show: openPopper,
+    hide: closePopper,
 })
 /* hooks */
-onMounted(() => {
+onUnmounted(() => {
     popperInstance?.destroy()
 
 })
