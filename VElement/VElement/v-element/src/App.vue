@@ -22,10 +22,10 @@ const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
 
   // Message
-  instance = mountMessage({ message: "hello", duration: 0 });
+  instance = mountMessage({ message: "hello", duration: 3000 });
   // //挂载多个Message
-  mountMessage({ message: "hello again", duration: 0 });
-  mountMessage({ message: "too many hellos", duration: 0 });
+  mountMessage({ message: "hello again", duration: 3000 });
+  mountMessage({ message: "too many hellos", duration: 3000 });
 
 
   if (vbuttonInstance.value) {

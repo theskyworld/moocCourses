@@ -6,6 +6,7 @@ import { MessageProps } from './types';
 import Icon from '../Icon/Icon.vue';
 import { getLastBottomOffset, getLastInstance } from './methods';
 import { nextTick } from 'vue';
+import useEventListener from './useEventListener';
 
 
 
@@ -32,6 +33,7 @@ const isVisible = ref(false)
 const messageElem = ref<HTMLDivElement | null>();
 const height = ref(0);
 
+let timer: any;
 
 /* computed */
 const lastOffset = computed(() => getLastBottomOffset(props.id ));
@@ -44,16 +46,31 @@ const cssStyle = computed(() => ({
     zIndex: props.zIndex,
 }))
 
+
 /* methods */
 function startTimer() {
     if (props.duration === 0) return;
 
     if (isVisible.value) {
-        setTimeout(() => {
+        timer = setTimeout(() => {
             isVisible.value = false;
         }, props.duration)
     }
 }
+
+function onEscKeydown(e: Event) {
+    const event = e as KeyboardEvent;
+    if (event.code === "Escape") {
+        isVisible.value = false;
+    }
+}
+
+function clearTimer() {
+    if(timer) {
+        clearTimeout(timer);
+    }
+}
+
 
 
 /* watch */
@@ -74,7 +91,7 @@ onMounted(async () => {
 
 })
 /* useComposition */
-
+useEventListener(document, "keydown", onEscKeydown);
 
 /* macros */
 defineExpose({
@@ -83,7 +100,7 @@ defineExpose({
 })
 </script>
 <template>
-    <div :style="cssStyle" ref="messageElem" class="v-message"
+    <div @mouseenter="clearTimer" @mouseleave="startTimer" @mouseover="clearTimer" :style="cssStyle" ref="messageElem" class="v-message"
         :class="{ [`v-message--${type}`]: type, 'is-close': isShowClose }" role="alert" v-show="isVisible">
         <!-- message -->
         <div class="v-message__content">
