@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { h, onMounted, ref } from "vue";
+import { h, onMounted, ref, nextTick } from "vue";
 import VButton from "./components/Button//Button.vue";
 import { buttonProps, VButtonInstance } from "./components//Button/types";
 import VCollapse from "./components/Collapse/Collapse.vue";
@@ -9,14 +9,25 @@ import VTooltip from "./components/Tooltip/Tooltip.vue";
 import { TooltipInstance, Trigger } from "./components/Tooltip/types";
 import { MenuOption } from "./components/DropDown/types";
 import VDropdown from "./components/DropDown/DropDown.vue";
-import { mountMessage } from "./components/Message/methods";
+import { getLastInstance, mountMessage } from "./components/Message/methods";
 
+let addMessage = async () => {
+  console.log('x');
+  
+  await nextTick();
+  mountMessage({ message: "hello", duration: 5000 });
 
+}
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
+
   // Message
-  mountMessage({ message: "hello", duration : 5000});
+  // mountMessage({ message: "hello", duration: 0 });
+  // //挂载多个Message
+  // mountMessage({ message: "hello again", duration: 0 });
+  // mountMessage({ message: "too many hellos", duration: 0 });
+
 
   if (vbuttonInstance.value) {
     const vbuttonElem = vbuttonInstance.value.ref;
@@ -72,6 +83,7 @@ const menuOptions: MenuOption[] = [
   <div class="wrapper">
     <div>
       <!-- Button -->
+      <button @click="addMessage">add</button>
       <v-button ref="vbuttonInstance">default</v-button>
       <v-button plain>plain button</v-button>
       <v-button round>round button</v-button>
@@ -190,7 +202,7 @@ const menuOptions: MenuOption[] = [
     </div>
 
     <!-- Message -->
-   
+
   </div>
 </template>
 

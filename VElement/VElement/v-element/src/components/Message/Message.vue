@@ -1,9 +1,11 @@
 <script setup lang='ts'>
-import { watch } from 'vue';
+import { computed, watch } from 'vue';
 import { onMounted, ref } from 'vue';
 import RenderVNode from '../DropDown/RenderVNode';
 import { MessageProps } from './types';
-
+import Icon from '../Icon/Icon.vue';
+import { getLastBottomOffset, getLastInstance } from './methods';
+import { nextTick } from 'vue';
 
 
 
@@ -16,7 +18,8 @@ import { MessageProps } from './types';
 /* props */
 const props = withDefaults(defineProps<MessageProps>(), {
     type: 'info',
-    duration: 3000
+    duration: 3000,
+    offset: 20,
 })
 /* emits */
 
@@ -24,11 +27,21 @@ const props = withDefaults(defineProps<MessageProps>(), {
 /* datas */
 // 控制message的展示或隐藏
 const isVisible = ref(false)
+// console.log("prevMessageInstance :", getLastInstance());
+
+const messageElem = ref<HTMLDivElement | null>();
+const height = ref(0);
 
 
 /* computed */
-
-
+const lastOffset = computed(() => getLastBottomOffset(props.id ));
+const topOffset = computed(() => props.offset + lastOffset.value);
+const bottomOffset = computed(() => height.value + topOffset.value);
+const cssStyle = computed(() => ({
+    position: "absolute",
+    left : "50%",
+    top: topOffset.value + 'px',
+}))
 
 /* methods */
 function startTimer() {
@@ -52,15 +65,24 @@ watch(isVisible, (newValue) => {
 })
 
 /* hooks */
-onMounted(() => {
+onMounted(async () => {
     isVisible.value = true;
     startTimer();
+    await nextTick();
+    height.value = messageElem.value!.getBoundingClientRect().height;
+
 })
 /* useComposition */
 
+
+/* macros */
+defineExpose({
+    bottomOffset,
+})
 </script>
 <template>
-    <div class="v-message" :class="{ [`v-message--${type}`]: type, 'is-close': isShowClose }" role="alert" v-if="isVisible">
+    <div :style="cssStyle" ref="messageElem" class="v-message"
+        :class="{ [`v-message--${type}`]: type, 'is-close': isShowClose }" role="alert" v-show="isVisible">
         <!-- message -->
         <div class="v-message__content">
             <slot>
@@ -76,6 +98,11 @@ onMounted(() => {
 <style scoped>
 .v-message {
     background-color: green;
-    color: black;
+    width: calc(max-content + 10px);
+    height: 30px;
+    border-radius: 3px;
+    line-height: 30px;
+    padding: 0 10px;
+
 }
 </style>
