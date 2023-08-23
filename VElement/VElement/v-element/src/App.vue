@@ -11,22 +11,21 @@ import { MenuOption } from "./components/DropDown/types";
 import VDropdown from "./components/DropDown/DropDown.vue";
 import { getLastInstance, mountMessage } from "./components/Message/methods";
 
+let instance;
 let addMessage = async () => {
-  console.log('x');
-  
   await nextTick();
-  mountMessage({ message: "hello", duration: 5000 });
+  mountMessage({ message: "hello", duration: 0 });
+};
 
-}
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
 
   // Message
-  // mountMessage({ message: "hello", duration: 0 });
+  instance = mountMessage({ message: "hello", duration: 0 });
   // //挂载多个Message
-  // mountMessage({ message: "hello again", duration: 0 });
-  // mountMessage({ message: "too many hellos", duration: 0 });
+  mountMessage({ message: "hello again", duration: 0 });
+  mountMessage({ message: "too many hellos", duration: 0 });
 
 
   if (vbuttonInstance.value) {
@@ -41,7 +40,9 @@ const activeItemsNames = ref([]);
 let size = ref<any>("1x");
 setTimeout(() => {
   size.value = "3x";
-}, 1000);
+  instance.destory();
+
+}, 2000);
 
 
 const triggerEvent = ref<Trigger>("hover");

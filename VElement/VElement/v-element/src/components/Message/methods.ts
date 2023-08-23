@@ -3,9 +3,11 @@
 import { h, render, shallowReactive } from "vue";
 import { MessageContext, MessagePropsWithoutDestory } from "./types";
 import Message from "./Message.vue";
+import useZIndex from "./useZIndex";
 
 let seed = 1;
 // 用于存放每个Message实例，每个实例包含id,props,vnode,位置信息等属性
+// 使用响应式数组，当前一个Message组件被移除时，后面的Message会进行位置的重新计算，自动进行补位
 const instances: MessageContext[] = shallowReactive([]);
 
 // export async function mountMessage(props: MessagePropsWithoutDestory) {
@@ -76,7 +78,9 @@ const instances: MessageContext[] = shallowReactive([]);
 // 获取上一个instance
 // 当前的instance相对于上一个instance进行位置的计算
 
-export async function mountMessage(props: MessagePropsWithoutDestory) {
+export  function mountMessage(props: MessagePropsWithoutDestory) {
+  const {nextZIndex} = useZIndex();
+
   const id = `message_${seed++}`;
   // 将Message组件挂载到该容器元素，然后将该容器元素添加到documentDOM结构中
   const container = document.createElement("div");
@@ -86,17 +90,25 @@ export async function mountMessage(props: MessagePropsWithoutDestory) {
   // 用于在Message隐藏之后销毁Message组件
   // 其DOM结构在真实DOM结构中也被移除
 
-    function onDestory() {
+  function onDestory() {
       const idx = instances.findIndex((instance) => instance.id === id);
       if (idx === -1) return;
       instances.splice(idx, 1);
     render(null, container);
   }
 
+  // 通过控制组件中的isVisible的值来进行组件的手动删除
+  function manualDestory() {
+    const instance = instances.find(instance => instance.id === id);
+    if (instance) {
+      instance.vm.exposed.isVisible.value = false;
+    }
+  }
   const newProps = {
     ...props,
     id,
     destory: onDestory,
+    zIndex: nextZIndex(),
   };
 
   // 创建Message组件的虚拟节点
@@ -111,6 +123,7 @@ export async function mountMessage(props: MessagePropsWithoutDestory) {
     vnode,
     props: newProps,
     vm,
+    destory : manualDestory,
   };
   instances.push(instance);
   return instance;

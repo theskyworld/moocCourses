@@ -10,10 +10,11 @@ export declare interface MessageProps {
   // 每个Message组件之间垂直方向上的间距
   offset?: number;
   id: string;
+  zIndex: number;
 }
 
 // 使用时排除destory属性，不需要外部传入
-export type MessagePropsWithoutDestory = Omit<MessageProps, "destory" | "id">;
+export type MessagePropsWithoutDestory = Omit<MessageProps, "destory" | "id" | "zIndex">;
 
 
 // 每个Message的上下文信息
@@ -29,7 +30,8 @@ export interface MessageContext {
   id: string;
   vnode: VNode;
   props: MessageProps;
-  vm : ComponentInternalInstance;
+  vm: ComponentInternalInstance;
+  destory: () => void;
   // positionRelative: PositionRelative;
   // container : HTMLElement
 }

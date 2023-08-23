@@ -41,6 +41,7 @@ const cssStyle = computed(() => ({
     position: "absolute",
     left : "50%",
     top: topOffset.value + 'px',
+    zIndex: props.zIndex,
 }))
 
 /* methods */
@@ -78,6 +79,7 @@ onMounted(async () => {
 /* macros */
 defineExpose({
     bottomOffset,
+    isVisible,
 })
 </script>
 <template>
