@@ -9,9 +9,15 @@ import VTooltip from "./components/Tooltip/Tooltip.vue";
 import { TooltipInstance, Trigger } from "./components/Tooltip/types";
 import { MenuOption } from "./components/DropDown/types";
 import VDropdown from "./components/DropDown/DropDown.vue";
+import { mountMessage } from "./components/Message/methods";
+
+
 // 在组件外部对Button组件对应的button元素进行获取
 const vbuttonInstance = ref<VButtonInstance>();
 onMounted(() => {
+  // Message
+  mountMessage({ message: "hello", duration : 5000});
+
   if (vbuttonInstance.value) {
     const vbuttonElem = vbuttonInstance.value.ref;
     // console.log(vbuttonElem); // button  会自动解包，不需要.value
@@ -56,7 +62,10 @@ const menuOptions: MenuOption[] = [
     key: "4",
     label: "item4",
   }
-]
+];
+
+// Message
+
 </script>
 
 <template>
@@ -179,6 +188,9 @@ const menuOptions: MenuOption[] = [
         <v-button type="primary">dropdown</v-button>
       </v-dropdown>
     </div>
+
+    <!-- Message -->
+   
   </div>
 </template>
 
