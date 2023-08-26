@@ -14,3 +14,30 @@
 - 使用(Vite)[https://vitejs.dev/]
   `npm init vite`
   `npm create vite`
+
+##### 添加使用 prettier 格式化代码规范的命令
+
+```json
+  "scripts": {
+    "format" : " prettier --write 'src/**/*.+(js|ts|jsx|tsx)' "
+  },
+```
+
+##### 配置 vscode 在文件保存时自动进行代码格式化的处理
+
+`.vscode\settings.json`
+
+```json
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
+##### 配置自定义的prettier代码规范，并在eslint规则中运用
+
+```js
+// .prettierrc.js
+
+```
