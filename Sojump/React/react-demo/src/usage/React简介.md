@@ -116,3 +116,6 @@ module.exports = {
 配置 : `echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js`
 
 添加对应的钩子: `npx husky add .husky/commit-msg  'npx --no -- commitlint --edit ${1}'`
+
+##### 使用开发者插件
+[React Developer Tools](<https://extfans.com/web-development/fmkadmapgofadopljbjfkapdkoienihi/>)
