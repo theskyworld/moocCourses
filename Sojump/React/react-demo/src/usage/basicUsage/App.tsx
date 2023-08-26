@@ -1,13 +1,13 @@
-import React, { useState } from "react"
-import "./App.css"
-import type { MouseEvent } from "react"
+import React, { useState } from "react";
+import "./App.css";
+import type { MouseEvent } from "react";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [isTrue, setIsTrue] = useState(false)
-  const [flag, setFlag] = useState(true)
+  const [count, setCount] = useState(0);
+  const [isTrue, setIsTrue] = useState(false);
+  const [flag, setFlag] = useState(true);
 
-  const class1 = "class1"
+  const class1 = "class1";
 
   const users = [
     {
@@ -22,28 +22,28 @@ function App() {
       id: 3,
       name: "Alice3",
     },
-  ]
+  ];
 
   function addCount(event: MouseEvent<HTMLButtonElement>) {
-    setCount(count + 1)
-    console.log(event.target)
+    setCount(count + 1);
+    console.log(event.target);
   }
 
   function addCount1(event: MouseEvent<HTMLButtonElement>, num: number) {
-    setCount(count + num)
-    console.log(event.target)
+    setCount(count + num);
+    console.log(event.target);
   }
 
   function addCount2(num: number) {
-    setCount(count + num)
+    setCount(count + num);
   }
 
   function ShowHelloOrBye() {
     // 在函数内使用例如if...else...
     if (flag) {
-      return <p>hello</p>
+      return <p>hello</p>;
     } else {
-      return <p>bye</p>
+      return <p>bye</p>;
     }
   }
 
@@ -67,15 +67,15 @@ function App() {
       </div>
       <div>
         {users.map(user => {
-          const { id, name } = user
-          return <p key={id}>{name}</p>
+          const { id, name } = user;
+          return <p key={id}>{name}</p>;
           {
             /* 不建议使用index作为key的值 */
           }
         })}
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
