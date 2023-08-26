@@ -90,3 +90,10 @@ module.exports = {
   npx husky add .husky/pre-commit "git add ."
 
   ```
+
+##### 添加(commitlint)[https://commitlint.js.org/#/]对提交代码时提交内容进行规范检查
+安装 : `npm install --save-dev @commitlint/config-conventional @commitlint/cli`
+
+配置 : `echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js`
+
+添加对应的钩子: `npx husky add .husky/commit-msg  'npx --no -- commitlint --edit ${1}'`
