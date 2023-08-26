@@ -67,6 +67,7 @@ module.exports = {
 ```
 
 ##### 使用 (husky)[https://typicode.github.io/husky/] 在提交代码前对代码规范进行严格检查
+手动提交代码
 
 安装:`npm install husky --save-dev`
 
