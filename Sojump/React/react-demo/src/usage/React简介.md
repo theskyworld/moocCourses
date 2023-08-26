@@ -8,14 +8,31 @@
 
 ##### 使用脚手架创建 react 项目
 
-- 使用(react 脚手架)[https://create-react-app.dev/]
+- 使用[react 脚手架](https://create-react-app.dev/)
   `npx create-react-app my-app --template typescript`
 
-- 使用(Vite)[https://vitejs.dev/]
+- 使用[Vite](https://vitejs.dev/)
   `npm init vite`
   `npm create vite`
 
 ##### 添加使用 prettier 格式化代码规范的命令
+
+安装
+
+```shell
+npm install prettier eslint-config-prettier eslint-plugin-prettier -D
+```
+
+配置`.eslintrc.js`文件
+
+```js
+extends: [
+    // ...
+    "plugin:prettier/recommended",
+  ],
+```
+
+添加格式化命令
 
 ```json
   "scripts": {
@@ -35,7 +52,7 @@
 }
 ```
 
-##### 配置自定义的(prettier)[https://prettier.io/]代码规范，并在(eslint)[https://eslint.org/]规则中运用
+##### 配置自定义的[prettier](https://prettier.io/)代码规范，并在[eslint](https://eslint.org/)规则中运用
 
 ```js
 // .prettierrc.js
@@ -66,7 +83,8 @@ module.exports = {
 };
 ```
 
-##### 使用 (husky)[https://typicode.github.io/husky/] 在提交代码前对代码规范进行严格检查
+##### 使用 [husky](https://typicode.github.io/husky/) 在提交代码前对代码规范进行严格检查
+
 手动提交代码
 
 安装:`npm install husky --save-dev`
@@ -91,7 +109,8 @@ module.exports = {
 
   ```
 
-##### 添加(commitlint)[https://commitlint.js.org/#/]对提交代码时提交内容进行规范检查
+##### 添加[commitlint](https://commitlint.js.org/#/)对提交代码时提交内容进行规范检查
+
 安装 : `npm install --save-dev @commitlint/config-conventional @commitlint/cli`
 
 配置 : `echo "module.exports = {extends: ['@commitlint/config-conventional']}" > commitlint.config.js`
