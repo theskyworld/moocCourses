@@ -2,6 +2,7 @@
 import { FC } from "react";
 import React, {useState} from "react";
 import QuestionCard from "./QuestionCard"
+import {produce} from "immer";
 
 const List: FC = () => {
 
@@ -29,27 +30,50 @@ const List: FC = () => {
 
   function addQuestion() {
     const r = Math.random().toString().slice(-3);
-    setQuestionList([
-      ...questionList, {
-        id: "q4" + r ,
-        title: "问卷" + r,
-        isPublished : false,
-      }
-    ])
+    // setQuestionList([
+    //   ...questionList, {
+    //     id: "q4" + r ,
+    //     title: "问卷" + r,
+    //     isPublished : false,
+    //   }
+    // ])
+
+    // 使用immer
+    setQuestionList(
+      produce(draft => {
+        draft.push({
+          id: "q4" + r ,
+          title: "问卷" + r,
+          isPublished : false,
+        })
+      })
+    )
   }
 
   function deleteQuestion(id : string) {
-    setQuestionList(questionList.filter(question => question.id !== id));
+    // setQuestionList(questionList.filter(question => question.id !== id));
+  
+    // 使用immer
+    setQuestionList(produce(draft => {
+      const index = draft.findIndex(question => question.id === id);
+      draft.splice(index, 1);
+    }))
   }
 
   function publishQuestion(id: string) {
-    setQuestionList(questionList.map((question) => {
-      if (question.id !== id) return question;
-      return {
-        ...question,
-        isPublished : true,
-      }
-    }) as any)
+    // setQuestionList(questionList.map((question) => {
+    //   if (question.id !== id) return question;
+    //   return {
+    //     ...question,
+    //     isPublished : true,
+    //   }
+    // }) as any)
+
+    // 使用immer
+    setQuestionList(produce(draft => {
+      const targetQuestion = draft.find(question => question.id === id);
+      targetQuestion && (targetQuestion.isPublished = true);
+    }))
   }
   return (
     <div className="App">
