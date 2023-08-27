@@ -318,3 +318,8 @@ export default useAsyncGetInfo;
   <p>{isLoading ? "加载中..." : info }</p>
 
 ```
+
+## 第三方Hooks
+
+- [ahooks](https://ahooks.js.org/zh-CN)
+- [react-use](streamich.github.io/react-use)
