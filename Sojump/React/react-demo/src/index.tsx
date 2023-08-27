@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 // import App from "./usage/basicUsage/JSX/App";
-import App from "./usage/basicUsage/Hooks/App";
+// import App from "./usage/basicUsage/HooksDemo/App";
+import App from "./usage/basicUsage/addStyleDemo/AddStyleDemo";
 
 import reportWebVitals from "./reportWebVitals";
 
