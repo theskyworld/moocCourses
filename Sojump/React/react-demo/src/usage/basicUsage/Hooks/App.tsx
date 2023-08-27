@@ -1,8 +1,9 @@
-import react, { useEffect, useState, useRef } from "react";
+import react, { useEffect, useState, useRef, useMemo } from "react";
 import "../../../styles/App.css";
 import AppSon from "./AppSon";
 
 const App = () => {
+  console.log("App function reExcu")
   const [count, setCount] = useState(0);
   const [userInfo, setUserInfo] = useState({name : 'Alice', age : 12})
   const [nums, setNums] = useState([1, 2, 3]);
@@ -63,6 +64,23 @@ const App = () => {
     const inputElem = inputElemRef.current;
     inputElem && inputElem.select();
   }
+
+
+  // useMemo
+  // 使用useMemo来计算num1和num2的和
+  const [num1, setNum1] = useState(1);
+  const [num2, setNum2] = useState(5);
+
+  const num1PlusNum2 = useMemo(() => num1 + num2, [num1, num2]);
+
+  // 一个addNum1的函数
+  function addNum1() {
+    setNum1(num1 + 1);
+  }
+  // 同理处理num2
+  function addNum2() {
+    setNum2(num2 + 1);
+  }
   return (
     <div className="App">
       <button onClick={addCount}>{count}</button>
@@ -81,6 +99,13 @@ const App = () => {
       </div>
       <input type="text" ref={inputElemRef} />
       <button onClick={selectInput}>select</button>
+      <div>
+        <p>{num1PlusNum2}</p>
+        <p>{num1}</p>
+        <button onClick={addNum1}>addNum1</button>
+          <p>{num2}</p>
+        <button onClick={addNum2}>addNum2</button>
+      </div>
     </div>
   );
 };

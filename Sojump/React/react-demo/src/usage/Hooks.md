@@ -151,3 +151,31 @@ function selectInput() {
 <input type="text" ref={inputElemRef} />
 <button onClick={selectInput}>select</button>
 ```
+
+## `useMemo`
+
+react中的每一个组件都是一个函数，当组件内的state发生更新时，组件函数都会被重新执行一遍
+
+如果组件较大，将可能造成大量性能消耗的问题
+
+使用`useMemo`函数可以缓存组件内的数据，不用在每次重新执行组件函数时重新生成数据
+
+其中回调函数的执行在依赖值发生变化时才会执行，组件函数的重新执行不会导致该回调函数的执行
+
+```tsx
+  // useMemo
+  // 使用useMemo来计算num1和num2的和
+  const [num1, setNum1] = useState(1);
+  const [num2, setNum2] = useState(5);
+
+  const num1PlusNum2 = useMemo(() => num1 + num2, [num1, num2]);
+
+  // 一个addNum1的函数
+  function addNum1() {
+    setNum1(num1 + 1);
+  }
+  // 同理处理num2
+  function addNum2() {
+    setNum2(num2 + 1);
+  }
+```
