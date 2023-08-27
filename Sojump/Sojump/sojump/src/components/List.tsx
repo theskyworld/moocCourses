@@ -1,10 +1,11 @@
 // 列表页组件
 import { FC } from "react";
-import React from "react";
+import React, {useState} from "react";
+import QuestionCard from "./QuestionCard"
 
 const List: FC = () => {
-  // 问卷列表
-  const questionList = [
+
+  const [questionList, setQuestionList] = useState([
     {
       id: "q1",
       title: "问卷1",
@@ -20,28 +21,47 @@ const List: FC = () => {
       title: "问卷3",
       isPublished: false,
     },
-  ];
+  ])
 
-  function edit(id: string) {
+  function editQuestion(id: string) {
     console.log(id);
   }
 
+  function addQuestion() {
+    const r = Math.random().toString().slice(-3);
+    setQuestionList([
+      ...questionList, {
+        id: "q4" + r ,
+        title: "问卷" + r,
+        isPublished : false,
+      }
+    ])
+  }
+
+  function deleteQuestion(id : string) {
+    setQuestionList(questionList.filter(question => question.id !== id));
+  }
+
+  function publishQuestion(id: string) {
+    setQuestionList(questionList.map((question) => {
+      if (question.id !== id) return question;
+      return {
+        ...question,
+        isPublished : true,
+      }
+    }) as any)
+  }
   return (
     <div className="App">
       <h1>问卷列表</h1>
       <div>
         {questionList.map(question => {
           const { id, title, isPublished } = question;
-          return (
-            <div className="list-item" key={id}>
-              <strong>{title}</strong>
-              &nbsp;
-              {isPublished ? <span style={{ color: "green" }}>已发布</span> : <span>未发布</span>}
-              &nbsp;
-              <button onClick={() => edit(id)}>编辑问卷</button>
-            </div>
-          );
+          return <QuestionCard key={id} id={id} title={title} isPublished={isPublished} deleteQuestion={deleteQuestion} publishQuestion={publishQuestion} editQuestion={editQuestion}></QuestionCard>
         })}
+      </div>
+      <div>
+        <button onClick={addQuestion}>添加问卷</button>
       </div>
     </div>
   );

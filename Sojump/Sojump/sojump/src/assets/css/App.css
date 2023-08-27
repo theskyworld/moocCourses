@@ -28,10 +28,20 @@
   color: #61dafb;
 }
 
+
+/* ******************************************* */
 .list-item {
-  border : solid 1px #ccc;
-  padding : 10px;
-  margin-bottom: 16px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 16px;
+}
+
+.published-span {
+    color: green;
+}
+    
+.published {
+    border-color: green;
 }
 
 
