@@ -100,7 +100,27 @@ const App = () => {
   // 自定义Hook
   useTitle("Alice site");
   const { x, y } = useMousePosition();
-  const {info, isLoading, error} = useAsyncGetInfo();
+  const { info, isLoading, error } = useAsyncGetInfo();
+  
+
+  // hooks闭包陷阱
+  const [n, setN] = useState(0);
+  const nRef = useRef(0);
+  useEffect(() => {
+    nRef.current = n;
+  }, [n]);
+  function addN() {
+    setN(n + 1);
+  }
+  function logN() {
+    // 异步读取n的值
+    setTimeout(() => {
+      // 如果在调用logN函数异步读取n的值之后再次调用addN对n的值进行修改，只能读取到修改前的n的值
+      console.log(n);
+      // 但是使用useRef可以读取到修改后的n的值
+      console.log(nRef.current);
+    }, 3000);
+  }
   return (
     <div className="App">
       <button onClick={addCount}>{count}</button>
@@ -135,6 +155,11 @@ const App = () => {
       <div>
         position : {x}, {y}
         <p>{isLoading ? "加载中..." : info }</p>
+      </div>
+      <div>
+        <p>{n}</p>
+        <button onClick={addN}>addN</button>
+        <button onClick={logN}>logN</button>
       </div>
     </div>
   );
