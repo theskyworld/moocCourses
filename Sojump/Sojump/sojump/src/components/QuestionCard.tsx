@@ -1,6 +1,7 @@
 import React, { FC, useEffect } from "react";
-import "../assets/css/App.css"
-
+// import "../assets/css/App.css"
+import clsx from "clsx";
+import styles from "../assets/css/questioncard.module.scss";
 
 interface QuestionCardProps {
     id: string;
@@ -14,6 +15,13 @@ interface QuestionCardProps {
 const QuestionCard: FC<QuestionCardProps> = (props) => {
     const { id, title, isPublished, deleteQuestion, publishQuestion, editQuestion } = props;
 
+    const listItemClass = styles["list-item"];
+    const publishedClass = styles["published"];
+    const listItemClassName = clsx({
+        [listItemClass]: true,
+        [publishedClass] : isPublished,
+    })
+
     function publish(id: string) {
         publishQuestion && publishQuestion(id);
     };
@@ -26,10 +34,10 @@ const QuestionCard: FC<QuestionCardProps> = (props) => {
         editQuestion && editQuestion(id);
     }
     return (
-        <div key={id} className="list-item">
+        <div key={id} className={listItemClassName}>
             <strong>{title}</strong>
             &nbsp;
-            {isPublished ? <span className={isPublished ? "published-span" : ""}>已发布</span> : <span>未发布</span>}
+            {isPublished ? <span className={styles['published-span']}>已发布</span> : <span>未发布</span>}
             &nbsp;
             <button onClick={() => publish(id)}>发布问卷</button>
             &nbsp;
