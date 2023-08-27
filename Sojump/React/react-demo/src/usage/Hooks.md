@@ -134,4 +134,20 @@ useEffect(() => {// 该回调函数在组件初次挂载和重渲染时触发
     }, []);
 ```
 
-** `useEffect`在组件初次渲染时会执行两次，因为初次渲染时在开发环境下会自动进行组件的创建、销毁、再创建的完整流程，以便暴露出其中的问题
+**`useEffect`在组件初次渲染时会执行两次，因为初次渲染时在开发环境下会自动进行组件的创建、销毁、再创建的完整流程，以便暴露出其中的问题**
+
+## `useRef`
+
+一般使用该函数来作为手动操作DOM的一个入口
+
+```tsx
+const inputElemRef = useRef<HTMLInputElement>(null);
+function selectInput() {
+  console.log(inputElemRef.current); // input元素
+  const inputElem = inputElemRef.current;
+  inputElem && inputElem.select();
+}
+
+<input type="text" ref={inputElemRef} />
+<button onClick={selectInput}>select</button>
+```

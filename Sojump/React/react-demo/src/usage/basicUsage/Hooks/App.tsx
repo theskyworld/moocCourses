@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from "react";
+import react, { useEffect, useState, useRef } from "react";
 import "../../../styles/App.css";
 import AppSon from "./AppSon";
 
@@ -57,6 +57,12 @@ const App = () => {
     setNums(nums.filter((num, index) => index !== id));
   }
 
+  const inputElemRef = useRef<HTMLInputElement>(null);
+  function selectInput() {
+    console.log(inputElemRef.current); // input元素
+    const inputElem = inputElemRef.current;
+    inputElem && inputElem.select();
+  }
   return (
     <div className="App">
       <button onClick={addCount}>{count}</button>
@@ -73,6 +79,8 @@ const App = () => {
           }
         </ul>
       </div>
+      <input type="text" ref={inputElemRef} />
+      <button onClick={selectInput}>select</button>
     </div>
   );
 };
