@@ -1,4 +1,4 @@
-import react, { useEffect, useState, useRef, useMemo } from "react";
+import react, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import "../../../styles/App.css";
 import AppSon from "./AppSon";
 
@@ -81,6 +81,17 @@ const App = () => {
   function addNum2() {
     setNum2(num2 + 1);
   }
+
+
+  // useCallback
+  const [text, setText] = useState("");
+
+  const fn1 = () => {
+    console.log("fn1-text : ", text);
+  }
+  const fn2 = useCallback(() => {
+    console.log("fn2-text : ", text);
+  }, [text]);
   return (
     <div className="App">
       <button onClick={addCount}>{count}</button>
@@ -105,6 +116,12 @@ const App = () => {
         <button onClick={addNum1}>addNum1</button>
           <p>{num2}</p>
         <button onClick={addNum2}>addNum2</button>
+      </div>
+      <div>
+        <p>{text}</p>
+        {/* 实现text和文本框中value值得双向绑定 */}
+        <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder="输入内容..." />
+        <button onClick={fn1}>fn1</button> &nbsp; <button onClick={fn2}>fn2</button>
       </div>
     </div>
   );

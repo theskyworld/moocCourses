@@ -178,4 +178,35 @@ react中的每一个组件都是一个函数，当组件内的state发生更新�
   function addNum2() {
     setNum2(num2 + 1);
   }
+
+  <div>
+        <p>{num1PlusNum2}</p>
+        <p>{num1}</p>
+        <button onClick={addNum1}>addNum1</button>
+          <p>{num2}</p>
+        <button onClick={addNum2}>addNum2</button>
+      </div>
+```
+
+## `useCallback`
+
+作用类似于`useMemo`，不过是用来缓存函数
+
+```tsx
+// useCallback
+  const [text, setText] = useState("");
+
+  const fn1 = () => {
+    console.log("fn1-text : ", text);
+  }
+  const fn2 = useCallback(() => {
+    console.log("fn2-text : ", text);
+  }, [text]);
+
+<div>
+        <p>{text}</p>
+        {/* 实现text和文本框中value值得双向绑定 */}
+        <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder="输入内容..." />
+        <button onClick={fn1}>fn1</button> &nbsp; <button onClick={fn2}>fn2</button>
+      </div>      
 ```
