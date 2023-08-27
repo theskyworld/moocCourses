@@ -1,9 +1,12 @@
 import react, { useEffect, useState, useRef, useMemo, useCallback } from "react";
 import "../../../styles/App.css";
 import AppSon from "./AppSon";
+import useAsyncGetInfo from "./hooks/useAsyncGetInfo";
+import useMousePosition from "./hooks/useMousePosition";
+import useTitle from "./hooks/useTitle";
 
 const App = () => {
-  console.log("App function reExcu")
+  // console.log("App function reExcu")
   const [count, setCount] = useState(0);
   const [userInfo, setUserInfo] = useState({name : 'Alice', age : 12})
   const [nums, setNums] = useState([1, 2, 3]);
@@ -92,6 +95,12 @@ const App = () => {
   const fn2 = useCallback(() => {
     console.log("fn2-text : ", text);
   }, [text]);
+
+
+  // 自定义Hook
+  useTitle("Alice site");
+  const { x, y } = useMousePosition();
+  const {info, isLoading, error} = useAsyncGetInfo();
   return (
     <div className="App">
       <button onClick={addCount}>{count}</button>
@@ -122,6 +131,10 @@ const App = () => {
         {/* 实现text和文本框中value值得双向绑定 */}
         <input type="text" onChange={(e) => setText(e.target.value)} value={text} placeholder="输入内容..." />
         <button onClick={fn1}>fn1</button> &nbsp; <button onClick={fn2}>fn2</button>
+      </div>
+      <div>
+        position : {x}, {y}
+        <p>{isLoading ? "加载中..." : info }</p>
       </div>
     </div>
   );

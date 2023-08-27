@@ -210,3 +210,111 @@ react中的每一个组件都是一个函数，当组件内的state发生更新�
         <button onClick={fn1}>fn1</button> &nbsp; <button onClick={fn2}>fn2</button>
       </div>      
 ```
+
+## 自定义hook
+
+### `useTitle`
+
+创建一个自定义hook
+
+```ts
+// hooks\useTitle.ts
+import React, { useEffect } from "react";
+
+const useTitle = (title : string) => {
+    useEffect(() => {
+        document.title = title;
+    }, []);
+}
+export default useTitle;
+```
+
+进行使用
+
+```tsx
+import useTitle from "./hooks/useTitle";
+
+useTitle("Alice site")
+```
+
+### `useMousePosition`
+
+```ts
+import React, { useEffect, useState } from "react";
+
+const useMousePosition = () => {
+    // 等价于在目标组件中创建了以下代码
+    const [x, setX] = useState(0);
+    const [y, setY] = useState(0);
+
+    const mouseMoveHandler = (event: MouseEvent) => {
+        setX(event.clientX);
+        setY(event.clientY);
+    }
+
+    useEffect(() => {
+        // 组件初次渲染是监听mousemove事件
+        window.addEventListener("mousemove", mouseMoveHandler);
+
+        return () => {
+            // 解除监听
+            window.removeEventListener("mousemove", mouseMoveHandler);
+        }
+    }, []);
+
+    // 返回的x,y在目标组件中具备响应式
+    return {x, y}
+}
+
+export default useMousePosition;
+```
+
+```tsx
+import useMousePosition from "./hooks/useMousePosition";
+
+  const { x, y } = useMousePosition();
+<div>
+        position : {x}, {y}
+      </div>
+```
+
+### `useAsyncGetInfo`
+
+```ts
+import React, { useState, useEffect } from "react";
+
+async function getInfo(): Promise<string> {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve("Hello");
+        }, 1000)        
+    })
+}
+
+
+const useAsyncGetInfo = () => {
+    const [info, setInfo] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    useEffect(() => {
+        setIsLoading(true);
+        getInfo().then((res) => {
+            setInfo(res);
+        }).catch((err) => {
+            setError(err);
+        }).finally(() => {
+            setIsLoading(false);
+        })
+    }, []);
+    return {info, isLoading, error};
+}
+
+export default useAsyncGetInfo;
+```
+
+```tsx
+  const {info, isLoading, error} = useAsyncGetInfo();
+  <p>{isLoading ? "加载中..." : info }</p>
+
+```
