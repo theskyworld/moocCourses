@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import { HOME_URL, LOGIN_URL, MANAGE_LIST_URL, MANAGE_STAR_URL, MANAGE_TRASH_URL, MANAGE_URL, QUESTION_EDIT_URL, QUESTION_STAT_URL, QUESTION_URL, REGISTER_URL } from "../assets/ts/constants";
 import MainLayout from "../layouts/MainLayout";
 import ManageLayout from "../layouts/ManageLayout";
 import QuestionLayout from "../layouts/QuestionLayout";
@@ -15,37 +16,37 @@ import Register from "../pages/Register";
 
 const router = createBrowserRouter([
     {
-        path: "/",
+        path: HOME_URL,
         // 有对应的布局页面的话，先指向布局页面
         element: <MainLayout></MainLayout>,
         children: [
             {
-                path: "/",
+                path: HOME_URL,
                 // 然后再指向布局中的路由页面
                 element: <Home></Home>
             },
             {
-                path: "login",
+                path: LOGIN_URL.slice(1),
                 element: <Login></Login>
             },
             {
-                path: "register",
+                path: REGISTER_URL.slice(1),
                 element: <Register></Register>
             },
             {
-                path: "manage",
+                path: MANAGE_URL.slice(1),
                 element: <ManageLayout></ManageLayout>,
                 children: [
                     {
-                        path: "list",
+                        path: MANAGE_LIST_URL.slice(1 + MANAGE_URL.length),
                         element: <List></List>
                     },
                     {
-                        path: "star",
+                        path: MANAGE_STAR_URL.slice(1 + MANAGE_URL.length),
                         element: <Star></Star>
                     },
                     {
-                        path: "trash",
+                        path: MANAGE_TRASH_URL.slice(1 + MANAGE_URL.length),
                         element: <Trash></Trash>
                     },
                 ]
@@ -60,15 +61,15 @@ const router = createBrowserRouter([
         ]
     },
     {
-        path: "question",
+        path: QUESTION_URL.slice(1),
         element: <QuestionLayout></QuestionLayout>,
         children: [
             {
-                path: "edit/:id",
+                path: `${QUESTION_EDIT_URL.slice(1 + QUESTION_URL.length)}/:id`,
                 element: <EditIndex></EditIndex>
             },
             {
-                path: "stat/:id",
+                path: `${QUESTION_STAT_URL.slice(1 + QUESTION_URL.length)}/:id`,
                 element: <StatIndex></StatIndex>
             },
 

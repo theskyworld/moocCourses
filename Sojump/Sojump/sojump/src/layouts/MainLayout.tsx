@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { Layout } from "antd";
 import styles from "./MainLayout.module.scss";
 import Logo from "../components/Logo";
+import UserInfo from "../components/UserInfo";
 
 const { Header, Content, Footer } = Layout;
 
@@ -11,7 +12,7 @@ const MainLayout: FC = () => {
         <Layout>
             <Header className={styles.header}>
                 <div className={styles.left}><Logo></Logo></div>
-                <div className={styles.right}>登录</div>
+                <div className={styles.right}><UserInfo/></div>
             </Header>
             <Content className={styles.main}>
                 {/* 类似于vue中的slot,RouterView */}
