@@ -5,6 +5,7 @@ import QuestionCard from "../../components/QuestionCard"
 import {produce} from "immer";
 import styles from "./List.module.scss";
 import { useSearchParams } from "react-router-dom";
+import { useTitle } from "ahooks";
 
 const rawQuestionList = [
   // 给下面的对象全部添加isStar、answerCount、createTime属性
@@ -35,6 +36,8 @@ const rawQuestionList = [
 ]
 
 const List: FC = () => {
+  // 在不同页面中使用useTitle来修改不同页面对应的标题
+  useTitle("V问卷-我的问卷")
 
   const [questionList, setQuestionList] = useState(rawQuestionList)
 
