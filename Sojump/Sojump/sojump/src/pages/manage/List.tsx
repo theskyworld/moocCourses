@@ -6,6 +6,7 @@ import {produce} from "immer";
 import styles from "./List.module.scss";
 import { useSearchParams } from "react-router-dom";
 import { useTitle } from "ahooks";
+import { Typography } from "antd";
 
 const rawQuestionList = [
   // 给下面的对象全部添加isStar、answerCount、createTime属性
@@ -41,6 +42,7 @@ const List: FC = () => {
 
   const [questionList, setQuestionList] = useState(rawQuestionList)
 
+  const {Title} = Typography;
   // 获取查询参数
   // 查询参数的参数名和参数值都在路由跳转中定义，以?开头，例如"/manage/list?keyword=123"中查询参数名为keyword，值为123
   const [searchParams] = useSearchParams();
@@ -49,7 +51,9 @@ const List: FC = () => {
   return (
     <>
       <div className={styles.header}>
-        <div className={styles.left}>我的问卷</div>
+        <div className={styles.left}>
+          <Title level={3}>我的问卷</Title>
+        </div>
         <div className={styles.right}>搜索框</div>
       </div>
       <div className={styles.content}>
