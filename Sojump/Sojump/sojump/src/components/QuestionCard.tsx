@@ -1,8 +1,10 @@
 import React, { FC, useEffect } from "react";
 // import "../assets/css/App.css"
-import clsx from "clsx";
 import styles from "./QuestionCard.module.scss";
-import { spawn } from "child_process";
+import { Button, Space, Divider, Tag } from "antd";
+import { EditOutlined, LineChartOutlined, StarOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Link, useNavigate } from "react-router-dom";
+import { MANAGE_STAR_URL, QUESTION_EDIT_URL, QUESTION_STAT_URL, } from "../assets/ts/constants";
 interface QuestionCardProps {
     id: string;
     title: string;
@@ -16,31 +18,44 @@ interface QuestionCardProps {
 }
 
 const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
-    const { id, title, isPublished, createTime, answerCount } = props;
+    const { id, title, isPublished, createTime, answerCount, isStar } = props;
 
 
-
+    const nav = useNavigate();
     return (
         <div className={styles.container}>
             <div className={styles.title}>
-                <div className={styles.left}><a href="">{title}</a></div>
+                <div className={styles.left}>
+                    <Space>
+                        <Link to={isPublished ? `${QUESTION_STAT_URL}/${id}` : `${QUESTION_EDIT_URL}/${id}`}>{title}</Link>
+                    </Space>
+                </div>
                 <div className={styles.right}>
-                    {isPublished ? <span style={{ color: 'green' }}>已发布</span> : <button style={{ width: "fit-content", height: "fit-content", padding: "3px", fontSize: "10px", }}>发布</button>}
-                    &nbsp;
-                    <span>答卷 : {answerCount}</span>
-                    &nbsp;
-                    <span>{createTime}</span>
+                    <Space>
+                        {isPublished ? <Tag color='processing'>已发布</Tag> : <Tag>未发布</Tag>}
+                        &nbsp;
+                        <span>答卷 : {answerCount}</span>
+                        &nbsp;
+                        <span>{createTime}</span>
+                    </Space>
                 </div>
             </div>
+            <Divider style={{ margin: "12px 0" }} />
             <div className={styles["button-container"]}>
                 <div className={styles["left"]}>
-                    <button>编辑问卷</button>
-                    <button>数据统计</button>
+                    {/* <button>编辑问卷</button>
+                    <button>数据统计</button> */}
+                    <Space>
+                        <Button size="small" icon={<EditOutlined />} onClick={() => { nav(`${QUESTION_EDIT_URL}/${id}`) }}>编辑问卷</Button>
+                        <Button size="small" icon={<LineChartOutlined />} onClick={() => { nav(`${QUESTION_STAT_URL}/${id}`) }} disabled={!isPublished}>数据统计</Button>
+                    </Space>
                 </div>
                 <div className={styles["right"]}>
-                    <button>标星</button>
-                    <button>复制</button>
-                    <button>删除</button>
+                    <Space>
+                        <Button type="text" size="small" icon={<StarOutlined />}>{isStar ? "取消标星" : "标星"}</Button>
+                        <Button type="text" size="small" icon={<CopyOutlined />}>复制</Button>
+                        <Button type="text" size="small" icon={<DeleteOutlined />}>删除</Button>
+                    </Space>
 
                 </div>
             </div>
