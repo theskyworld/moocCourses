@@ -1,14 +1,8 @@
 import React, { FC, useState } from "react";
 import styles from "./List.module.scss";
-import { Typography, Empty, Table, Tag } from "antd";
+import { Typography, Empty, Table, Tag, Button, Space, Modal, message } from "antd";
 import { useTitle } from "ahooks";
-
-
-
-
-
-
-
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const rawQuestionList = [
     // 给下面的对象全部添加isStar、answerCount、createTime属性
@@ -38,9 +32,25 @@ const rawQuestionList = [
     },
 ]
 const Trash: FC = () => {
-    const [questionList, setQuestionList] = useState(rawQuestionList)
+    const [questionList, setQuestionList] = useState(rawQuestionList);
+    const [selectedQuestionIds, setSelectedQuestionIds] = useState<string[]>([]);
     const { Title } = Typography;
-    useTitle("V问卷-回收站")
+    const { confirm } = Modal;
+    useTitle("V问卷-回收站");
+
+
+    function deleteSojumpModal() {
+        confirm({
+            title: "确定彻底删除该问卷?",
+            icon: <ExclamationCircleOutlined />,
+            okText: "确定",
+            cancelText: "取消",
+            content: "删除后不可找回!",
+            onOk: () => {
+                message.success(`删除${JSON.stringify(selectedQuestionIds)}问卷成功`)
+            }
+        })
+    }
 
     // 作为表格的列
     const tableColumns = [
@@ -76,7 +86,20 @@ const Trash: FC = () => {
             </div>
             <div className={styles.content}>
                 {questionList.length === 0 && <Empty description="暂无数据"></Empty>}
-                {questionList.length > 0 && (<Table dataSource={questionList} columns={tableColumns} pagination={false}></Table>)}
+                {questionList.length > 0 && (<>
+                    {selectedQuestionIds.length > 0 && (<div style={{ marginBottom: "16px" }}>
+                        <Space>
+                            <Button type="primary">恢复</Button>
+                            <Button danger onClick={deleteSojumpModal}>彻底删除</Button>
+                        </Space>
+                    </div>)}
+                    <Table dataSource={questionList} columns={tableColumns} pagination={false} rowKey={(question) => question.id} rowSelection={{
+                        type: "checkbox",
+                        onChange: (selectedRowKeys) => {
+                            setSelectedQuestionIds(selectedRowKeys as string[]);
+                        }
+                    }}></Table>
+                </>)}
             </div>
         </>
     )
