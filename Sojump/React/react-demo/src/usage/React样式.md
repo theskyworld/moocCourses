@@ -103,3 +103,60 @@ import styles from "./addStyleDemo.module.css";
 ## 使用Sass
 
 使用`create-react-app`的方式构建的react项目原生支持Sass，只需要安装Sass，并将文件名改为.sass后缀即可
+
+## CSS in JS
+
+### 使用[styled-components](https://styled-components.com/)
+
+安装 : `npm install styled-components`
+
+使用
+```tsx
+import styled, { css } from "styled-components";
+
+
+// 使用styled-components库
+// 添加一个已存在样式的Button组件
+interface ButtonProps {
+    $primary?: boolean;
+}
+const Button = styled.button<ButtonProps>`
+  background: transparent;
+  border-radius: 3px;
+  border: 2px solid #BF4F74;
+  color: '#BF4F74';
+  margin: 0 1em;
+  padding: 0.25em 1em;
+
+
+// 如果Button组件中存在$primary属性，就添加以下样式
+  ${props =>
+    props.$primary &&
+    css`
+      background: palevioletred;
+      color: white;
+    `};
+`
+
+// 添加一个已存在样式的容器组件
+const Container = styled.div`
+    text-align: center;
+`
+
+const AddStyleDemo = () => {
+    return (
+        <>
+            <div>
+                <Container>
+                    <Button>Normal Button</Button>
+                    <Button $primary>Primary Button</Button>
+                </Container>
+            </div>
+        </>
+    )
+}
+```
+
+### 使用[styled-jsx](https://github.com/vercel/styled-jsx)
+
+### 使用[emotion](https://emotion.sh/docs/introduction)
