@@ -1,8 +1,8 @@
 import React, { FC, useEffect } from "react";
 // import "../assets/css/App.css"
 import styles from "./QuestionCard.module.scss";
-import { Button, Space, Divider, Tag } from "antd";
-import { EditOutlined, LineChartOutlined, StarOutlined, CopyOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from "antd";
+import { EditOutlined, LineChartOutlined, StarOutlined, CopyOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { MANAGE_STAR_URL, QUESTION_EDIT_URL, QUESTION_STAT_URL, } from "../assets/ts/constants";
 interface QuestionCardProps {
@@ -22,6 +22,23 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
 
 
     const nav = useNavigate();
+
+    const { confirm } = Modal;
+
+    function copySojump() {
+        message.success("执行复制");
+    }
+    function deleteSojumpModal() {
+        confirm({
+            title: "确定删除该问卷?",
+            icon: <ExclamationCircleOutlined />,
+            okText: "确定",
+            cancelText: "取消",
+            onOk: () => {
+                message.success("执行删除")
+            }
+        })
+    }
     return (
         <div className={styles.container}>
             <div className={styles.title}>
@@ -53,8 +70,10 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
                 <div className={styles["right"]}>
                     <Space>
                         <Button type="text" size="small" icon={<StarOutlined />}>{isStar ? "取消标星" : "标星"}</Button>
-                        <Button type="text" size="small" icon={<CopyOutlined />}>复制</Button>
-                        <Button type="text" size="small" icon={<DeleteOutlined />}>删除</Button>
+                        <Popconfirm title="是否确定复制该问卷?" okText="确定" cancelText="取消" onConfirm={copySojump}>
+                            <Button type="text" size="small" icon={<CopyOutlined />}>复制</Button>
+                        </Popconfirm>
+                        <Button type="text" size="small" icon={<DeleteOutlined />} onClick={deleteSojumpModal}>删除</Button>
                     </Space>
 
                 </div>
