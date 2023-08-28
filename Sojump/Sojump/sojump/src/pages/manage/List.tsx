@@ -4,6 +4,7 @@ import React, {useState} from "react";
 import QuestionCard from "../../components/QuestionCard"
 import {produce} from "immer";
 import styles from "./List.module.scss";
+import { useSearchParams } from "react-router-dom";
 
 const rawQuestionList = [
   // 给下面的对象全部添加isStar、answerCount、createTime属性
@@ -37,6 +38,11 @@ const List: FC = () => {
 
   const [questionList, setQuestionList] = useState(rawQuestionList)
 
+  // 获取查询参数
+  // 查询参数的参数名和参数值都在路由跳转中定义，以?开头，例如"/manage/list?keyword=123"中查询参数名为keyword，值为123
+  const [searchParams] = useSearchParams();
+  console.log("keyword : ", searchParams.get("keyword")); // "keyword :  123" 输入的路径为 "/manage/list?keyword=123"
+
   return (
     <>
       <div className={styles.header}>
@@ -47,7 +53,7 @@ const List: FC = () => {
         {
           questionList.map(question => {
             const { id, title, isPublished, isStar, answerCount, createTime } = question;
-            return <QuestionCard id={id} title={title} isPublished={isPublished} isStar={isStar} answerCount={answerCount} createTime={createTime}></QuestionCard>
+            return <QuestionCard key={id} id={id} title={title} isPublished={isPublished} isStar={isStar} answerCount={answerCount} createTime={createTime}></QuestionCard>
           })
         }
       </div>

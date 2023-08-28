@@ -68,7 +68,7 @@ const router = createBrowserRouter([
                 element: <EditIndex></EditIndex>
             },
             {
-                path: "stat",
+                path: "stat/:id",
                 element: <StatIndex></StatIndex>
             },
 
