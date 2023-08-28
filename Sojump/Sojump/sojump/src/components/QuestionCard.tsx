@@ -15,7 +15,7 @@ interface QuestionCardProps {
     editQuestion?: (id: string) => void;
 }
 
-const QuestionCard: FC<QuestionCardProps> = (props : QuestionCardProps) => {
+const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
     const { id, title, isPublished, createTime, answerCount } = props;
 
 
@@ -25,7 +25,7 @@ const QuestionCard: FC<QuestionCardProps> = (props : QuestionCardProps) => {
             <div className={styles.title}>
                 <div className={styles.left}><a href="">{title}</a></div>
                 <div className={styles.right}>
-                    {isPublished ? <span style={{color : 'green'}}>已发布</span> : <button style={{width : "fit-content", height:"fit-content", padding:"3px", fontSize:"10px",}}>发布</button>}
+                    {isPublished ? <span style={{ color: 'green' }}>已发布</span> : <button style={{ width: "fit-content", height: "fit-content", padding: "3px", fontSize: "10px", }}>发布</button>}
                     &nbsp;
                     <span>答卷 : {answerCount}</span>
                     &nbsp;

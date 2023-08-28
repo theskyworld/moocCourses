@@ -2,11 +2,13 @@
 import React from "react";
 import "./assets/css/App.css";
 import List from "./pages/manage/List";
+import { RouterProvider } from "react-router-dom";
+import routerConfig from "./router/index";
 
 function App() {
   return (
     <>
-      <List></List>
+      <RouterProvider router={routerConfig}></RouterProvider>
     </>
   );
 }
