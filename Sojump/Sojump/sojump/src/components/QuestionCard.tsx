@@ -44,6 +44,7 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
             <div className={styles.title}>
                 <div className={styles.left}>
                     <Space>
+                        {isStar && <StarOutlined style={{ color: "red" }}></StarOutlined>}
                         <Link to={isPublished ? `${QUESTION_STAT_URL}/${id}` : `${QUESTION_EDIT_URL}/${id}`}>{title}</Link>
                     </Space>
                 </div>
