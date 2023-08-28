@@ -1,7 +1,7 @@
 // 列表页组件
 import { FC } from "react";
 import React, {useState} from "react";
-import QuestionCard from "../components/QuestionCard"
+import QuestionCard from "../../components/QuestionCard"
 import {produce} from "immer";
 import styles from "./List.module.scss";
 
