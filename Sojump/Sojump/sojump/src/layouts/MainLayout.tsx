@@ -6,7 +6,7 @@ const MainLayout: FC = () => {
         <>
             <div>MainLayout header</div>
             <div>
-                {/* 类似于vue中的slot */}
+                {/* 类似于vue中的slot,RouterView */}
                 <Outlet></Outlet>
             </div>
             <div>MainLayout footer</div>
