@@ -177,3 +177,37 @@ const FormDemo: FC = () => {
 
 export default FormDemo;
 ```
+
+### form表单提交的方式
+
+```tsx
+import React, { ChangeEvent, FC, useState } from "react";
+
+
+const FormDemo: FC = () => {
+    // 或者通过函数的方式进行提交
+    function handleSubmit(e: ChangeEvent<HTMLFormElement>) {
+        // 阻止表单的默认形式，阻止点击提交按钮时提交表单
+        e.preventDefault();
+
+        // 使用例如axios的post请求进行手动的提交
+    }
+    return (
+        <>
+            {/* form表单提交的方式 */}
+            <div>
+                <form action="/api/post" onSubmit={handleSubmit}>
+                    <input name='uname' value="Alice"></input>
+                    <textarea name="text1" value="hello"></textarea>
+                    {/* 隐藏域表单 */}
+                    <input type="hidden" name="age" value={3} />
+                    {/* 通过提交按钮进行提交 */}
+                    {/* 提交时，会将表单中的内容以{name : value}的形式提交到action中提供的地址 */}
+                    <button type="submit">提交</button>
+                </form>
+            </div>
+        </>
+    )
+}
+export default FormDemo;
+```
