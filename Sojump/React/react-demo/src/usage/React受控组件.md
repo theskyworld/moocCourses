@@ -69,3 +69,32 @@ const FormDemo: FC = () => {
 
 export default FormDemo;
 ```
+
+### radio
+
+```tsx
+import React, { ChangeEvent, FC, useState } from "react";
+
+
+const FormDemo: FC = () => {
+    const [gender, setGender] = useState("female");
+
+    function genHtml() {
+        return { __html: text.replaceAll("\n", "<br>") }
+    }
+    return (
+        <>
+            {/* radio */}
+            <p>gender : {gender === "male" ? "男" : "女"}</p>
+            <label htmlFor="radio1">男</label>
+            <input type="radio" id="radio1" name="gender" value="male" checked={gender === 'male'} onChange={(e: ChangeEvent<HTMLInputElement>) => { setGender(e.target.value) }} />
+
+            <label htmlFor="radio2">女</label>
+            <input type="radio" id="radio2" name="gender" value="female" checked={gender === 'female'} onChange={(e: ChangeEvent<HTMLInputElement>) => { setGender(e.target.value) }} />
+
+        </>
+    )
+}
+
+export default FormDemo;
+```
