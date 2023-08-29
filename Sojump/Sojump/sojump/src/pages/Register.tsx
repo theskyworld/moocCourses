@@ -1,5 +1,6 @@
 import { UserAddOutlined } from "@ant-design/icons";
 import { Typography, Space, Form, Input, Button } from "antd";
+import { stringify } from "querystring";
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { LOGIN_URL } from "../assets/ts/constants";
@@ -31,13 +32,46 @@ const Register: FC = () => {
                 </div>
                 <div>
                     <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} onFinish={onFinish}>
-                        <Form.Item label="用户名" name="username">
+                        <Form.Item label="用户名" name="username" rules={[
+                            {
+                                required: true,
+                                message: "请输入用户名!"
+                            },
+                            {
+                                type: 'string',
+                                min: 5,
+                                max: 20,
+                                message: "字符长度在5-20之间"
+                            },
+                            {
+                                pattern: /^\w+$/,
+                                message: "只能包含字母、数字和下划线"
+                            }
+                        ]}>
                             <Input autoComplete="true" />
                         </Form.Item>
-                        <Form.Item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password">
+                        <Form.Item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password" rules={[
+                            {
+                                required: true,
+                                message: "请输入密码!"
+                            }
+                        ]}>
                             <Input.Password autoComplete="true" />
                         </Form.Item>
-                        <Form.Item label="确认密码" name="confirmPassword">
+                        <Form.Item label="确认密码" name="confirmPassword" dependencies={["password"]} rules={[
+                            {
+                                required: true,
+                                message: "请输入密码!"
+                            },
+                            ({ getFieldValue }) => ({
+                                validator(_, value) {
+                                    if (!value || getFieldValue("password") === value) {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error("两次输入的密码不一致"));
+                                }
+                            })
+                        ]}>
                             <Input.Password autoComplete="true" />
                         </Form.Item>
                         <Form.Item style={{ width: "300px" }} wrapperCol={{ span: 16, offset: 6 }}>
