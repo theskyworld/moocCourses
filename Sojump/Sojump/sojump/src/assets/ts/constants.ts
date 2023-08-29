@@ -8,3 +8,6 @@ export const MANAGE_TRASH_URL = "/manage/trash";
 export const QUESTION_URL = "/question";
 export const QUESTION_EDIT_URL = "/question/edit";
 export const QUESTION_STAT_URL = "/question/stat";
+
+
+export const SEARCH_PARAM_KEY = "keyword";
