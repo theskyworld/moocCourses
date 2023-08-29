@@ -6,6 +6,8 @@ const FormDemo: FC = () => {
     const [gender, setGender] = useState("female");
     const [isChecked, setIsChecked] = useState(false);
     const [checkedValues, setCheckedValues] = useState<string[]>([]);
+    const [selectedValue, setSelectedValue] = useState("");
+
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         const targetValue = e.target.value;
@@ -82,7 +84,15 @@ const FormDemo: FC = () => {
             {/* 添加隐藏域，进行提交 */}
             <input type="hidden" name="checkedValues" value={JSON.stringify(checkedValues)} />
 
-
+            <br/>
+            {/* select */}
+            <p>selectedValue : {selectedValue }</p>
+            <select value={selectedValue} onChange={(e: ChangeEvent<HTMLSelectElement>) => { setSelectedValue(e.target.value) }}>
+                <option value="" disabled>选择其中一项</option>
+                <option value="Alice1">Alice1</option>
+                <option value="Alice2">Alice2</option>
+                <option value="Alice3">Alice3</option>
+            </select>
 
 
         </>

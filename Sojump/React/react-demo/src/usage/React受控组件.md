@@ -152,3 +152,28 @@ const FormDemo: FC = () => {
 
 export default FormDemo;
 ```
+
+### `select`
+
+```tsx
+import React, { ChangeEvent, FC, useState } from "react";
+
+
+const FormDemo: FC = () => {
+    const [selectedValue, setSelectedValue] = useState("");
+    return (
+        <>
+            {/* select */}
+            <p>selectedValue : {selectedValue }</p>
+            <select value={selectedValue} onChange={(e: ChangeEvent<HTMLSelectElement>) => { setSelectedValue(e.target.value) }}>
+                <option value="" disabled>选择其中一项</option>
+                <option value="Alice1">Alice1</option>
+                <option value="Alice2">Alice2</option>
+                <option value="Alice3">Alice3</option>
+            </select>
+        </>
+    )
+}
+
+export default FormDemo;
+```
