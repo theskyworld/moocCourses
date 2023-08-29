@@ -211,3 +211,9 @@ const FormDemo: FC = () => {
 }
 export default FormDemo;
 ```
+
+### 表单校验
+
+- 使用Ant Design中的[校验规则](https://ant.design/components/form-cn)
+- 使用[React-Hook-Form](https://react-hook-form.com/)\
+- 使用[formilk](https://formik.org/)
