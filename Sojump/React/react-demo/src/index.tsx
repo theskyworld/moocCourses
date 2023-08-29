@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 // import App from "./usage/basicUsage/JSX/App";
 // import App from "./usage/basicUsage/HooksDemo/App";
-import App from "./usage/basicUsage/addStyleDemo/AddStyleDemo";
+// import App from "./usage/basicUsage/addStyleDemo/AddStyleDemo";
+import App from "./usage/basicUsage/FormDemo/FormDemo";
 
 import reportWebVitals from "./reportWebVitals";
 
