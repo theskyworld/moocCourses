@@ -6,7 +6,7 @@ import { EditOutlined, LineChartOutlined, StarOutlined, CopyOutlined, DeleteOutl
 import { Link, useNavigate } from "react-router-dom";
 import { MANAGE_STAR_URL, QUESTION_EDIT_URL, QUESTION_STAT_URL, } from "../assets/ts/constants";
 import { useRequest } from "ahooks";
-import { updateQuestionService } from "../service/question";
+import { copyQuestionService, updateQuestionService } from "../service/question";
 interface QuestionCardProps {
     id: string;
     title: string;
@@ -22,7 +22,10 @@ interface QuestionCardProps {
 const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
     const { id, title, isPublished, createTime, answerCount, isStar } = props;
     const [isStarState, setIsStarState] = useState(isStar);
+    const nav = useNavigate();
+    const { confirm } = Modal;
 
+    // 标星问卷
     const { run: toggleIsStarState, loading: isStarLoading, error } = useRequest(async () => {
         await updateQuestionService(id, {
             isStar: !isStarState,
@@ -39,9 +42,18 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
         }
     })
 
-    const nav = useNavigate();
+    // 复制问卷
+    const { loading: copyLoading, run: copyQuestion } = useRequest(
+        async () => await copyQuestionService(id),
+        {
+            manual: true,
+            onSuccess(result) {
+                message.success("复制成功");
+                nav(`${QUESTION_EDIT_URL}/${result.id}`);
+            }
+        }
+    )
 
-    const { confirm } = Modal;
 
     function copySojump() {
         message.success("执行复制");
@@ -89,8 +101,8 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
                 <div className={styles["right"]}>
                     <Space>
                         <Button style={{ color: isStarState ? "red" : "" }} onClick={toggleIsStarState} disabled={isStarLoading} type="text" size="small" icon={isStarState ? <StarFilled style={{ color: "red" }} /> : <StarOutlined />}>{isStarState ? "取消标星" : "标星"}</Button>
-                        <Popconfirm title="是否确定复制该问卷?" okText="确定" cancelText="取消" onConfirm={copySojump}>
-                            <Button type="text" size="small" icon={<CopyOutlined />}>复制</Button>
+                        <Popconfirm title="是否确定复制该问卷?" okText="确定" cancelText="取消" onConfirm={copyQuestion}>
+                            <Button type="text" size="small" icon={<CopyOutlined />} disabled={copyLoading}>复制</Button>
                         </Popconfirm>
                         <Button type="text" size="small" icon={<DeleteOutlined />} onClick={deleteSojumpModal}>删除</Button>
                     </Space>

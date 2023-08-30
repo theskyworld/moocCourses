@@ -38,3 +38,9 @@ export async function updateQuestionService(id: string, option: { [key: string]:
     const data = await instance.patch(`/api/question/${id}`, option);
     return data;
 }
+
+// 复制问卷
+export async function copyQuestionService(id: string) : Promise<ResponseData> {
+    const data = await instance.post(`/api/question/duplicate/${id}`);
+    return data;
+}
