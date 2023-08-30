@@ -1,17 +1,19 @@
 // 列表页组件
-import { FC, useEffect } from "react";
+import { FC, useEffect, useRef, useMemo } from "react";
 import React, { useState } from "react";
 import QuestionCard from "../../components/QuestionCard"
 import { produce } from "immer";
 import styles from "./List.module.scss";
 import { useSearchParams } from "react-router-dom";
-import { useRequest, useTitle } from "ahooks";
-import { Spin, Typography } from "antd";
+import { useDebounceFn, useRequest, useTitle } from "ahooks";
+import { Empty, Spin, Typography } from "antd";
 import Search from "../../components/Search";
 import { SEARCH_PARAM_KEY } from "../../assets/ts/constants";
 import { getQuestionListService } from "../../service/question";
 import useSearchQuestionList from "../../hooks/useSearchQuestionList";
 import CommonPagination from "../../components/CommonPagination";
+import { DEFAULT_PER_PAGE_SIZE } from "../../assets/ts/constants";
+
 
 export interface Question {
   id: string,
@@ -26,45 +28,114 @@ export interface Question {
 const List: FC = () => {
   // 在不同页面中使用useTitle来修改不同页面对应的标题
   useTitle("V问卷-我的问卷")
-
-  const [questionList, setQuestionList] = useState<Question[]>([]);
-  const [searchResultList, setSearchResultList] = useState<Question[]>([]);
-
   const { Title } = Typography;
-  // 获取查询参数
-  // 查询参数的参数名和参数值都在路由跳转中定义，以?开头，例如"/manage/list?keyword=123"中查询参数名为keyword，值为123
   const [searchParams] = useSearchParams();
-  // console.log("keyword : ", searchParams.get("keyword")); // "keyword :  123" 输入的路径为 "/manage/list?keyword=123"
+  const loadMoreContainerRef = useRef<HTMLDivElement>(null);
+  const keyword = searchParams.get(SEARCH_PARAM_KEY) || "";
+
+  // 当前页（每次上滑至加载更多时，更新当前页(当前页+1)）
+  const [curPage, setCurPage] = useState(1);
+  // 渲染在列表中已经加载的数据(累加)
+  const [list, setList] = useState<Question[]>([]);
+  // 后端返回的总的数据条数
+  const [total, setTotal] = useState(0);
+  // 继续上滑动是否能加载更多
+  const isHasMore = total > list.length;
+  const [isStarted, setIsStarted] = useState(false); // 是否已经开始加载更多数据
 
 
-  // useEffect(() => {
-  //   async function getQuestionList() {
-  //     const data = await getQuestionListService();
-  //     setQuestionList(data.list);
-  //     setSearchResultList(data.list);
-  //   }
-  //   getQuestionList();
-  // },[])
-
-  // 或者使用useRequest
-  // const { loading, data, error } = useRequest(getQuestionListService);
-  // 结合搜索功能
-  const { loading, data, error } = useSearchQuestionList();
-  const { list, total } = data || {};
+  // 当keyword值发生变化时，重置以下内容
   useEffect(() => {
-    if (list) {
-      setQuestionList(list);
-    }
-  }, [list])
+    setIsStarted(false);
+    setCurPage(1);
+    setList([]);
+    setTotal(0);
+  }, [keyword])
 
-  // // 搜索相关
-  // let searchValue = '';
-  // useEffect(() => {
-  //   searchValue = searchParams.get(SEARCH_PARAM_KEY) || '';
-  //   setSearchResultList(questionList.filter(question => {
-  //     return question.title.includes(searchValue)
-  //   }));
-  // }, [searchParams])
+  // 触发加载更多的函数,每次加载更多时，向后端加载新的数据，累加进list中
+  // 判断加载更多的时机
+  // 使用debounce来防止频繁触发请求
+  const { run: tryLoadMore } = useDebounceFn(
+    () => {
+      const loadMoreContainerElem = loadMoreContainerRef.current;
+      if (loadMoreContainerElem === null) return;
+      const loadMoreContainerRect = loadMoreContainerElem.getBoundingClientRect();  
+      if (loadMoreContainerRect === null) return;
+      const { bottom } = loadMoreContainerRect;
+      // 上滑至加载更多时触发加载更多的时机
+      if (bottom <= document.body.clientHeight) {
+        // 加载更多
+        loadMore();
+        setIsStarted(true);
+      }
+    },
+    {
+      wait: 1000,
+    }
+  )
+
+  // 加载更多的触发时机为：页面初始化或者重新渲染时,页面上滑至加载更多时,url中的搜索关键字(keyword)发生变化时
+  useEffect(() => {
+    tryLoadMore();
+  }, [searchParams])
+  useEffect(() => {
+    if (isHasMore) {
+      window.addEventListener("scroll", tryLoadMore);
+    }
+
+    return () => {
+      window.removeEventListener("scroll", tryLoadMore);
+    }
+  }, [searchParams, isHasMore]);
+
+
+  const { run : loadMore, loading } = useRequest(
+    async () => {
+      const data = await getQuestionListService({
+        page: curPage,
+        perPageSize: DEFAULT_PER_PAGE_SIZE,
+        keyword 
+      });
+      return data;
+      }, {
+      manual: true,
+      onSuccess: (result) => {
+        setList(list.concat(result.list));
+        setTotal(result.total);
+        setCurPage(curPage + 1);
+      }
+  })
+
+
+
+  // 优化DOM中加载更多中的显示内容
+  const LoadMoreContentElem = useMemo(() => {
+    // 是否显示加载中...
+    if (!isStarted || loading) {
+      return (
+        <div style={{ textAlign: "center" }}>
+          <Spin tip="加载中..." size="small">
+            <div className="content" />
+          </Spin>
+        </div>
+      )
+    }
+
+    // 是否显示暂无数据
+    if(total === 0){
+      return (<Empty description="暂无数据"></Empty>)
+    }
+
+    // 是否显示无更多数据
+    if(!isHasMore){
+      return (<span>无更多数据了...</span>)
+    }
+
+    // 是否显示加载下一页数据中
+    return <span>加载下一页数据中...</span>
+  }, [isHasMore, isStarted, loading])
+ 
+
   return (
     <>
       <div className={styles.header}>
@@ -77,23 +148,14 @@ const List: FC = () => {
       </div>
       <div className={styles.content}>
         {
-          loading && (
-            <div style={{ textAlign: "center" }}>
-              <Spin tip="加载中..." size="large">
-                <div className="content" />
-              </Spin>
-            </div>
-          )
-        }
-        {
-          !loading && questionList.length > 0 && questionList.map(question => {
+          list.length > 0 && list.map(question => {
             const { id, title, isPublished, isStar, answerCount, createTime } = question;
             return <QuestionCard key={id} id={id} title={title} isPublished={isPublished} isStar={isStar} answerCount={answerCount} createTime={createTime}></QuestionCard>
           })
         }
       </div>
       <div className={styles.footer}>
-        {!loading && <CommonPagination total={total}></CommonPagination>}
+        <div ref={loadMoreContainerRef}>{LoadMoreContentElem}</div>
       </div>
     </>
   );

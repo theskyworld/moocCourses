@@ -1,4 +1,4 @@
-import { DEFAUTL_PER_PAGE_SIZE, PER_PAGE_SIZE_PARM_KEY } from './../assets/ts/constants';
+import { DEFAULT_PER_PAGE_SIZE, PER_PAGE_SIZE_PARM_KEY } from './../assets/ts/constants';
 /**
  * @author tsw
  * @copyright 2023
@@ -24,7 +24,7 @@ export default function useSearchQuestionList(option?: Partial<UseSearchQuestion
         async () => {
             const keyword = searchParams.get(SEARCH_PARAM_KEY) || '';
             const page = parseInt(searchParams.get(PAGE_PARM_KEY) || "") || 1;
-            const perPageSize = parseInt(searchParams.get(PER_PAGE_SIZE_PARM_KEY) || "") || DEFAUTL_PER_PAGE_SIZE; 
+            const perPageSize = parseInt(searchParams.get(PER_PAGE_SIZE_PARM_KEY) || "") || DEFAULT_PER_PAGE_SIZE; 
             const data = await getQuestionListService({ keyword, isStar, isDeleted, page, perPageSize });
             return data;
         }, {

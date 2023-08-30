@@ -1,7 +1,7 @@
 import { Pagination } from "antd";
 import { FC, useEffect, useState } from "react";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import { DEFAUTL_PER_PAGE_SIZE, PAGE_PARM_KEY, PER_PAGE_SIZE_PARM_KEY } from "../assets/ts/constants";
+import { DEFAULT_PER_PAGE_SIZE, PAGE_PARM_KEY, PER_PAGE_SIZE_PARM_KEY } from "../assets/ts/constants";
 
 
 interface CommonPaginationProps {
@@ -11,14 +11,14 @@ interface CommonPaginationProps {
 const CommonPagination: FC<CommonPaginationProps> = (props: CommonPaginationProps) => {
     const { total } = props;
     const [currentPage, setCurrentPage] = useState(1);
-    const [pageSize, setPageSize] = useState(DEFAUTL_PER_PAGE_SIZE);
+    const [pageSize, setPageSize] = useState(DEFAULT_PER_PAGE_SIZE);
     const [searchParams] = useSearchParams();
     
     // 根据url中page和perPageSize参数来设置当前页和每页条数
     useEffect(() => {
         const page = parseInt(searchParams.get(PAGE_PARM_KEY) || "") || 1;
         setCurrentPage(page);
-        const perPageSize = parseInt(searchParams.get(PER_PAGE_SIZE_PARM_KEY) || "") || DEFAUTL_PER_PAGE_SIZE;
+        const perPageSize = parseInt(searchParams.get(PER_PAGE_SIZE_PARM_KEY) || "") || DEFAULT_PER_PAGE_SIZE;
         setPageSize(perPageSize);
     }, [searchParams]);
 
