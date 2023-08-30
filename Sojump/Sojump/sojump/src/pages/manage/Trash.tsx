@@ -13,12 +13,14 @@ const Trash: FC = () => {
     const [selectedQuestionIds, setSelectedQuestionIds] = useState<string[]>([]);
     const { Title } = Typography;
     const { confirm } = Modal;
+    const [isLoading, setIsLoading] = useState(true);
     useTitle("V问卷-回收站");
 
     const { data, loading, error } = useSearchQuestionList({ isDeleted: true });
     const { list, total } = data || {};
     useEffect(() => {
         if (list) {
+            setIsLoading(loading);
             setQuestionList(list);
         }
     }, [list])
@@ -69,7 +71,7 @@ const Trash: FC = () => {
             </div>
             <div className={styles.content}>
                 {
-                    loading && (
+                    isLoading && (
                         <div style={{ textAlign: "center" }}>
                             <Spin tip="加载中..." size="large">
                                 <div className="content" />
@@ -77,8 +79,8 @@ const Trash: FC = () => {
                         </div>
                     )
                 }
-                {!loading && questionList.length === 0 && <Empty description="暂无数据"></Empty>}
-                {!loading && questionList.length > 0 && (<>
+                {!isLoading && questionList.length === 0 && <Empty description="暂无数据"></Empty>}
+                {!isLoading && questionList.length > 0 && (<>
                     {selectedQuestionIds.length > 0 && (<div style={{ marginBottom: "16px" }}>
                         <Space>
                             <Button type="primary">恢复</Button>
@@ -94,7 +96,7 @@ const Trash: FC = () => {
                 </>)}
             </div>
             <div className={styles.footer}>
-                {!loading && <CommonPagination total={total}></CommonPagination>}
+                {!isLoading && <CommonPagination total={total}></CommonPagination>}
             </div>
         </>
     )

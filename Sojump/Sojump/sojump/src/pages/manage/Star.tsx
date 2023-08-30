@@ -10,6 +10,7 @@ import CommonPagination from "../../components/CommonPagination";
 
 const Star: FC = () => {
     const [questionList, setQuestionList] = useState<Question[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
     const { Title } = Typography;
     useTitle("V问卷-星标问卷");
 
@@ -17,6 +18,7 @@ const Star: FC = () => {
     const { list, total } = data || {};
     useEffect(() => {
         if (list) {
+            setIsLoading(loading);
             setQuestionList(list);
         }
     }, [list])
@@ -31,7 +33,7 @@ const Star: FC = () => {
             </div>
             <div className={styles.content}>
                 {
-                    loading && (
+                    isLoading && (
                         <div style={{ textAlign: "center" }}>
                             <Spin tip="加载中..." size="large">
                                 <div className="content" />
@@ -39,14 +41,14 @@ const Star: FC = () => {
                         </div>
                     )
                 }
-                {!loading && questionList.length === 0 && <Empty description="暂无数据"></Empty>}
-                {!loading && questionList.length > 0 && questionList.map(question => {
+                {!isLoading && questionList.length === 0 && <Empty description="暂无数据"></Empty>}
+                {!isLoading && questionList.length > 0 && questionList.map(question => {
                     const { id } = question;
                     return <QuestionCard key={id} {...question}></QuestionCard>
                 })}
             </div>
             <div className={styles.footer}>
-                {!loading && <CommonPagination total={total}></CommonPagination>}
+                {!isLoading && <CommonPagination total={total}></CommonPagination>}
             </div>
         </>
     )
