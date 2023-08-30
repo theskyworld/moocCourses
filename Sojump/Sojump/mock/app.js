@@ -8,9 +8,9 @@ const router = new Router();
 
 function getRes(res) {
     return new Promise(resolve => {
-        setTimeout(() => {
+        // setTimeout(() => {
             resolve(res);
-        }, 1000)
+        // }, 1000)
     })
 }
 

@@ -15,3 +15,9 @@ export async function createQuestionService() : Promise<ResponseData> {
     const data = await instance.post(`/api/question`);
     return data;
 }
+
+// 获取(查询)问卷列表
+export async function getQuestionListService() : Promise<ResponseData> {
+    const data = await instance.get(`/api/question-list`);
+    return data;
+}

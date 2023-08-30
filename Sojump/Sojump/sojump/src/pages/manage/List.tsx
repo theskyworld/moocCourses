@@ -5,62 +5,28 @@ import QuestionCard from "../../components/QuestionCard"
 import { produce } from "immer";
 import styles from "./List.module.scss";
 import { useSearchParams } from "react-router-dom";
-import { useTitle } from "ahooks";
-import { Typography } from "antd";
+import { useRequest, useTitle } from "ahooks";
+import { Spin, Typography } from "antd";
 import Search from "../../components/Search";
 import { SEARCH_PARAM_KEY } from "../../assets/ts/constants";
+import { getQuestionListService } from "../../service/question";
 
-
-const rawQuestionList = [
-  // 给下面的对象全部添加isStar、answerCount、createTime属性
-  {
-    id: "q1",
-    title: "问卷1",
-    isPublished: false,
-    isStar: true,
-    answerCount: 3,
-    createTime: "3月10日 13 : 00",
-  },
-  {
-    id: "q2",
-    title: "问卷2",
-    isPublished: true,
-    isStar: false,
-    answerCount: 0,
-    createTime: "3月10日 13 : 00",
-  },
-  {
-    id: "q3",
-    title: "问卷3",
-    isPublished: false,
-    isStar: false,
-    answerCount: 2,
-    createTime: "3月10日 13 : 00",
-  },
-  {
-    id: "q4",
-    title: "wenjuan4",
-    isPublished: true,
-    isStar: true,
-    answerCount: 2,
-    createTime: "3月10日 13 : 00",
-  },
-  {
-    id: "q5",
-    title: "wenjuan5",
-    isPublished: false,
-    isStar: true,
-    answerCount: 2,
-    createTime: "3月10日 13 : 00",
-  },
-]
+interface Question {
+  id: string,
+  title: string,
+  isPublished: boolean,
+  isStar: boolean,
+  answerCount: number;
+  createTime: string,
+  isDeleted: boolean;
+}
 
 const List: FC = () => {
   // 在不同页面中使用useTitle来修改不同页面对应的标题
   useTitle("V问卷-我的问卷")
 
-  const [questionList, setQuestionList] = useState(rawQuestionList);
-  const [searchResultList, setSearchResultList] = useState(rawQuestionList);
+  const [questionList, setQuestionList] = useState<Question[]>([]);
+  const [searchResultList, setSearchResultList] = useState<Question[]>([]);
 
   const { Title } = Typography;
   // 获取查询参数
@@ -68,15 +34,28 @@ const List: FC = () => {
   const [searchParams] = useSearchParams();
   // console.log("keyword : ", searchParams.get("keyword")); // "keyword :  123" 输入的路径为 "/manage/list?keyword=123"
 
+
+  // useEffect(() => {
+  //   async function getQuestionList() {
+  //     const data = await getQuestionListService();
+  //     setQuestionList(data.list);
+  //     setSearchResultList(data.list);
+  //   }
+  //   getQuestionList();
+  // },[])
+
+  // 或者使用useRequest
+  const { loading, data, error } = useRequest(getQuestionListService);
+  useEffect(() => {
+    if (data) {
+      setQuestionList(data.list);
+      setSearchResultList(data.list);
+    }
+  }, [data])
+
+  // 搜索相关
   let searchValue = '';
   useEffect(() => {
-    
-    // fetch("/api/userinfo").then(res => {
-    //   return res.json()
-    // }).then(res => {
-    //   console.log(res);
-    // })
-
     searchValue = searchParams.get(SEARCH_PARAM_KEY) || '';
     setSearchResultList(questionList.filter(question => {
       return question.title.includes(searchValue)
@@ -94,13 +73,22 @@ const List: FC = () => {
       </div>
       <div className={styles.content}>
         {
-          searchResultList.map(question => {
+          loading && (
+            <div style={{ textAlign: "center" }}>
+              <Spin tip="加载中..." size="large">
+                <div className="content" />
+              </Spin>
+            </div>
+          )
+        }
+        {
+          !loading && searchResultList.length > 0 && searchResultList.map(question => {
             const { id, title, isPublished, isStar, answerCount, createTime } = question;
             return <QuestionCard key={id} id={id} title={title} isPublished={isPublished} isStar={isStar} answerCount={answerCount} createTime={createTime}></QuestionCard>
           })
         }
       </div>
-      <div className={styles.footer}>footer</div>
+      {/* <div className={styles.footer}>footer</div> */}
     </>
   );
 };
