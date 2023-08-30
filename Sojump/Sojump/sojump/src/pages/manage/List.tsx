@@ -10,6 +10,7 @@ import { Spin, Typography } from "antd";
 import Search from "../../components/Search";
 import { SEARCH_PARAM_KEY } from "../../assets/ts/constants";
 import { getQuestionListService } from "../../service/question";
+import useSearchQuestionList from "../../hooks/useSearchQuestionList";
 
 interface Question {
   id: string,
@@ -45,7 +46,9 @@ const List: FC = () => {
   // },[])
 
   // 或者使用useRequest
-  const { loading, data, error } = useRequest(getQuestionListService);
+  // const { loading, data, error } = useRequest(getQuestionListService);
+  // 结合搜索功能
+  const { loading, data, error } = useSearchQuestionList();
   useEffect(() => {
     if (data) {
       setQuestionList(data.list);
@@ -53,14 +56,14 @@ const List: FC = () => {
     }
   }, [data])
 
-  // 搜索相关
-  let searchValue = '';
-  useEffect(() => {
-    searchValue = searchParams.get(SEARCH_PARAM_KEY) || '';
-    setSearchResultList(questionList.filter(question => {
-      return question.title.includes(searchValue)
-    }));
-  }, [searchParams])
+  // // 搜索相关
+  // let searchValue = '';
+  // useEffect(() => {
+  //   searchValue = searchParams.get(SEARCH_PARAM_KEY) || '';
+  //   setSearchResultList(questionList.filter(question => {
+  //     return question.title.includes(searchValue)
+  //   }));
+  // }, [searchParams])
   return (
     <>
       <div className={styles.header}>
