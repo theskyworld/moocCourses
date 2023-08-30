@@ -52,7 +52,6 @@ const List: FC = () => {
   useEffect(() => {
     if (data) {
       setQuestionList(data.list);
-      setSearchResultList(data.list);
     }
   }, [data])
 
@@ -85,7 +84,7 @@ const List: FC = () => {
           )
         }
         {
-          !loading && searchResultList.length > 0 && searchResultList.map(question => {
+          !loading && questionList.length > 0 && questionList.map(question => {
             const { id, title, isPublished, isStar, answerCount, createTime } = question;
             return <QuestionCard key={id} id={id} title={title} isPublished={isPublished} isStar={isStar} answerCount={answerCount} createTime={createTime}></QuestionCard>
           })
