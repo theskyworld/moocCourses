@@ -1,10 +1,12 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 // import "../assets/css/App.css"
 import styles from "./QuestionCard.module.scss";
 import { Button, Space, Divider, Tag, Popconfirm, Modal, message } from "antd";
-import { EditOutlined, LineChartOutlined, StarOutlined, CopyOutlined, DeleteOutlined, ExclamationCircleOutlined } from "@ant-design/icons";
+import { EditOutlined, LineChartOutlined, StarOutlined, CopyOutlined, DeleteOutlined, ExclamationCircleOutlined, StarFilled } from "@ant-design/icons";
 import { Link, useNavigate } from "react-router-dom";
 import { MANAGE_STAR_URL, QUESTION_EDIT_URL, QUESTION_STAT_URL, } from "../assets/ts/constants";
+import { useRequest } from "ahooks";
+import { updateQuestionService } from "../service/question";
 interface QuestionCardProps {
     id: string;
     title: string;
@@ -19,7 +21,23 @@ interface QuestionCardProps {
 
 const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
     const { id, title, isPublished, createTime, answerCount, isStar } = props;
+    const [isStarState, setIsStarState] = useState(isStar);
 
+    const { run: toggleIsStarState, loading: isStarLoading, error } = useRequest(async () => {
+        await updateQuestionService(id, {
+            isStar: !isStarState,
+        })
+    }, {
+        manual: true,
+        onSuccess() {
+            setIsStarState(!isStarState);
+            if (!isStarState) {
+                message.success("已标星")
+            } else {
+                message.success("已取消标星")
+            }
+        }
+    })
 
     const nav = useNavigate();
 
@@ -44,7 +62,7 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
             <div className={styles.title}>
                 <div className={styles.left}>
                     <Space>
-                        {isStar && <StarOutlined style={{ color: "red" }}></StarOutlined>}
+                        {isStarState && <StarOutlined style={{ color: "red" }}></StarOutlined>}
                         <Link to={isPublished ? `${QUESTION_STAT_URL}/${id}` : `${QUESTION_EDIT_URL}/${id}`}>{title}</Link>
                     </Space>
                 </div>
@@ -70,7 +88,7 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
                 </div>
                 <div className={styles["right"]}>
                     <Space>
-                        <Button type="text" size="small" icon={<StarOutlined />}>{isStar ? "取消标星" : "标星"}</Button>
+                        <Button style={{ color: isStarState ? "red" : "" }} onClick={toggleIsStarState} disabled={isStarLoading} type="text" size="small" icon={isStarState ? <StarFilled style={{ color: "red" }} /> : <StarOutlined />}>{isStarState ? "取消标星" : "标星"}</Button>
                         <Popconfirm title="是否确定复制该问卷?" okText="确定" cancelText="取消" onConfirm={copySojump}>
                             <Button type="text" size="small" icon={<CopyOutlined />}>复制</Button>
                         </Popconfirm>

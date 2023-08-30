@@ -32,3 +32,9 @@ export async function getQuestionListService(option : Partial<SearchOption> = {}
     });
     return data;
 }
+
+// 更新问卷
+export async function updateQuestionService(id: string, option: { [key: string]: any }) : Promise<ResponseData> {
+    const data = await instance.patch(`/api/question/${id}`, option);
+    return data;
+}
