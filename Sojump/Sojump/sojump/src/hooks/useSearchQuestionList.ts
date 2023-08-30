@@ -10,14 +10,19 @@ import { SEARCH_PARAM_KEY } from "../assets/ts/constants";
 import { getQuestionListService } from "../service/question";
 
 
+interface UseSearchQuestionListOption {
+    isStar: boolean;
+    isDeleted: boolean;
+}
 
-export default function useSearchQuestionList() {
+export default function useSearchQuestionList(option?: Partial<UseSearchQuestionListOption>) {
+    const { isDeleted, isStar } = option || {};
     const [searchParams] = useSearchParams();
 
     const { data, loading, error } = useRequest(
         async () => {
             const keyword = searchParams.get(SEARCH_PARAM_KEY) || '';
-            const data = await getQuestionListService({ keyword });
+            const data = await getQuestionListService({ keyword, isStar, isDeleted });
             return data;
         }, {
             refreshDeps: [searchParams], // useRequest执行的依赖，依赖值变化时重新执行

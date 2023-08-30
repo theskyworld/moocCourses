@@ -3,6 +3,8 @@ import { ResponseData } from "./base";
 
 interface SearchOption {
     keyword: string;
+    isStar?: boolean;
+    isDeleted?: boolean;
 }
 
 

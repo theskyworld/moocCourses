@@ -1,44 +1,25 @@
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import styles from "./List.module.scss";
-import { Typography, Empty, Table, Tag, Button, Space, Modal, message } from "antd";
+import { Typography, Empty, Table, Tag, Button, Space, Modal, message, Spin } from "antd";
 import { useTitle } from "ahooks";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { Question } from "./List";
+import useSearchQuestionList from "../../hooks/useSearchQuestionList";
 
-const rawQuestionList = [
-    // 给下面的对象全部添加isStar、answerCount、createTime属性
-    {
-        id: "q1",
-        title: "问卷1",
-        isPublished: false,
-        isStar: true,
-        answerCount: 3,
-        createTime: "3月10日 13 : 00",
-    },
-    {
-        id: "q2",
-        title: "问卷2",
-        isPublished: true,
-        isStar: false,
-        answerCount: 0,
-        createTime: "3月10日 13 : 00",
-    },
-    {
-        id: "q3",
-        title: "问卷3",
-        isPublished: false,
-        isStar: false,
-        answerCount: 2,
-        createTime: "3月10日 13 : 00",
-    },
-]
+
 const Trash: FC = () => {
-    const [questionList, setQuestionList] = useState(rawQuestionList);
+    const [questionList, setQuestionList] = useState<Question[]>([]);
     const [selectedQuestionIds, setSelectedQuestionIds] = useState<string[]>([]);
     const { Title } = Typography;
     const { confirm } = Modal;
     useTitle("V问卷-回收站");
 
-
+    const { data, loading, error } = useSearchQuestionList({ isDeleted: true });
+    useEffect(() => {
+        if (data) {
+            setQuestionList(data.list);
+        }
+    }, [data])
     function deleteSojumpModal() {
         confirm({
             title: "确定彻底删除该问卷?",
@@ -85,8 +66,17 @@ const Trash: FC = () => {
                 <div className={styles.right}>搜索框</div>
             </div>
             <div className={styles.content}>
-                {questionList.length === 0 && <Empty description="暂无数据"></Empty>}
-                {questionList.length > 0 && (<>
+                {
+                    loading && (
+                        <div style={{ textAlign: "center" }}>
+                            <Spin tip="加载中..." size="large">
+                                <div className="content" />
+                            </Spin>
+                        </div>
+                    )
+                }
+                {!loading && questionList.length === 0 && <Empty description="暂无数据"></Empty>}
+                {!loading && questionList.length > 0 && (<>
                     {selectedQuestionIds.length > 0 && (<div style={{ marginBottom: "16px" }}>
                         <Space>
                             <Button type="primary">恢复</Button>

@@ -12,7 +12,7 @@ import { SEARCH_PARAM_KEY } from "../../assets/ts/constants";
 import { getQuestionListService } from "../../service/question";
 import useSearchQuestionList from "../../hooks/useSearchQuestionList";
 
-interface Question {
+export interface Question {
   id: string,
   title: string,
   isPublished: boolean,
