@@ -42,7 +42,7 @@ const List: FC = () => {
   // 继续上滑动是否能加载更多
   const isHasMore = total > list.length;
   const [isStarted, setIsStarted] = useState(false); // 是否已经开始加载更多数据
-
+  const [isLoading, setIsLoading] = useState(true);
 
   // 当keyword值发生变化时，重置以下内容
   useEffect(() => {
@@ -63,7 +63,7 @@ const List: FC = () => {
       if (loadMoreContainerRect === null) return;
       const { bottom } = loadMoreContainerRect;
       // 上滑至加载更多时触发加载更多的时机
-      if (bottom <= document.body.clientHeight) {
+      if (bottom <= window.innerHeight) {
         // 加载更多
         loadMore();
         setIsStarted(true);
@@ -103,6 +103,7 @@ const List: FC = () => {
         setList(list.concat(result.list));
         setTotal(result.total);
         setCurPage(curPage + 1);
+        setIsLoading(false);
       }
   })
 
@@ -111,7 +112,7 @@ const List: FC = () => {
   // 优化DOM中加载更多中的显示内容
   const LoadMoreContentElem = useMemo(() => {
     // 是否显示加载中...
-    if (!isStarted || loading) {
+    if (isLoading) {
       return (
         <div style={{ textAlign: "center" }}>
           <Spin tip="加载中..." size="small">
@@ -122,7 +123,7 @@ const List: FC = () => {
     }
 
     // 是否显示暂无数据
-    if(total === 0){
+    if(total === 0 || list.length === 0){
       return (<Empty description="暂无数据"></Empty>)
     }
 
