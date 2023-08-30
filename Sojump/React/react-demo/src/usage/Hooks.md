@@ -104,6 +104,13 @@ const App = () => {
 
 使用[immer](https://immerjs.github.io/immer/)
 
+- 由于在react中的state都是不可变的数据，直接对原state的值进行修改将无效
+- 一般都是通过使用新值来覆盖旧值的方式来实现对state的修改
+  - `setValue(newValue)`
+  - `setObj({...oldObj, newKey | key : newVal})`
+  - `setArr(oldArr.concat(newVal) | [...oldArr, newVal])`
+- 但是，通过immer中的`draft`可以使用类似于直接对原state进行修改的方式来实现对state的修改
+
 ```tsx
 // 列表页组件
 import { FC } from "react";
