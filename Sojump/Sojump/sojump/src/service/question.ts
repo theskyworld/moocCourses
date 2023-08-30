@@ -5,6 +5,8 @@ interface SearchOption {
     keyword: string;
     isStar?: boolean;
     isDeleted?: boolean;
+    page?: number;
+    perPageSize?: number;
 }
 
 

@@ -5,6 +5,7 @@ import { useTitle } from "ahooks";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Question } from "./List";
 import useSearchQuestionList from "../../hooks/useSearchQuestionList";
+import CommonPagination from "../../components/CommonPagination";
 
 
 const Trash: FC = () => {
@@ -15,11 +16,12 @@ const Trash: FC = () => {
     useTitle("V问卷-回收站");
 
     const { data, loading, error } = useSearchQuestionList({ isDeleted: true });
+    const { list, total } = data || {};
     useEffect(() => {
-        if (data) {
-            setQuestionList(data.list);
+        if (list) {
+            setQuestionList(list);
         }
-    }, [data])
+    }, [list])
     function deleteSojumpModal() {
         confirm({
             title: "确定彻底删除该问卷?",
@@ -90,6 +92,9 @@ const Trash: FC = () => {
                         }
                     }}></Table>
                 </>)}
+            </div>
+            <div className={styles.footer}>
+                {!loading && <CommonPagination total={total}></CommonPagination>}
             </div>
         </>
     )

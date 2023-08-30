@@ -35,14 +35,17 @@ module.exports = [
         url: "/api/question-list",
         method: "get",
         response(ctx) {
-            const url = ctx.url;
+            const {url, query} = ctx;
             const isStar = url.includes("isStar=true") ? true : undefined;
             const isDeleted = url.includes("isDeleted=true") ? true : false;
+
+            const {keyword = "", page = 1, perPageSize = 10 } = query;
+
             return {
                 errno: 0,
                 data: {
                     // 返回当前页的列表数据
-                    list: getRandomQuestionList(10, isDeleted, isStar),
+                    list: getRandomQuestionList(perPageSize, isDeleted, isStar),
                     total : 100, // 列表数据总数，用于分页
                 }
             }

@@ -16,3 +16,8 @@ export const SEARCH_PARAM_KEY = "keyword";
 
 export const USERNAME_KEY = "username";
 export const PASSWORD_KEY = "password";
+
+
+export const PAGE_PARM_KEY = "page";
+export const PER_PAGE_SIZE_PARM_KEY = "perPageSize";
+export const DEFAUTL_PER_PAGE_SIZE = 10;

@@ -5,6 +5,7 @@ import styles from "./List.module.scss";
 import { useTitle } from "ahooks";
 import { Question } from "./List";
 import useSearchQuestionList from "../../hooks/useSearchQuestionList";
+import CommonPagination from "../../components/CommonPagination";
 
 
 const Star: FC = () => {
@@ -12,12 +13,13 @@ const Star: FC = () => {
     const { Title } = Typography;
     useTitle("V问卷-星标问卷");
 
-    const { data, loading, error } = useSearchQuestionList({isStar : true});
+    const { data, loading, error } = useSearchQuestionList({ isStar: true });
+    const { list, total } = data || {};
     useEffect(() => {
-        if (data) {
-            setQuestionList(data.list);
+        if (list) {
+            setQuestionList(list);
         }
-    }, [data])
+    }, [list])
 
     return (
         <>
@@ -42,6 +44,9 @@ const Star: FC = () => {
                     const { id } = question;
                     return <QuestionCard key={id} {...question}></QuestionCard>
                 })}
+            </div>
+            <div className={styles.footer}>
+                {!loading && <CommonPagination total={total}></CommonPagination>}
             </div>
         </>
     )

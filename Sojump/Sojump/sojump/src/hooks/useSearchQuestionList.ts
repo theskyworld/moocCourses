@@ -1,3 +1,4 @@
+import { DEFAUTL_PER_PAGE_SIZE, PER_PAGE_SIZE_PARM_KEY } from './../assets/ts/constants';
 /**
  * @author tsw
  * @copyright 2023
@@ -6,13 +7,13 @@
  */
 import { useRequest } from "ahooks";
 import { useSearchParams } from "react-router-dom";
-import { SEARCH_PARAM_KEY } from "../assets/ts/constants";
+import { PAGE_PARM_KEY, SEARCH_PARAM_KEY } from "../assets/ts/constants";
 import { getQuestionListService } from "../service/question";
 
 
 interface UseSearchQuestionListOption {
-    isStar: boolean;
-    isDeleted: boolean;
+    isStar?: boolean;
+    isDeleted?: boolean;
 }
 
 export default function useSearchQuestionList(option?: Partial<UseSearchQuestionListOption>) {
@@ -22,7 +23,9 @@ export default function useSearchQuestionList(option?: Partial<UseSearchQuestion
     const { data, loading, error } = useRequest(
         async () => {
             const keyword = searchParams.get(SEARCH_PARAM_KEY) || '';
-            const data = await getQuestionListService({ keyword, isStar, isDeleted });
+            const page = parseInt(searchParams.get(PAGE_PARM_KEY) || "") || 1;
+            const perPageSize = parseInt(searchParams.get(PER_PAGE_SIZE_PARM_KEY) || "") || DEFAUTL_PER_PAGE_SIZE; 
+            const data = await getQuestionListService({ keyword, isStar, isDeleted, page, perPageSize });
             return data;
         }, {
             refreshDeps: [searchParams], // useRequest执行的依赖，依赖值变化时重新执行

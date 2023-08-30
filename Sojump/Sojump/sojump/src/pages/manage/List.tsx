@@ -11,6 +11,7 @@ import Search from "../../components/Search";
 import { SEARCH_PARAM_KEY } from "../../assets/ts/constants";
 import { getQuestionListService } from "../../service/question";
 import useSearchQuestionList from "../../hooks/useSearchQuestionList";
+import CommonPagination from "../../components/CommonPagination";
 
 export interface Question {
   id: string,
@@ -49,11 +50,12 @@ const List: FC = () => {
   // const { loading, data, error } = useRequest(getQuestionListService);
   // 结合搜索功能
   const { loading, data, error } = useSearchQuestionList();
+  const { list, total } = data || {};
   useEffect(() => {
-    if (data) {
-      setQuestionList(data.list);
+    if (list) {
+      setQuestionList(list);
     }
-  }, [data])
+  }, [list])
 
   // // 搜索相关
   // let searchValue = '';
@@ -90,7 +92,9 @@ const List: FC = () => {
           })
         }
       </div>
-      {/* <div className={styles.footer}>footer</div> */}
+      <div className={styles.footer}>
+        {!loading && <CommonPagination total={total}></CommonPagination>}
+      </div>
     </>
   );
 };
