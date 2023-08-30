@@ -6,7 +6,7 @@ export interface Response {
     data?: ResponseData;
     msg?: string;
 }
-interface ResponseData {
+export interface ResponseData {
     [key: string]: any;
 }
 
