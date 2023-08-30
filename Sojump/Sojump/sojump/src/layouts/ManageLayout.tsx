@@ -5,34 +5,28 @@ import { Button, Space, Divider, message } from 'antd';
 import { PlusOutlined, BarsOutlined, StarOutlined, DeleteOutlined } from "@ant-design/icons"
 import { createQuestionService, } from "../service/question";
 import { QUESTION_EDIT_URL } from "../assets/ts/constants";
+import { useRequest } from "ahooks";
 
 const ManageLayout: FC = () => {
     const nav = useNavigate();
     // 获取跳转不同页面对应的路由片段
     const { pathname } = useLocation();
-    const [isLoading, setIsLoading] = useState(false);
 
-
-
-    async function handleCreateQuestionClick() {
-        setIsLoading(true);
-        const data = await createQuestionService();
-        const { id } = data;
-
-        if (id) {
-            // 根据id，跳转到问卷编辑(新建)页面
-            nav(`${QUESTION_EDIT_URL}/${id}`);
-            message.success("跳转成功")
+    // run: handleCreateQuestionClick 表示手动触发handleCreateQuestionClick时才开始进行useRequest函数的执行
+    const { loading, error, run: handleCreateQuestionClick } = useRequest(createQuestionService, {
+        manual: true, // 开启手动触发，手动例如点击的方式触发createQuestionService函数
+        onSuccess(result) {
+            nav(`${QUESTION_EDIT_URL}/${result.id}`);
+            message.success("跳转成功");
         }
-        setIsLoading(false);
-    }
+    })
 
     return (
         <div className={styles.container}>
             <div className={styles["left"]}>
                 {/* <p>ManageLayout left</p> */}
                 <Space wrap>
-                    <Button type="default" size="small" icon={<PlusOutlined />} onClick={handleCreateQuestionClick} disabled={isLoading}>新建问卷</Button>
+                    <Button type="default" size="small" icon={<PlusOutlined />} onClick={handleCreateQuestionClick} disabled={loading}>新建问卷</Button>
                     <Divider style={{ borderTop: 'transparent' }} />
                     {/* 根据pathname来动态设置Button的type值 */}
                     {/* 让当前页面所对应的Button按钮样式呈现类似于激活的状态 */}

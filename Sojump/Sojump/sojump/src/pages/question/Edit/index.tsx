@@ -2,12 +2,12 @@ import React, { FC } from "react";
 import useLoadQuestionData from "../../../hooks/useLoadQuestionData";
 const EditIndex: FC = () => {
 
-    const { isLoading, questionData } = useLoadQuestionData();
+    const { loading, data } = useLoadQuestionData();
 
     return (
         <>
             <h3>EditPage</h3>
-            <p>{ isLoading ? "Loading..." : JSON.stringify(questionData)}</p>
+            <p>{ loading ? "Loading..." : JSON.stringify(data)}</p>
         </>
     )
 }
