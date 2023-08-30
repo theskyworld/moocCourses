@@ -70,6 +70,13 @@ const List: FC = () => {
 
   let searchValue = '';
   useEffect(() => {
+    
+    // fetch("/api/userinfo").then(res => {
+    //   return res.json()
+    // }).then(res => {
+    //   console.log(res);
+    // })
+
     searchValue = searchParams.get(SEARCH_PARAM_KEY) || '';
     setSearchResultList(questionList.filter(question => {
       return question.title.includes(searchValue)
