@@ -4,6 +4,7 @@ import { Typography, Space, Form, Input, Button, Checkbox, message } from "antd"
 import React, { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { LOGIN_URL, MANAGE_LIST_URL, PASSWORD_KEY, REGISTER_URL, USERNAME_KEY } from "../assets/ts/constants";
+import { setToken } from "../assets/utils/userToken";
 import { loginUserService } from "../service/user";
 import styles from "./Register.module.scss";
 
@@ -20,7 +21,10 @@ const Login: FC = () => {
         {
             manual: true,
             debounceWait : 500,
-            onSuccess() {
+            onSuccess(result) {
+                // 存储token
+                const { token = "" } = result;
+                setToken(token);
                 message.success("登录成功");
                 nav(MANAGE_LIST_URL);
             }

@@ -1,3 +1,4 @@
+// url
 export const HOME_URL = "/";
 export const LOGIN_URL = "/login";
 export const REGISTER_URL = "/register";
@@ -10,14 +11,21 @@ export const QUESTION_EDIT_URL = "/question/edit";
 export const QUESTION_STAT_URL = "/question/stat";
 
 
+// search
 export const SEARCH_PARAM_KEY = "keyword";
 
 
-
+// userinfo
 export const USERNAME_KEY = "username";
 export const PASSWORD_KEY = "password";
 
 
+// page
 export const PAGE_PARM_KEY = "page";
 export const PER_PAGE_SIZE_PARM_KEY = "perPageSize";
 export const DEFAULT_PER_PAGE_SIZE = 10;
+
+
+
+// token
+export const TOKEN_KEY = "user_token";
