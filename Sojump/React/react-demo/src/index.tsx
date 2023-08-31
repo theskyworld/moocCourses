@@ -5,14 +5,19 @@ import "./styles/index.css";
 // import App from "./usage/basicUsage/HooksDemo/App";
 // import App from "./usage/basicUsage/addStyleDemo/AddStyleDemo";
 // import App from "./usage/basicUsage/FormDemo/FormDemo";
-import App from "./usage/basicUsage/contextDemo/index";
+// import App from "./usage/basicUsage/contextDemo/index";
+import App from "./usage/basicUsage/reduxDemo/Count";
+import store from "./usage/basicUsage/reduxDemo/store"; 
+import { Provider } from "react-redux";
 
 import reportWebVitals from "./reportWebVitals";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>
 );
 
