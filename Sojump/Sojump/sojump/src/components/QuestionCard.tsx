@@ -55,20 +55,33 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
     )
 
 
-    function copySojump() {
-        message.success("执行复制");
+    // 删除问卷
+    const { loading: deleteLoading, run: deleteQuestion } = useRequest(
+        async () => updateQuestionService(id, {
+            isDeleted: true,
+        }), {
+        manual: true,
+        onSuccess() {
+            message.success("删除成功");
+            setIsDeletedState(true);
+        }
     }
+    )
+
+
     function deleteSojumpModal() {
         confirm({
             title: "确定删除该问卷?",
             icon: <ExclamationCircleOutlined />,
             okText: "确定",
             cancelText: "取消",
-            onOk: () => {
-                message.success("执行删除")
-            }
+            onOk: deleteQuestion
         })
     }
+
+    const [isDeletedState, setIsDeletedState] = useState(false);
+    // 对于已经删除的问卷，前端渲染时直接返回null，不渲染该问卷对应的卡片信息
+    if (isDeletedState) return null;
     return (
         <div className={styles.container}>
             <div className={styles.title}>
@@ -104,7 +117,7 @@ const QuestionCard: FC<QuestionCardProps> = (props: QuestionCardProps) => {
                         <Popconfirm title="是否确定复制该问卷?" okText="确定" cancelText="取消" onConfirm={copyQuestion}>
                             <Button type="text" size="small" icon={<CopyOutlined />} disabled={copyLoading}>复制</Button>
                         </Popconfirm>
-                        <Button type="text" size="small" icon={<DeleteOutlined />} onClick={deleteSojumpModal}>删除</Button>
+                        <Button type="text" size="small" icon={<DeleteOutlined />} onClick={deleteSojumpModal} disabled={deleteLoading}>删除</Button>
                     </Space>
 
                 </div>

@@ -45,7 +45,8 @@ module.exports = [
                 errno: 0,
                 data: {
                     // 返回当前页的列表数据
-                    list: getRandomQuestionList(perPageSize, isDeleted, isStar),
+                    // 对于已经删除的问卷，后端返回数据时，用于展示问卷列表中的，过滤掉已经被假删除的问卷
+                    list: getRandomQuestionList(perPageSize, isDeleted, isStar).filter(question => !question.isDeleted),
                     total : 100, // 列表数据总数，用于分页
                 }
             }
