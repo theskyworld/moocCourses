@@ -20,7 +20,7 @@ export default function useSearchQuestionList(option?: Partial<UseSearchQuestion
     const { isDeleted, isStar } = option || {};
     const [searchParams] = useSearchParams();
 
-    const { data, loading, error } = useRequest(
+    const { data, loading, error, refresh } = useRequest(
         async () => {
             const keyword = searchParams.get(SEARCH_PARAM_KEY) || '';
             const page = parseInt(searchParams.get(PAGE_PARM_KEY) || "") || 1;
@@ -32,5 +32,5 @@ export default function useSearchQuestionList(option?: Partial<UseSearchQuestion
         }
     )
 
-    return {data, loading, error}
+    return {data, loading, error, refresh}
 }

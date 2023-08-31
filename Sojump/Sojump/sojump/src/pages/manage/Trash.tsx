@@ -1,11 +1,12 @@
 import React, { FC, useEffect, useState } from "react";
 import styles from "./List.module.scss";
 import { Typography, Empty, Table, Tag, Button, Space, Modal, message, Spin } from "antd";
-import { useTitle } from "ahooks";
+import { useRequest, useTitle } from "ahooks";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Question } from "./List";
 import useSearchQuestionList from "../../hooks/useSearchQuestionList";
 import CommonPagination from "../../components/CommonPagination";
+import { updateQuestionService } from "../../service/question";
 
 
 const Trash: FC = () => {
@@ -16,7 +17,7 @@ const Trash: FC = () => {
     const [isLoading, setIsLoading] = useState(true);
     useTitle("V问卷-回收站");
 
-    const { data, loading, error } = useSearchQuestionList({ isDeleted: true });
+    const { data, loading, error, refresh } = useSearchQuestionList({ isDeleted: true });
     const { list, total } = data || {};
     useEffect(() => {
         if (list) {
@@ -24,6 +25,29 @@ const Trash: FC = () => {
             setQuestionList(list);
         }
     }, [list])
+
+
+
+    // 恢复问卷
+    const { run: recoverQuestion, loading: recoverLoading } = useRequest(
+        async () => {
+            for await (const id of selectedQuestionIds) {
+                await updateQuestionService(id, {
+                    isDeleted: false,
+                })
+            }
+        }, {
+        manual: true,
+        debounceWait: 500,
+        onSuccess() {
+            message.success("恢复成功");
+            // 成功后刷新列表数据
+            refresh();
+        }
+    }
+    )
+
+
     function deleteSojumpModal() {
         confirm({
             title: "确定彻底删除该问卷?",
@@ -83,7 +107,7 @@ const Trash: FC = () => {
                 {!isLoading && questionList.length > 0 && (<>
                     {selectedQuestionIds.length > 0 && (<div style={{ marginBottom: "16px" }}>
                         <Space>
-                            <Button type="primary">恢复</Button>
+                            <Button type="primary" onClick={recoverQuestion} disabled={recoverLoading}>恢复</Button>
                             <Button danger onClick={deleteSojumpModal}>彻底删除</Button>
                         </Space>
                     </div>)}

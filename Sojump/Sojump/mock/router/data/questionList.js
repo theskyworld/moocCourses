@@ -19,7 +19,16 @@ function getRandomQuestionList(length = 10, isDeleted = false, isStar = undefine
             isDeleted, // 假删除，问卷列表问卷中的删除按钮控制该值的真假
         })
     }
-    return list
+    // 返回用于回收站中展示的数据列表
+    if (isDeleted) {
+        return list.filter(question => question.isDeleted);
+        // 返回用于标星问卷中展示的数据列表
+    } else if (isStar) {
+        return list.filter(question => question.isStar);
+        // 返回用于我的问卷中展示的数据列表
+    } else {
+        return list.filter(question => !question.isDeleted);
+    }
 }
 
 module.exports = getRandomQuestionList;
