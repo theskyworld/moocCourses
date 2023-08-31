@@ -1,21 +1,40 @@
 import { UserAddOutlined } from "@ant-design/icons";
-import { Typography, Space, Form, Input, Button } from "antd";
+import { useRequest } from "ahooks";
+import { Typography, Space, Form, Input, Button, message } from "antd";
 import { stringify } from "querystring";
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { LOGIN_URL } from "../assets/ts/constants";
+import { registerUserService } from "../service/user";
 import styles from "./Register.module.scss";
 
 
 
 const Register: FC = () => {
     const { Title } = Typography;
+    const nav = useNavigate();
 
+    // 注册
+    const { loading : registerLoading, run } = useRequest(
+        async (values) => {
+            const { username, password } = values
+            const data = await registerUserService(username, password);
+            return data;
+        }, {
+            manual: true,
+            debounceWait: 500,
+            onSuccess() {
+                message.success("注册成功");
+                nav(LOGIN_URL);
+            }
 
+        }
+    )
 
     function onFinish(values: any) {
         // 获取表单中提交的数据
-        console.log(values)
+        // console.log(values)
+        run(values);
     }
 
 
@@ -76,7 +95,7 @@ const Register: FC = () => {
                         </Form.Item>
                         <Form.Item style={{ width: "300px" }} wrapperCol={{ span: 16, offset: 6 }}>
                             <Space>
-                                <Button type="primary" htmlType="submit" >注册</Button>
+                                <Button type="primary" htmlType="submit" disabled={registerLoading}>注册</Button>
                                 <Link to={LOGIN_URL} >已有账户,直接登录</Link>
                             </Space>
                         </Form.Item>

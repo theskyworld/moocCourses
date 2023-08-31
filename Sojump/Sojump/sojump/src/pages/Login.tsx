@@ -1,8 +1,10 @@
 import { UserAddOutlined } from "@ant-design/icons";
-import { Typography, Space, Form, Input, Button, Checkbox } from "antd";
+import { useRequest } from "ahooks";
+import { Typography, Space, Form, Input, Button, Checkbox, message } from "antd";
 import React, { FC, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { LOGIN_URL, PASSWORD_KEY, REGISTER_URL, USERNAME_KEY } from "../assets/ts/constants";
+import { LOGIN_URL, MANAGE_LIST_URL, PASSWORD_KEY, REGISTER_URL, USERNAME_KEY } from "../assets/ts/constants";
+import { loginUserService } from "../service/user";
 import styles from "./Register.module.scss";
 
 
@@ -13,6 +15,17 @@ const Login: FC = () => {
     const [form] = Form.useForm();
 
 
+    const {loading : loginLoading, run } = useRequest(
+        async (username, password) => loginUserService(username, password),
+        {
+            manual: true,
+            debounceWait : 500,
+            onSuccess() {
+                message.success("登录成功");
+                nav(MANAGE_LIST_URL);
+            }
+        }
+    )
 
 
     useEffect(() => {
@@ -30,6 +43,7 @@ const Login: FC = () => {
         } else {
             deleteUserFromLocalStorage();
         }
+        run(username, password);
     }
 
 
@@ -62,10 +76,30 @@ const Login: FC = () => {
                 </div>
                 <div>
                     <Form labelCol={{ span: 6 }} wrapperCol={{ span: 16 }} onFinish={onFinish} initialValues={{ remember: true }} form={form}>
-                        <Form.Item label="用户名" name="username">
+                        <Form.Item label="用户名" name="username" rules={[
+                            {
+                                required: true,
+                                message: "请输入用户名!"
+                            },
+                            {
+                                type: 'string',
+                                min: 5,
+                                max: 20,
+                                message: "字符长度在5-20之间"
+                            },
+                            {
+                                pattern: /^\w+$/,
+                                message: "只能包含字母、数字和下划线"
+                            }
+                        ]}>
                             <Input autoComplete="true" />
                         </Form.Item>
-                        <Form.Item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password">
+                        <Form.Item label="密&nbsp;&nbsp;&nbsp;&nbsp;码" name="password" rules={[
+                            {
+                                required: true,
+                                message: "请输入密码!"
+                            }
+                        ]}>
                             <Input.Password autoComplete="true" />
                         </Form.Item>
                         <Form.Item name="remember" valuePropName="checked" style={{ width: "300px" }} wrapperCol={{ span: 16, offset: 6 }}>
@@ -73,7 +107,7 @@ const Login: FC = () => {
                         </Form.Item>
                         <Form.Item wrapperCol={{ span: 16, offset: 6 }}>
                             <Space>
-                                <Button style={{ marginRight: "50px" }} type="primary" htmlType="submit" >登录</Button>
+                                <Button style={{ marginRight: "50px" }} type="primary" htmlType="submit" disabled={loginLoading} >登录</Button>
                                 <Link to={REGISTER_URL} >注册新用户</Link>
                             </Space>
                         </Form.Item>

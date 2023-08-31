@@ -1,8 +1,8 @@
-const userinfo = require('./userInfo.js');
+const user = require('./user.js');
 const question = require("./question.js");
 
 const mockList = [
-    ...userinfo,
+    ...user,
     ...question,
 ]
 
