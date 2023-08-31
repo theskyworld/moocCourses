@@ -6,7 +6,7 @@ import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Question } from "./List";
 import useSearchQuestionList from "../../hooks/useSearchQuestionList";
 import CommonPagination from "../../components/CommonPagination";
-import { updateQuestionService } from "../../service/question";
+import { deleteQuestionService, updateQuestionService } from "../../service/question";
 
 
 const Trash: FC = () => {
@@ -43,8 +43,26 @@ const Trash: FC = () => {
             message.success("恢复成功");
             // 成功后刷新列表数据
             refresh();
+            setSelectedQuestionIds([]);
         }
     }
+    )
+
+
+
+
+    // 批量彻底删除
+    const {loading : absDeleteLoading , run : absDeleteQuestion } = useRequest(
+        async () => {
+           return  await deleteQuestionService(selectedQuestionIds);
+        }, {
+            manual: true,
+            onSuccess() {
+                message.success("删除成功");
+                refresh();
+                setSelectedQuestionIds([]);
+            }
+        }
     )
 
 
@@ -55,9 +73,7 @@ const Trash: FC = () => {
             okText: "确定",
             cancelText: "取消",
             content: "删除后不可找回!",
-            onOk: () => {
-                message.success(`删除${JSON.stringify(selectedQuestionIds)}问卷成功`)
-            }
+            onOk: absDeleteQuestion,
         })
     }
 
@@ -108,7 +124,7 @@ const Trash: FC = () => {
                     {selectedQuestionIds.length > 0 && (<div style={{ marginBottom: "16px" }}>
                         <Space>
                             <Button type="primary" onClick={recoverQuestion} disabled={recoverLoading}>恢复</Button>
-                            <Button danger onClick={deleteSojumpModal}>彻底删除</Button>
+                            <Button danger onClick={deleteSojumpModal} disabled={absDeleteLoading}>彻底删除</Button>
                         </Space>
                     </div>)}
                     <Table dataSource={questionList} columns={tableColumns} pagination={false} rowKey={(question) => question.id} rowSelection={{

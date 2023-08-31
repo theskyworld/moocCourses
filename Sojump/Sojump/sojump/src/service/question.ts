@@ -44,3 +44,10 @@ export async function copyQuestionService(id: string) : Promise<ResponseData> {
     const data = await instance.post(`/api/question/duplicate/${id}`);
     return data;
 }
+
+
+// 批量彻底删除
+export async function deleteQuestionService(ids: string[]) : Promise<ResponseData> {
+    const data = await instance.delete('/api/question', { data: { ids } });
+    return data;
+}
