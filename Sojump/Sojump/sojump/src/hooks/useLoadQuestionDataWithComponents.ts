@@ -24,7 +24,12 @@ function useLoadQuestionDataWithComponents() {
         if (!data) return;
         const { title = "", components = [] } = data;
 
-        dispatch(initComponents({ components }));
+        // 默认选中第一个组件
+        let selectedId = "";
+        if (components && components.length > 0) {
+            selectedId = components[0].fe_id;
+        }
+        dispatch(initComponents({ components, selectedId}));
     }, [data]);
 
     useEffect(() => {

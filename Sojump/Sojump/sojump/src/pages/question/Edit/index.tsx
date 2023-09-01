@@ -2,12 +2,18 @@ import React, { FC } from "react";
 import EditCanvas from "../../../components/questionComponents/EditCanvas";
 import useLoadQuestionDataWithComponents from "../../../hooks/useLoadQuestionDataWithComponents";
 import styles from "./IndexLayout.module.scss";
-
+import { useDispatch } from "react-redux";
+import { changeSelectedId } from "../../../store/componentsReducer";
 
 const EditIndex: FC = () => {
 
     const { loading} = useLoadQuestionDataWithComponents();
+    const dispatch = useDispatch();
 
+    // 点击空白处时取消选中组件
+    function clearSelectedId() {
+        dispatch(changeSelectedId(''));
+    }
     return (
         <>
             <div className={styles.container}>
@@ -15,7 +21,7 @@ const EditIndex: FC = () => {
                 <div className={styles['content-wrapper']}>
                     <div className={styles.content}>
                         <div className={styles.left}>Left</div>
-                        <div className={styles.main}>
+                        <div className={styles.main} onClick={clearSelectedId}>
                             <div className={styles["canvas-wrapper"]}>
                                 <div style={{ height: "900px" }}>
                                     <EditCanvas loading={ loading} />

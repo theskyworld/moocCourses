@@ -8,8 +8,8 @@ import { ComponentsReducerState } from './../store/componentsReducer/index';
  
 function useGetComponentInfo() {
     const components = (useSelector<State>(state => state.components) as ComponentsReducerState).components;
-
-    return {components};
+    const {selectedId} = useSelector<State>(state => state.components) as ComponentsReducerState;
+    return {components, selectedId};
 
 }
 

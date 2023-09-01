@@ -1,11 +1,14 @@
 import styles from "./EditCanvas.module.scss";
-import { FC } from "react";
+import { FC, MouseEvent } from "react";
 import QuestionTitle from "../QuestionTitle";
 import QuestionInput from "../QuestionInput";
 import { Spin } from "antd";
 import { ComponentInfoProps, ComponentsConfig, getComponentConfigByType } from "../componentsConfig";
-import { ComponentInfo } from "../../../store/componentsReducer";
+import { changeSelectedId, ComponentInfo } from "../../../store/componentsReducer";
 import useGetComponentInfo from "../../../hooks/useGetComponentInfo";
+import { useDispatch } from "react-redux";
+import clsx from "clsx";
+
 
 interface EditCanvasProps {
     loading: boolean;
@@ -28,8 +31,8 @@ function generateComponentByConfig(componentInfo: ComponentInfo) {
 }
 
 const EditCanvas: FC<EditCanvasProps> = ({ loading }) => {
-    const { components } = useGetComponentInfo();
-
+    const { components, selectedId } = useGetComponentInfo();
+    const dispatch = useDispatch();
     if (loading) {
         return (
             <div style={{textAlign : "center", marginTop : "24px"}}>
@@ -38,14 +41,28 @@ const EditCanvas: FC<EditCanvasProps> = ({ loading }) => {
         )
     }
 
+    // 点击组件时选中组件
+    function handleClick(event : MouseEvent<HTMLDivElement>, id: string) {
+        // 阻止冒泡
+        event.stopPropagation();
+        dispatch(changeSelectedId(id));
+    }
+
     return (
         // 根据当前问卷所包含的不同组件的配置来动态地生成组件及其对应的组件中的数据
         <div className={styles.canvas}>
             {
                 components.map((componentInfo: ComponentInfo) => {
                     const { fe_id } = componentInfo;
+                    // 使用clsx拼接wrapper的className
+                    const wrapperDefaultClassName = styles['component-wrapper'];
+                    const wrapperSelectedClassName = styles.selected;
+                    const wrapperClassName = clsx({
+                        [wrapperDefaultClassName]: true,
+                        [wrapperSelectedClassName]: selectedId === fe_id
+                    })
                     return (
-                        <div key={fe_id} className={styles['component-wrapper']}>
+                        <div key={fe_id} className={wrapperClassName} onClick = {(e) => handleClick(e, fe_id)}>
                             <div className={styles.component}>
                                 {generateComponentByConfig(componentInfo)}
                             </div>
