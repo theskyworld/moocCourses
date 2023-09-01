@@ -11,7 +11,41 @@ module.exports = [
                 errno: 0,
                 data: {
                     id: Random.id(),
-                    title : Random.title(),
+                    title: Random.title(),
+                    // 当前问卷中所包含的组件列表属性
+                    components: [
+                    // QuestionTitle组件
+                        {
+                            id: Random.id(),
+                            type: "questionTitle", // 前后端公用的统一组件类型值
+                            titl: "标题",
+                            props: { // 对应前端QuestionTitle组件属性
+                                text: '个人信息调研',
+                                level: 1,
+                                isCenter: false
+                            }
+                        },
+                        // QuestionInput组件
+                        {
+                            id: Random.id(),
+                            type: "questionInput",
+                            title: "输入框",
+                            props: { // 对应前端QuestionInput组件属性
+                                title: "你的姓名",
+                                placeholder : "请输入姓名..."
+                            }
+                        },
+                        // QuestionInput组件
+                        {
+                            id: Random.id(),
+                            type: "questionInput",
+                            title: "输入框",
+                            props: { // 对应前端QuestionInput组件属性
+                                title: "你的电话号码",
+                                placeholder : "请输入电话号码..."
+                            }
+                        }
+                    ],
                 }
             }
         }
