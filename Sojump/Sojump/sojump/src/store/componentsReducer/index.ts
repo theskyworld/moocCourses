@@ -60,10 +60,24 @@ const componentsReducer = createSlice({
                     ],
                 }
             }
+        },
+
+        // 修改组件属性
+        changeComponentProps : (state: ComponentsReducerState, action: PayloadAction<{fe_id: string, newProps : ComponentInfoProps}>) => {
+            const { fe_id, newProps } = action.payload;
+
+            // 要修改的当前组件
+            const currentComponent = state.components.find(component => component.fe_id === fe_id);
+            if (currentComponent) {
+                currentComponent.props = {
+                    ...currentComponent.props,
+                    ...newProps,
+                };
+            }
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps } = componentsReducer.actions;
 
 export default componentsReducer.reducer;
