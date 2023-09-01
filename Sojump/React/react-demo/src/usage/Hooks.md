@@ -209,6 +209,63 @@ export default List;
 
 ```
 
+## `useReducer`
+
+`useReducer`可以认为是`useState`的替代方案
+
+当组件中数据结构简单时使用`useState`; 数据结构复杂时使用`useReducer`
+
+`useReducer`不能用于统一的状态管理，因为当一个状态的值在一个组件中被更新时，在其它组件中无法获取到更新后的state
+
+基本使用
+
+```tsx
+import { FC, useReducer } from "react";
+
+interface CountState {
+    count: number
+}
+
+interface CountAction {
+    type: string;
+}
+
+//  state初始值
+const initialState: CountState = {
+    count: 100,
+}
+
+// 判断action的类型，对state(不可变数据)进行操作，返回新的state
+function reducer(state: CountState, action: CountAction) {
+    switch (action.type) {
+        case "increase":
+            return {
+                count: state.count + 1,
+            };
+        case "decrease":
+            return {
+                count: state.count - 1,
+            }
+        default:
+            throw new Error("wrong action type");
+    }
+}
+
+const CountReducer: FC = () => {
+    const [state, dispatch] = useReducer(reducer, initialState);
+
+    return (
+        <>
+            <p>count : {state.count}</p>
+            <button onClick={() => dispatch({ type: "increase" })}>+</button>
+            <button onClick={() => dispatch({ type: "decrease" })}>-</button>
+        </>
+    )
+}
+
+export default CountReducer;
+```
+
 ## `useEffect`
 
 - 在组件初次渲染或者重新渲染时，执行指定的回调函数，触发对应的副作用

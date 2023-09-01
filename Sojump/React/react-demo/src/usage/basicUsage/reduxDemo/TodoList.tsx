@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Test from "../useReducerDemo/todoListReducer/Test";
 import { State } from "./store/index";
 import { getRandomId, TodoItem } from "./store/todoList";
 import { removeTodoItem, toggleCompleted, addTodoItem } from "./store/todoList";
@@ -44,6 +45,10 @@ const TodoList: FC = () => {
                     }
                 </ul>
             </div>
+            {/* 用于测试useReducer和redux在state管理方面的区别 */}
+            {/* <div>
+                <Test></Test>
+            </div> */}
         </>
     )
 }

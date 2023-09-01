@@ -1,5 +1,6 @@
 import { ChangeEvent, FC, useReducer, useState } from "react";
 import { initialState, reducer } from "./store";
+import Test from "./Test";
 
 
 const TodoListReducer: FC = () => {
@@ -23,6 +24,10 @@ const TodoListReducer: FC = () => {
                     }
                 </ul>
             </div>
+            {/* 用于测试useReducer和redux在state管理方面的区别 */}
+            {/* <div>
+                <Test></Test>
+            </div> */}
         </>
     )
 }
