@@ -25,14 +25,14 @@ const componentsReducer = createSlice({
     name: "components",
     initialState: INIT_STATE,
     reducers: {
-        // 重置所有组件
-        resetComponents: (state: ComponentsReducerState, action: PayloadAction<ComponentsReducerState>) => {
+        // 初始化/重置所有组件
+        initComponents: (state: ComponentsReducerState, action: PayloadAction<ComponentsReducerState>) => {
             return action.payload;  
             
         }
     }
 })
 
-export const { resetComponents } = componentsReducer.actions;
+export const { initComponents } = componentsReducer.actions;
 
 export default componentsReducer.reducer;

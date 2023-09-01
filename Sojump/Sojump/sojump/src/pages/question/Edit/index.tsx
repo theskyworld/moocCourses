@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import EditCanvas from "../../../components/questionComponents/EditCanvas";
-import useLoadQuestionData from "../../../hooks/useLoadQuestionData";
+import useLoadQuestionDataWithComponents from "../../../hooks/useLoadQuestionDataWithComponents";
 import styles from "./IndexLayout.module.scss";
 
 
 const EditIndex: FC = () => {
 
-    const { loading, data } = useLoadQuestionData();
+    const { loading} = useLoadQuestionDataWithComponents();
 
     return (
         <>
@@ -18,7 +18,7 @@ const EditIndex: FC = () => {
                         <div className={styles.main}>
                             <div className={styles["canvas-wrapper"]}>
                                 <div style={{ height: "900px" }}>
-                                    <EditCanvas />
+                                    <EditCanvas loading={ loading} />
                                 </div>
                             </div>
                         </div>
