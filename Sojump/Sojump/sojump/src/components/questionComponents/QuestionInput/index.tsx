@@ -3,7 +3,7 @@ import { FC } from "react";
 import { QuestionInputProps } from "./questionInput";
 
 
-const defaultQuestionInputProps: QuestionInputProps = {
+export const defaultQuestionInputProps: QuestionInputProps = {
     title: "输入框标题",
     placeholder: "请输入内容"
 }
@@ -11,7 +11,6 @@ const defaultQuestionInputProps: QuestionInputProps = {
 const QuestionInput: FC<QuestionInputProps> = (props: QuestionInputProps) => {
     const { title, placeholder } = { ...defaultQuestionInputProps, ...props };
     const { Paragraph } = Typography;
-
     return (
         <div>
             <Paragraph strong>{title}</Paragraph>

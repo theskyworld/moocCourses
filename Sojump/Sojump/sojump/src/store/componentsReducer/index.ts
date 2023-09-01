@@ -1,13 +1,10 @@
-import { initialState } from './../../../../../React/react-demo/src/usage/basicUsage/useReducerDemo/todoListReducer/store/index';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { QuestionInputProps } from '../../components/questionComponents/QuestionInput/questionInput';
-import { QuestionTitleProps } from '../../components/questionComponents/QuestionTitle/questionTitle';
+import {ComponentInfoProps} from "../../components/questionComponents/componentsConfig";
 
 
-type ComponentInfoProps = QuestionTitleProps | QuestionInputProps;
 
 export interface ComponentInfo {
-    fe_id: string; //对应后端数据中components中的id
+    fe_id: string; //对应后端数据中components中的fe_id
     type: string;
     title: string;
     props: ComponentInfoProps;

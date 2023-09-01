@@ -16,9 +16,9 @@ module.exports = [
                     components: [
                     // QuestionTitle组件
                         {
-                            id: Random.id(),
+                            fe_id: Random.id(),
                             type: "questionTitle", // 前后端公用的统一组件类型值
-                            titl: "标题",
+                            title: "标题",
                             props: { // 对应前端QuestionTitle组件属性
                                 text: '个人信息调研',
                                 level: 1,
@@ -27,7 +27,7 @@ module.exports = [
                         },
                         // QuestionInput组件
                         {
-                            id: Random.id(),
+                            fe_id: Random.id(),
                             type: "questionInput",
                             title: "输入框",
                             props: { // 对应前端QuestionInput组件属性
@@ -37,7 +37,7 @@ module.exports = [
                         },
                         // QuestionInput组件
                         {
-                            id: Random.id(),
+                            fe_id: Random.id(),
                             type: "questionInput",
                             title: "输入框",
                             props: { // 对应前端QuestionInput组件属性

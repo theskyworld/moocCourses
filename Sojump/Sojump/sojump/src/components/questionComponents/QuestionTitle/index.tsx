@@ -2,7 +2,7 @@ import { Typography } from "antd";
 import { FC } from "react"
 import { QuestionTitleProps } from "./questionTitle";
 
-const defaultQuestionTitleProps: QuestionTitleProps = {
+export const defaultQuestionTitleProps: QuestionTitleProps = {
     text: "一行标题",
     level: 1,
     isCenter: false,
