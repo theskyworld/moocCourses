@@ -4,6 +4,7 @@ import useLoadQuestionDataWithComponents from "../../../hooks/useLoadQuestionDat
 import styles from "./IndexLayout.module.scss";
 import { useDispatch } from "react-redux";
 import { changeSelectedId } from "../../../store/componentsReducer";
+import LeftPanel from "../../../components/questionComponents/LeftPanel";
 
 const EditIndex: FC = () => {
 
@@ -20,7 +21,7 @@ const EditIndex: FC = () => {
                 <div style={{ backgroundColor: "#fff" }}>Header</div>
                 <div className={styles['content-wrapper']}>
                     <div className={styles.content}>
-                        <div className={styles.left}>Left</div>
+                        <div className={styles.left}><LeftPanel/></div>
                         <div className={styles.main} onClick={clearSelectedId}>
                             <div className={styles["canvas-wrapper"]}>
                                 <div style={{ height: "900px" }}>

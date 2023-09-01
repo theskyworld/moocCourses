@@ -7,6 +7,7 @@ import { QuestionTitleProps } from "./QuestionTitle/questionTitle";
 import { FC } from "react";
 import questionInputConfig from "./QuestionInput/questionInputConfig";
 import questionTitleConfig from "./QuestionTitle/questionTitleConfig";
+import QuestionTitle from "./QuestionTitle";
 
 
 export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps;
@@ -32,3 +33,18 @@ const ComponentsConfigList: ComponentsConfig[] = [
 export function getComponentConfigByType(type: string): ComponentsConfig {
     return ComponentsConfigList.find(config => config.type === type)!
 }
+
+
+// 组件库分组配置
+export const componentsGroupConfig = [
+    {
+        groupId: 'textGroup',
+        groupName: "文本显示",
+        components : [questionTitleConfig]
+    },
+    {
+        groupId: 'inputGroup',
+        groupName: "用户输入",
+        components : [questionInputConfig]
+    }
+]
