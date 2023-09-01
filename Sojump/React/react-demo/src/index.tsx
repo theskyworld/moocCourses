@@ -7,7 +7,9 @@ import "./styles/index.css";
 // import App from "./usage/basicUsage/FormDemo/FormDemo";
 // import App from "./usage/basicUsage/contextDemo/index";
 // import App from "./usage/basicUsage/reduxDemo/Count";
-import App from "./usage/basicUsage/reduxDemo/TodoList";
+// import App from "./usage/basicUsage/reduxDemo/TodoList";
+import App from "./usage/basicUsage/useReducerDemo/CountReducer";
+
 import store from "./usage/basicUsage/reduxDemo/store"; 
 import { Provider } from "react-redux";
 
