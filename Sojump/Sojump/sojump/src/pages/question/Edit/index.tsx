@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import EditCanvas from "../../../components/questionComponents/EditCanvas";
 import useLoadQuestionData from "../../../hooks/useLoadQuestionData";
 import styles from "./IndexLayout.module.scss";
 
@@ -16,7 +17,9 @@ const EditIndex: FC = () => {
                         <div className={styles.left}>Left</div>
                         <div className={styles.main}>
                             <div className={styles["canvas-wrapper"]}>
-                                <div style={{ height: "900px" }}>画布</div>
+                                <div style={{ height: "900px" }}>
+                                    <EditCanvas />
+                                </div>
                             </div>
                         </div>
                         <div className={styles.right}>Right</div>
