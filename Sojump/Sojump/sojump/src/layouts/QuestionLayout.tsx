@@ -4,7 +4,7 @@ import { Outlet } from "react-router-dom";
 const QuestionLayout: FC = () => {
     return (
         <>
-            <p>QuestionLayout</p>
+            {/* <p>QuestionLayout</p> */}
             <div>
                 <Outlet></Outlet>
             </div>

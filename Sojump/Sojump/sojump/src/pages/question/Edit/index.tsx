@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { changeSelectedId } from "../../../store/componentsReducer";
 import LeftPanel from "../../../components/questionComponents/LeftPanel";
 import RightPanel from "../../../components/questionComponents/RightPanel";
+import EditHeader from "../../../components/questionComponents/EditHeader";
 
 const EditIndex: FC = () => {
 
@@ -19,7 +20,7 @@ const EditIndex: FC = () => {
     return (
         <>
             <div className={styles.container}>
-                <div style={{ backgroundColor: "#fff" }}>Header</div>
+                <EditHeader/>
                 <div className={styles['content-wrapper']}>
                     <div className={styles.content}>
                         <div className={styles.left}><LeftPanel/></div>
