@@ -3,12 +3,29 @@ import { FC } from "react";
 import { ComponentsConfig, componentsGroupConfig } from "../componentsConfig";
 import { Typography } from "antd";
 import styles from "./ComponentLib.module.scss";
-
+import { useDispatch } from "react-redux";
+import { addComponent } from "../../../store/componentsReducer";
+import getRandomId from "../../../assets/utils/getRandomId";
 
 function generateComponent(c : ComponentsConfig) {
-    const { title, Component, type } = c;
+    const { title, Component, type, defaultProps } = c;
+    const dispatch = useDispatch();
+
+    // 在左边栏中点击当前组件后，将当前组件作为新组件添加到画布中
+    function handleClick() {
+        dispatch(
+            addComponent({
+                fe_id: getRandomId(5),
+                title,
+                type,
+                props : defaultProps,
+            })
+        )
+    }
+
+
     return (
-        <div className={styles.wrapper}>
+        <div key={type} className={styles.wrapper} onClick={handleClick}>
             <div className={styles.component}>
                 <Component />
             </div>

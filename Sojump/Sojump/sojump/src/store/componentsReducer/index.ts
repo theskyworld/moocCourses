@@ -34,10 +34,36 @@ const componentsReducer = createSlice({
                 ...state,
                 selectedId: action.payload,
             }
+        },
+        // 新增组件到画布中
+        addComponent : (state: ComponentsReducerState, action: PayloadAction<ComponentInfo>) => {
+            const { selectedId,components } = state;
+            // 找到当前选中的组件的id
+            const index = components.findIndex(component => component.fe_id === selectedId);
+            // 如果当前未选中任何组件，直接将新的组件添加到最后
+            if (index === -1) {
+                return {
+                    ...state,
+                    // 添加之后，将当前新添加的组件设置为选中的组件
+                    selectedId : action.payload.fe_id,
+                    components: [...state.components, action.payload],
+                }
+            } else {
+                // 否则添加到选中的组件的后面
+                return {
+                    ...state,
+                    selectedId : action.payload.fe_id,
+                    components: [
+                        ...state.components.slice(0, index + 1),
+                        action.payload,
+                        ...state.components.slice(index + 1, state.components.length),
+                    ],
+                }
+            }
         }
     }
 })
 
-export const { initComponents, changeSelectedId } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent } = componentsReducer.actions;
 
 export default componentsReducer.reducer;
