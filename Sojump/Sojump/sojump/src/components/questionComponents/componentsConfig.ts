@@ -16,7 +16,8 @@ export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps;
 export interface ComponentsConfig {
     title: string;
     type: string;
-    Component: FC<ComponentInfoProps>;
+    Component: FC<ComponentInfoProps>; // 对应画布中的组件
+    Prop: FC<ComponentInfoProps>; // 对应右侧栏中的根画布中组件对应的属性组件
     defaultProps: ComponentInfoProps;
 }
 

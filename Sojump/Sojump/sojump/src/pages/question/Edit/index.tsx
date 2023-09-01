@@ -5,6 +5,7 @@ import styles from "./IndexLayout.module.scss";
 import { useDispatch } from "react-redux";
 import { changeSelectedId } from "../../../store/componentsReducer";
 import LeftPanel from "../../../components/questionComponents/LeftPanel";
+import RightPanel from "../../../components/questionComponents/RightPanel";
 
 const EditIndex: FC = () => {
 
@@ -29,7 +30,7 @@ const EditIndex: FC = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className={styles.right}>Right</div>
+                        <div className={styles.right}><RightPanel/></div>
                     </div>
                 </div>
             </div>
