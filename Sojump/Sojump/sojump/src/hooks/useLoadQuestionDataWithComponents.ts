@@ -29,7 +29,7 @@ function useLoadQuestionDataWithComponents() {
         if (components && components.length > 0) {
             selectedId = components[0].fe_id;
         }
-        dispatch(initComponents({ components, selectedId}));
+        dispatch(initComponents({ components, selectedId, copiedComponent: null }));
     }, [data]);
 
     useEffect(() => {

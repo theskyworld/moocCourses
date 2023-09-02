@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {ComponentInfoProps} from "../../components/questionComponents/componentsConfig";
-
+import cloneDeep from "lodash.clonedeep";
+import insertComponent from '../../assets/utils/insertComponent';
+import getRandomId from '../../assets/utils/getRandomId';
 
 
 export interface ComponentInfo {
@@ -15,11 +17,13 @@ export interface ComponentInfo {
 export interface ComponentsReducerState {
     selectedId: string; // 在画布中选中的问卷的组件id，以便进行左中右三栏中内容的联动
     components: ComponentInfo[];
+    copiedComponent: ComponentInfo | null; // 存储已被复制的组件，用于组件的复制粘贴等
 } 
 
 const INIT_STATE: ComponentsReducerState = {
     selectedId : "",
     components: [],
+    copiedComponent : null,
 };
 
 const componentsReducer = createSlice({
@@ -40,29 +44,7 @@ const componentsReducer = createSlice({
         },
         // 新增组件到画布中
         addComponent : (state: ComponentsReducerState, action: PayloadAction<ComponentInfo>) => {
-            const { selectedId,components } = state;
-            // 找到当前选中的组件的id
-            const index = components.findIndex(component => component.fe_id === selectedId);
-            // 如果当前未选中任何组件，直接将新的组件添加到最后
-            if (index === -1) {
-                return {
-                    ...state,
-                    // 添加之后，将当前新添加的组件设置为选中的组件
-                    selectedId : action.payload.fe_id,
-                    components: [...state.components, action.payload],
-                }
-            } else {
-                // 否则添加到选中的组件的后面
-                return {
-                    ...state,
-                    selectedId : action.payload.fe_id,
-                    components: [
-                        ...state.components.slice(0, index + 1),
-                        action.payload,
-                        ...state.components.slice(index + 1, state.components.length),
-                    ],
-                }
-            }
+            return insertComponent(state, action.payload);
         },
 
         // 修改组件属性
@@ -128,10 +110,40 @@ const componentsReducer = createSlice({
                     ...components.slice(index + 1, components.length),
                 ]
             }
+        },
+        // 复制当前选中的组件
+        copyComponent(state: ComponentsReducerState) {
+            const {components, selectedId } = state;
+            const currentComponent = state.components.find(component => component.fe_id === selectedId);
+            if (!currentComponent) {
+                return {
+                    ...state,
+                    components,
+                    copiedComponent: null,
+
+                }
+            } else {
+                 return {
+                ...state,
+                components,
+                copiedComponent: cloneDeep(currentComponent), //对当前组件进行深拷贝
+            }
+            }
+        },
+        //粘贴已复制的组件
+        pasteCopiedComponent(state: ComponentsReducerState) {
+            const { copiedComponent } = state;
+            if (!copiedComponent) return state;
+            // 将复制的组件插入到画布中
+            // 插入前修改组件的fe_id为新的fe_id
+            return insertComponent(state, {
+                ...copiedComponent,
+                fe_id: getRandomId(5),
+            });
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked, copyComponent, pasteCopiedComponent } = componentsReducer.actions;
 
 export default componentsReducer.reducer;
