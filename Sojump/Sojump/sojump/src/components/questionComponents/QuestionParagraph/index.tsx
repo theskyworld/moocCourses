@@ -12,9 +12,16 @@ const QuestionParagraph: FC<QuestionParagraphProps> = (props: QuestionParagraphP
     const { text = "", isCenter = false } = { ...defaultQuestionParagraphProps, ...props };
     const { Paragraph } = Typography;
 
+    const textList = text.split("\n"); // 属性组件表单中的段落内容以\n作为换行标记
     return (
         <Paragraph style={{textAlign : isCenter ? "center" : "start", marginBottom : "0"}}>
-            {text}
+            {textList.map((t, index) => {
+                return <span key={index}>
+                    {/* 为第一个之外的每一个span标签后面添加<br/>用于换行 */}
+                    {index > 0  && <br/> }
+                    {t}
+                </span>
+            })}
         </Paragraph>
     )
 }
