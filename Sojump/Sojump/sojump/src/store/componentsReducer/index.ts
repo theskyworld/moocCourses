@@ -7,6 +7,7 @@ export interface ComponentInfo {
     fe_id: string; //对应后端数据中components中的fe_id
     type: string;
     title: string;
+    isHidden: boolean;
     props: ComponentInfoProps;
 }
 
@@ -90,10 +91,28 @@ const componentsReducer = createSlice({
                 selectedId: index === 0 ? filterComponents[0]?.fe_id || "" : filterComponents.at(-1)?.fe_id || '',
                 components: filterComponents,
             }
+        },
+
+        // 隐藏/显示组件
+        toggleisHidden(state : ComponentsReducerState) {
+            const { components = [], selectedId = '' } = state;
+            const index = components.findIndex(component => component.fe_id === selectedId);
+            
+            // 只显示不隐藏的组件
+            const filterComponents = components.filter(component => {
+                // 对于当前选中的组件，进行隐藏操作，返回false
+                if(component.fe_id === selectedId) return false;
+                return !component.isHidden
+            });
+            return {
+                ...state,
+                selectedId: index === 0 ? filterComponents[0]?.fe_id || "" : filterComponents.at(-1)?.fe_id || '',
+                components: filterComponents,
+            }
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden } = componentsReducer.actions;
 
 export default componentsReducer.reducer;
