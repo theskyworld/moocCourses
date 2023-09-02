@@ -12,9 +12,11 @@ import { QuestionParagraphProps } from "./QuestionParagraph/questionParagraph";
 import questionParagraphConfig from "./QuestionParagraph/questionParagraphConfig";
 import { QuestionInfoProps } from "./QuestionInfo/questionInfo";
 import questionInfoConfig from "./QuestionInfo/questionInfoConfig";
+import { QuestionTextareaProps } from "./QuestionTextarea/questionTextarea";
+import questionTextareaConfig from "./QuestionTextarea/questionTextareaConfig";
 
 
-export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps & QuestionInfoProps;
+export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps & QuestionInfoProps & QuestionTextareaProps;
 
 // 组件公共配置的类型
 export interface ComponentsConfig {
@@ -31,7 +33,8 @@ const ComponentsConfigList: ComponentsConfig[] = [
     questionInputConfig,
     questionTitleConfig,
     questionParagraphConfig,
-    questionInfoConfig
+    questionInfoConfig,
+    questionTextareaConfig
 ]
 
 
@@ -52,6 +55,6 @@ export const componentsGroupConfig = [
     {
         groupId: 'inputGroup',
         groupName: "用户输入",
-        components : [questionInputConfig]
+        components : [questionInputConfig, questionTextareaConfig]
     }
 ]
