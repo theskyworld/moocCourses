@@ -8,9 +8,11 @@ import { FC } from "react";
 import questionInputConfig from "./QuestionInput/questionInputConfig";
 import questionTitleConfig from "./QuestionTitle/questionTitleConfig";
 import QuestionTitle from "./QuestionTitle";
+import { QuestionParagraphProps } from "./QuestionParagraph/questionParagraph";
+import questionParagraphConfig from "./QuestionParagraph/questionParagraphConfig";
 
 
-export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps;
+export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps;
 
 // 组件公共配置的类型
 export interface ComponentsConfig {
@@ -25,7 +27,8 @@ export interface ComponentsConfig {
 // 当前问卷中包含的所有组件配置的列表
 const ComponentsConfigList: ComponentsConfig[] = [
     questionInputConfig,
-    questionTitleConfig
+    questionTitleConfig,
+    questionParagraphConfig
 ]
 
 
@@ -41,7 +44,7 @@ export const componentsGroupConfig = [
     {
         groupId: 'textGroup',
         groupName: "文本显示",
-        components : [questionTitleConfig]
+        components : [questionTitleConfig, questionParagraphConfig]
     },
     {
         groupId: 'inputGroup',
