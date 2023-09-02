@@ -140,10 +140,30 @@ const componentsReducer = createSlice({
                 ...copiedComponent,
                 fe_id: getRandomId(5),
             });
+        },
+        // 选中上一个组件
+        selectPrevComponent(state : ComponentsReducerState) {
+            const { selectedId, components } = state;
+            const index = components.findIndex(component => component.fe_id === selectedId);
+            if (index <= 0) return state; // 当前未选中任何组件或者当前选中的为第一个组件
+            return {
+                ...state,
+                selectedId: components[index - 1].fe_id,
+            }
+        },
+        // 选中下一个组件
+        selectNextComponent(state : ComponentsReducerState) {
+            const { selectedId, components } = state;
+            const index = components.findIndex(component => component.fe_id === selectedId);
+            if (index >= components.length - 1) return state; // 当前未选中任何组件或者当前选中的为最后一个组件
+            return {
+                ...state,
+                selectedId: components[index + 1].fe_id,
+            }
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked, copyComponent, pasteCopiedComponent } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked, copyComponent, pasteCopiedComponent,selectPrevComponent, selectNextComponent } = componentsReducer.actions;
 
 export default componentsReducer.reducer;

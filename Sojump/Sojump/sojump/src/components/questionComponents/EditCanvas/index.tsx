@@ -1,5 +1,5 @@
 import styles from "./EditCanvas.module.scss";
-import { FC, MouseEvent } from "react";
+import { FC, MouseEvent, useEffect } from "react";
 import QuestionTitle from "../QuestionTitle";
 import QuestionInput from "../QuestionInput";
 import { Spin } from "antd";
@@ -8,6 +8,7 @@ import { changeSelectedId, ComponentInfo } from "../../../store/componentsReduce
 import useGetComponentInfo from "../../../hooks/useGetComponentInfo";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
+import useBindCanvasKeyPress from "../../../hooks/useBindCanvasKeyPress";
 
 
 interface EditCanvasProps {
@@ -19,6 +20,7 @@ interface EditCanvasProps {
 function generateComponentByConfig(componentInfo: ComponentInfo) {
     // 获取componentInfo中的type属性和props属性
     const { type, props } = componentInfo;
+
 
     // 根据type属性获取对应的组件配置，其中包含component属性（对应的最终组件）
     const componentConfig = getComponentConfigByType(type);
@@ -33,13 +35,7 @@ function generateComponentByConfig(componentInfo: ComponentInfo) {
 const EditCanvas: FC<EditCanvasProps> = ({ loading }) => {
     const { components, selectedId } = useGetComponentInfo();
     const dispatch = useDispatch();
-    if (loading) {
-        return (
-            <div style={{textAlign : "center", marginTop : "24px"}}>
-                <Spin size="large" tip="Loading..."></Spin>
-            </div>
-        )
-    }
+    
 
     // 点击组件时选中组件
     function handleClick(event : MouseEvent<HTMLDivElement>, id: string) {
@@ -48,6 +44,16 @@ const EditCanvas: FC<EditCanvasProps> = ({ loading }) => {
         dispatch(changeSelectedId(id));
     }
 
+    // 绑定快捷键
+    useBindCanvasKeyPress();
+
+    if (loading) {
+        return (
+            <div style={{ textAlign: "center", marginTop: "24px" }}>
+                <Spin size="large" tip="Loading..."></Spin>
+            </div>
+        )
+    }
     return (
         // 根据当前问卷所包含的不同组件的配置来动态地生成组件及其对应的组件中的数据
         <div className={styles.canvas}>
