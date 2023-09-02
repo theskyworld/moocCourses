@@ -10,9 +10,11 @@ import questionTitleConfig from "./QuestionTitle/questionTitleConfig";
 import QuestionTitle from "./QuestionTitle";
 import { QuestionParagraphProps } from "./QuestionParagraph/questionParagraph";
 import questionParagraphConfig from "./QuestionParagraph/questionParagraphConfig";
+import { QuestionInfoProps } from "./QuestionInfo/questionInfo";
+import questionInfoConfig from "./QuestionInfo/questionInfoConfig";
 
 
-export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps;
+export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps & QuestionInfoProps;
 
 // 组件公共配置的类型
 export interface ComponentsConfig {
@@ -28,7 +30,8 @@ export interface ComponentsConfig {
 const ComponentsConfigList: ComponentsConfig[] = [
     questionInputConfig,
     questionTitleConfig,
-    questionParagraphConfig
+    questionParagraphConfig,
+    questionInfoConfig
 ]
 
 
@@ -44,7 +47,7 @@ export const componentsGroupConfig = [
     {
         groupId: 'textGroup',
         groupName: "文本显示",
-        components : [questionTitleConfig, questionParagraphConfig]
+        components : [questionInfoConfig, questionTitleConfig, questionParagraphConfig]
     },
     {
         groupId: 'inputGroup',
