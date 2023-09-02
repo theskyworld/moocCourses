@@ -14,9 +14,11 @@ import { QuestionInfoProps } from "./QuestionInfo/questionInfo";
 import questionInfoConfig from "./QuestionInfo/questionInfoConfig";
 import { QuestionTextareaProps } from "./QuestionTextarea/questionTextarea";
 import questionTextareaConfig from "./QuestionTextarea/questionTextareaConfig";
+import { QuestionRadioProps } from "./QuestionRadio/questionRadio";
+import questionRadioConfig from "./QuestionRadio/questionRadioConfig";
 
 
-export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps & QuestionInfoProps & QuestionTextareaProps;
+export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps & QuestionInfoProps & QuestionTextareaProps & QuestionRadioProps;
 
 // 组件公共配置的类型
 export interface ComponentsConfig {
@@ -34,7 +36,8 @@ const ComponentsConfigList: ComponentsConfig[] = [
     questionTitleConfig,
     questionParagraphConfig,
     questionInfoConfig,
-    questionTextareaConfig
+    questionTextareaConfig,
+    questionRadioConfig,
 ]
 
 
@@ -50,11 +53,16 @@ export const componentsGroupConfig = [
     {
         groupId: 'textGroup',
         groupName: "文本显示",
-        components : [questionInfoConfig, questionTitleConfig, questionParagraphConfig]
+        components: [questionInfoConfig, questionTitleConfig, questionParagraphConfig]
     },
     {
         groupId: 'inputGroup',
         groupName: "用户输入",
-        components : [questionInputConfig, questionTextareaConfig]
+        components: [questionInputConfig, questionTextareaConfig]
+    },
+    {
+        groupId: "chooseGroup",
+        groupName: "用户选择",
+        components : [questionRadioConfig],
     }
 ]

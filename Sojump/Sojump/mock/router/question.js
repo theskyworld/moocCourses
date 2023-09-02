@@ -88,6 +88,36 @@ module.exports = [
                                 placeholder: "请输入..."
                             }
                         },
+                        // QuestionRadio组件
+                        {
+                            fe_id: Random.id(),
+                            type: "questionRadio",
+                            title: "单选",
+                            isHidden: false,
+                            isLocked: false,
+                            props: { // 对应前端QuestionRadio组件属性
+                                title: "单选标题",
+                                isVertical: false,
+                                options: [
+                                    {
+                                        id: Random.id(),
+                                        value: "item1",
+                                        text: "选项一"
+                                    },
+                                    {
+                                        id: Random.id(),
+                                        value: "item2",
+                                        text: "选项二"
+                                    },
+                                    {
+                                        id: Random.id(),
+                                        value: "item3",
+                                        text: "选项三"
+                                    }
+                                ],
+                                value: '',
+                            }
+                        }
                     ],
                 }
             }
