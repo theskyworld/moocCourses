@@ -6,7 +6,7 @@ import QuestionRadioProp from "./QuestionRadioProp";
 
 
 export default {
-    title: "输入框",
+    title: "单选框",
     type: "questionRadio", // 与后端中定义的一致
     Component: QuestionRadio, // 画布中的组件
     Prop : QuestionRadioProp, // 画布中组件对应的右侧栏中的属性组件

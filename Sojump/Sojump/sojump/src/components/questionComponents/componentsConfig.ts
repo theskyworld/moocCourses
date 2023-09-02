@@ -16,9 +16,11 @@ import { QuestionTextareaProps } from "./QuestionTextarea/questionTextarea";
 import questionTextareaConfig from "./QuestionTextarea/questionTextareaConfig";
 import { QuestionRadioProps } from "./QuestionRadio/questionRadio";
 import questionRadioConfig from "./QuestionRadio/questionRadioConfig";
+import { QuestionCheckboxProps } from "./QuestionCheckbox/questionCheckbox";
+import questionCheckboxConfig from "./QuestionCheckbox/questionCheckboxConfig";
 
 
-export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps & QuestionInfoProps & QuestionTextareaProps & QuestionRadioProps;
+export type ComponentInfoProps = QuestionTitleProps & QuestionInputProps & QuestionParagraphProps & QuestionInfoProps & QuestionTextareaProps & QuestionRadioProps & QuestionCheckboxProps;
 
 // 组件公共配置的类型
 export interface ComponentsConfig {
@@ -38,6 +40,7 @@ const ComponentsConfigList: ComponentsConfig[] = [
     questionInfoConfig,
     questionTextareaConfig,
     questionRadioConfig,
+    questionCheckboxConfig
 ]
 
 
@@ -63,6 +66,6 @@ export const componentsGroupConfig = [
     {
         groupId: "chooseGroup",
         groupName: "用户选择",
-        components : [questionRadioConfig],
+        components : [questionRadioConfig, questionCheckboxConfig],
     }
 ]

@@ -117,6 +117,39 @@ module.exports = [
                                 ],
                                 value: '',
                             }
+                        },
+                        // QuestionCheckbox组件
+                        { 
+                            fe_id: Random.id(),
+                            type: "questionCheckbox",
+                            title: "多选",
+                            isHidden: false,
+                            isLocked: false,
+                            props: { // 对应前端QuestionCheckbox组件属性
+                                title: "多选标题",
+                                isVertical: false,
+                                list: [
+                                    {
+                                        id: Random.id(),
+                                        value: "item1",
+                                        text: "选项一",
+                                        isChecked : false,
+                                    },
+                                    {
+                                        id: Random.id(),
+                                        value: "item2",
+                                        text: "选项二",
+                                        isChecked : false,
+                                    },
+                                    {
+                                        id: Random.id(),
+                                        value: "item3",
+                                        text: "选项三",
+                                        isChecked : false,
+                                    }
+                                ],
+                                value: '',
+                            }
                         }
                     ],
                 }
