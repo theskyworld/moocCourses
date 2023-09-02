@@ -14,6 +14,19 @@ module.exports = [
                     title: Random.title(),
                     // 当前问卷中所包含的组件列表属性
                     components: [
+                        // QuestionInfo组件
+                        {
+                            fe_id: Random.id(),
+                            type: "questionInfo",
+                            title: "问卷信息",
+                            isHidden: false,
+                            isLocked: false,
+                            props: {
+                                title: "问卷标题",
+                                description : "问卷描述..."
+                            }
+                        },
+                    
                     // QuestionTitle组件
                         {
                             fe_id: Random.id(),
@@ -49,6 +62,18 @@ module.exports = [
                             props: { // 对应前端QuestionInput组件属性
                                 title: "你的电话号码",
                                 placeholder : "请输入电话号码..."
+                            }
+                        },
+                        // QuestionParagraph组件
+                        {
+                            fe_id: Random.id(),
+                            type: "questionParagraph",
+                            title: "段落",
+                            isHidden: false,
+                            iSLocked: false,
+                            props: {
+                                text: "一行段落",
+                                isCenter : false,
                             }
                         }
                     ],
