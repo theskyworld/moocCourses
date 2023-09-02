@@ -5,6 +5,7 @@ import { Button, Space, Typography } from "antd";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./EditHeaderLayout.module.scss";
+import EditToolbar from "./EditToolbar";
 
 
 const EditHeader: FC = () => {
@@ -20,7 +21,7 @@ const EditHeader: FC = () => {
                         <Title>问卷标题</Title>
                     </Space>
                 </div>
-                <div className={styles.main}></div>
+                <div className={styles.main}><EditToolbar/></div>
                 <div className={styles.right}>
                     <Space>
                         <Button>保存</Button>

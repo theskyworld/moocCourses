@@ -23,6 +23,7 @@ const INIT_STATE: ComponentsReducerState = {
 const componentsReducer = createSlice({
     name: "components",
     initialState: INIT_STATE,
+    // 定义以下actions对画布中的组件进行操作
     reducers: {
         // 初始化/重置所有组件
         initComponents: (state: ComponentsReducerState, action: PayloadAction<ComponentsReducerState>) => {
@@ -74,10 +75,25 @@ const componentsReducer = createSlice({
                     ...newProps,
                 };
             }
+        },
+
+        // 删除当前选中的组件
+        removeSelectedComponent(state: ComponentsReducerState) {
+            const { components = [], selectedId = '' } = state;
+            const index = components.findIndex(component => component.fe_id === selectedId);
+            const filterComponents = components.filter(component => component.fe_id !== selectedId);
+            return {
+                ...state,
+                // 更新selectedId
+                // 如果被删除的组件为第一个组件，下次选中的组件就是剩下的组件中的第一个组件
+                // 否则，下次选中的组件都为被删除组件的前一个组件
+                selectedId: index === 0 ? filterComponents[0]?.fe_id || "" : filterComponents.at(-1)?.fe_id || '',
+                components: filterComponents,
+            }
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent, changeComponentProps } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent } = componentsReducer.actions;
 
 export default componentsReducer.reducer;
