@@ -15,7 +15,7 @@ const Prop: FC = () => {
     const dispatch = useDispatch();
     if (!selectedComponent) return <NoProp />
     
-    const { type, props } = selectedComponent;
+    const { type, props, isLocked, isHidden } = selectedComponent;
     const componentConfig = getComponentConfigByType(type);
     if (!componentConfig) return <NoProp />
     
@@ -30,7 +30,8 @@ const Prop: FC = () => {
         const { fe_id } = selectedComponent;
         dispatch(changeComponentProps({ fe_id, newProps }));
     }   
-    return <Prop {...props} onChange={ changeProps} />
+    // disabled={isLocked} ： 根据画布中isLocked的值来决定其对应的右侧属性组件中的表单是否被禁用
+    return <Prop {...props} onChange={changeProps} disabled={isLocked || isHidden}/>
 }
 
 export default Prop;

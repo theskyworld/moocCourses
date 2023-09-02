@@ -18,7 +18,8 @@ function generateComponent(c : ComponentsConfig) {
                 fe_id: getRandomId(5),
                 title,
                 type,
-                isHidden : false,
+                isHidden: false,
+                isLocked: false,
                 props : defaultProps,
             })
         )

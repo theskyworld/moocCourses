@@ -53,13 +53,15 @@ const EditCanvas: FC<EditCanvasProps> = ({ loading }) => {
         <div className={styles.canvas}>
             {
                 components.map((componentInfo: ComponentInfo) => {
-                    const { fe_id } = componentInfo;
+                    const { fe_id, isLocked } = componentInfo;
                     // 使用clsx拼接wrapper的className
                     const wrapperDefaultClassName = styles['component-wrapper'];
                     const wrapperSelectedClassName = styles.selected;
+                    const wrapperLockedClassName = styles.locked;
                     const wrapperClassName = clsx({
                         [wrapperDefaultClassName]: true,
-                        [wrapperSelectedClassName]: selectedId === fe_id
+                        [wrapperSelectedClassName]: selectedId === fe_id,
+                        [wrapperLockedClassName] : isLocked,
                     })
                     return (
                         <div key={fe_id} className={wrapperClassName} onClick = {(e) => handleClick(e, fe_id)}>

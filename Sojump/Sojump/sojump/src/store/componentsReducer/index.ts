@@ -8,6 +8,7 @@ export interface ComponentInfo {
     type: string;
     title: string;
     isHidden: boolean;
+    isLocked: boolean;
     props: ComponentInfoProps;
 }
 
@@ -109,10 +110,28 @@ const componentsReducer = createSlice({
                 selectedId: index === 0 ? filterComponents[0]?.fe_id || "" : filterComponents.at(-1)?.fe_id || '',
                 components: filterComponents,
             }
+        },
+
+        // 锁定/解锁组件
+        toggleIsLocked(state : ComponentsReducerState) {
+            const { selectedId, components } = state;
+            const index = components.findIndex(component => component.fe_id === selectedId);
+
+            return {
+                ...state,
+                components: [
+                    ...components.slice(0, index),
+                    {
+                        ...components[index],
+                        isLocked: !components[index].isLocked,
+                    },
+                    ...components.slice(index + 1, components.length),
+                ]
+            }
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked } = componentsReducer.actions;
 
 export default componentsReducer.reducer;

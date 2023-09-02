@@ -1,12 +1,17 @@
 // 头部中的工具栏
-import { DeleteOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
+import { DeleteOutlined, EyeInvisibleOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Space, Tooltip } from "antd";
 import React, { FC } from "react";
 import { useDispatch } from "react-redux";
-import { removeSelectedComponent, toggleisHidden } from "../../../../store/componentsReducer";
+import useGetComponentInfo from "../../../../hooks/useGetComponentInfo";
+import { removeSelectedComponent, toggleisHidden, toggleIsLocked } from "../../../../store/componentsReducer";
 
 const EditToolbar: FC = () => {
     const dispatch = useDispatch();
+    const { selectedId,selectedComponent } = useGetComponentInfo();
+    const { isLocked } = selectedComponent || {};
+
+
 
     function handleDelete() {
         dispatch(removeSelectedComponent());
@@ -17,6 +22,11 @@ const EditToolbar: FC = () => {
     function handleHidden() {
         dispatch(toggleisHidden())
     }
+
+    // 锁定组件
+    function handleLock() {
+        dispatch(toggleIsLocked())
+    }
     return (
         <Space>
             <Tooltip title='删除'>
@@ -24,6 +34,9 @@ const EditToolbar: FC = () => {
             </Tooltip>
             <Tooltip title='隐藏'>
                 <Button shape="circle" icon={<EyeInvisibleOutlined />} onClick={handleHidden}></Button>
+            </Tooltip>
+            <Tooltip title='锁定'>
+                <Button shape="circle" icon={<LockOutlined />} onClick={handleLock} type={isLocked ? 'primary' : 'default'}></Button>
             </Tooltip>
         </Space>
     );

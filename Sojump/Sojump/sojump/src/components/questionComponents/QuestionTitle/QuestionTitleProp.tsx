@@ -5,7 +5,7 @@ import { FC, useEffect } from "react";
 import { QuestionTitleProps } from "./questionTitle";
 
 const QuestionInputProp: FC<QuestionTitleProps> = (props: QuestionTitleProps) => {
-    const { text, level, isCenter, onChange } = props;
+    const { text, level, isCenter, onChange, disabled } = props;
 
     // 当在画布中点击选中不同的QuestionTitle组件时，右侧对应的属性组件的text, level, isCenter也进行改变
     const [form] = Form.useForm();
@@ -26,7 +26,7 @@ const QuestionInputProp: FC<QuestionTitleProps> = (props: QuestionTitleProps) =>
 
     // 对于QuestionInput对应的属性组件，使用表格进行展示
     return (
-        <Form onValuesChange={handleValueChange} layout="vertical" initialValues={{ text, level, isCenter }} form={form}>
+        <Form disabled={disabled} onValuesChange={handleValueChange} layout="vertical" initialValues={{ text, level, isCenter }} form={form}>
             <Form.Item label="标题内容" name="text" rules={[
                 {
                     required: true,

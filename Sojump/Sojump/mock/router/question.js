@@ -19,7 +19,8 @@ module.exports = [
                             fe_id: Random.id(),
                             type: "questionTitle", // 前后端公用的统一组件类型值
                             title: "标题",
-                            isHidden : false,
+                            isHidden: false,
+                            isLocked : false,
                             props: { // 对应前端QuestionTitle组件属性
                                 text: '个人信息调研',
                                 level: 1,
@@ -31,7 +32,8 @@ module.exports = [
                             fe_id: Random.id(),
                             type: "questionInput",
                             title: "输入框",
-                            isHidden : false,
+                            isHidden: false,
+                            isLocked : false,
                             props: { // 对应前端QuestionInput组件属性
                                 title: "你的姓名",
                                 placeholder : "请输入姓名..."
@@ -42,7 +44,8 @@ module.exports = [
                             fe_id: Random.id(),
                             type: "questionInput",
                             title: "输入框",
-                            isHidden : false,
+                            isHidden: false,
+                            isLocked : false,
                             props: { // 对应前端QuestionInput组件属性
                                 title: "你的电话号码",
                                 placeholder : "请输入电话号码..."
