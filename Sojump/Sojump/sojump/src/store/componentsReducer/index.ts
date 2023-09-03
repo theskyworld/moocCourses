@@ -160,10 +160,27 @@ const componentsReducer = createSlice({
                 ...state,
                 selectedId: components[index + 1].fe_id,
             }
+        },
+        // 修改组件title
+        changeComponentTitle(state: ComponentsReducerState, action: PayloadAction<{ fe_id: string, title: string }>) {
+            const { fe_id, title } = action.payload;
+            const newComponents = state.components.map((c) => {
+                if (c.fe_id === fe_id) {
+                    return {
+                        ...c,
+                        title,
+                    }
+                } 
+                return c;
+            } )
+            return {
+                ...state,
+                components: newComponents,
+            };
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked, copyComponent, pasteCopiedComponent,selectPrevComponent, selectNextComponent } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked, copyComponent, pasteCopiedComponent,selectPrevComponent, selectNextComponent, changeComponentTitle } = componentsReducer.actions;
 
 export default componentsReducer.reducer;
