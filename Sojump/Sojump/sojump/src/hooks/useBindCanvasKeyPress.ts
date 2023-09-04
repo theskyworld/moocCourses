@@ -6,7 +6,7 @@
 import { useKeyPress } from "ahooks";
 import { useDispatch } from "react-redux";
 import { copyComponent, pasteCopiedComponent, removeSelectedComponent, selectNextComponent, selectPrevComponent } from "../store/componentsReducer";
-
+import { ActionCreators as UndoActionCreators } from 'redux-undo'
 
 // 判断光标当前所处的元素是否合法，是否为所要进行删除的画布中组件元素
 
@@ -42,6 +42,24 @@ export default function useBindCanvasKeyPress() {
         if (!isActiveElementValid()) return;
         dispatch(selectNextComponent());
     })
+
+    // 撤销
+  useKeyPress(
+    ['ctrl.z', 'meta.z'],
+    () => {
+      if (!isActiveElementValid()) return
+      dispatch(UndoActionCreators.undo())
+    },
+    {
+      exactMatch: true, // 严格匹配
+    }
+  )
+
+  // 重做
+  useKeyPress(['ctrl.shift.z', 'meta.shift.z'], () => {
+    if (!isActiveElementValid()) return
+    dispatch(UndoActionCreators.redo())
+  })
 }
 
 
