@@ -1,10 +1,11 @@
 import { useTitle } from "ahooks";
 import { Button, Result, Spin } from "antd";
 import { divide } from "lodash";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGetPageSetting from "../../../hooks/useGetPageSetting";
 import useLoadQuestionDataWithComponents from "../../../hooks/useLoadQuestionDataWithComponents";
+import QuestionDetail from "./QuestionDetail";
 import StatHeader from "./StatHeader";
 import styles from "./StatLayout.module.scss";
 
@@ -12,12 +13,18 @@ import styles from "./StatLayout.module.scss";
 const StatIndex: FC = () => {
     // 增加loading效果
     const { loading } = useLoadQuestionDataWithComponents();
-    const {title, isPublished } = useGetPageSetting();
+    const { title, isPublished } = useGetPageSetting();
     const nav = useNavigate();
 
     // 修改页面标题
     useTitle(`问卷统计-${title}`);
 
+
+    // 需要在下部左中右三栏中的组件中进行复用
+    // 但是的是在同级别的组件中被使用，使用状态提升即可，无需使用redux
+    // 将状态由父组件（当前组件）传递给三个同级别的子组件即可
+    const [selectedComponentId, setSelectedComponentId] = useState('')
+    const [selectedComponentType, setSelectedComponentType] = useState('')
 
     // loading
     const LoadingElem = (
@@ -43,12 +50,21 @@ const StatIndex: FC = () => {
         }
 
         return (
-            <p>统计页面</p>
+            <>
+                {/* 下部左侧问卷详细信息 */}
+                <div className={styles.left}>
+                    <QuestionDetail
+                        selectedComponentId={selectedComponentId}
+                        setSelectedComponentId={setSelectedComponentId}
+                        setSelectedComponentType={setSelectedComponentType}
+                    />
+                </div>
+            </>
         )
     }
     return (
         <div className={styles.container}>
-            <StatHeader/>
+            <StatHeader />
             <div className={styles['content-wrapper']}>
                 {loading && LoadingElem}
                 {!loading && <div className={styles.content}>{generateContentElem()}</div>}
