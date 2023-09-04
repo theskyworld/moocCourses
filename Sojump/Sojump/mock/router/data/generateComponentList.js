@@ -20,7 +20,7 @@ function generateComponentList() {
     return [
         // QuestionInfo组件
         {
-            fe_id: geterateRandomIds()[0],
+            fe_id: "c1",
             type: "questionInfo",
             title: "问卷信息",
             isHidden: false,
@@ -33,7 +33,7 @@ function generateComponentList() {
 
         // QuestionTitle组件
         {
-            fe_id: geterateRandomIds()[1],
+            fe_id: "c2",
             type: "questionTitle", // 前后端公用的统一组件类型值
             title: "标题",
             isHidden: false,
@@ -46,7 +46,7 @@ function generateComponentList() {
         },
         // QuestionInput组件
         {
-            fe_id: geterateRandomIds()[2],
+            fe_id: "c3",
             type: "questionInput",
             title: "输入框",
             isHidden: false,
@@ -58,7 +58,7 @@ function generateComponentList() {
         },
         // QuestionInput组件
         {
-            fe_id: geterateRandomIds()[3],
+            fe_id: "c4",
             type: "questionInput",
             title: "输入框",
             isHidden: false,
@@ -70,7 +70,7 @@ function generateComponentList() {
         },
         // QuestionParagraph组件
         {
-            fe_id: geterateRandomIds()[4],
+            fe_id: "c5",
             type: "questionParagraph",
             title: "段落",
             isHidden: false,
@@ -82,7 +82,7 @@ function generateComponentList() {
         },
         // QuestionTextarea组件
         {
-            fe_id: geterateRandomIds()[5],
+            fe_id: "c6",
             type: "questionTextarea",
             title: "多行输入框",
             isHidden: false,
@@ -94,7 +94,7 @@ function generateComponentList() {
         },
         // QuestionRadio组件
         {
-            fe_id: geterateRandomIds()[6],
+            fe_id: "c7",
             type: "questionRadio",
             title: "单选",
             isHidden: false,
@@ -124,7 +124,7 @@ function generateComponentList() {
         },
         // QuestionCheckbox组件
         {
-            fe_id: geterateRandomIds()[7],
+            fe_id: "c8",
             type: "questionCheckbox",
             title: "多选",
             isHidden: false,

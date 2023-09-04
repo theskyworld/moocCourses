@@ -29,3 +29,8 @@ export const DEFAULT_PER_PAGE_SIZE = 10;
 
 // token
 export const TOKEN_KEY = "user_token";
+
+
+
+// stat
+export const STAT_PAGE_SIZE = 10 // 统计列表，默认的 pageSize

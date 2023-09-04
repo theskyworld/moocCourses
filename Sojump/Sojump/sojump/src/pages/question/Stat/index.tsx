@@ -5,6 +5,7 @@ import React, { FC, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useGetPageSetting from "../../../hooks/useGetPageSetting";
 import useLoadQuestionDataWithComponents from "../../../hooks/useLoadQuestionDataWithComponents";
+import AnswerDetail from "./AnswerDetail";
 import QuestionDetail from "./QuestionDetail";
 import StatHeader from "./StatHeader";
 import styles from "./StatLayout.module.scss";
@@ -58,6 +59,12 @@ const StatIndex: FC = () => {
                         setSelectedComponentId={setSelectedComponentId}
                         setSelectedComponentType={setSelectedComponentType}
                     />
+                </div>
+                {/* 下部中间答卷详细信息 */}
+                <div className={styles.main}>
+                    <AnswerDetail selectedComponentId={selectedComponentId}
+                        setSelectedComponentId={setSelectedComponentId}
+                        setSelectedComponentType={setSelectedComponentType} />
                 </div>
             </>
         )
