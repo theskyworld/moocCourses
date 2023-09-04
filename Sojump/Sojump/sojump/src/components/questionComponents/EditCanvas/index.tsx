@@ -9,6 +9,8 @@ import useGetComponentInfo from "../../../hooks/useGetComponentInfo";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
 import useBindCanvasKeyPress from "../../../hooks/useBindCanvasKeyPress";
+import SortableContainer from "../../dragSortable/SortableContainer";
+import SortableItem from "../../dragSortable/SortableItem";
 
 
 interface EditCanvasProps {
@@ -54,30 +56,40 @@ const EditCanvas: FC<EditCanvasProps> = ({ loading }) => {
             </div>
         )
     }
+
+
+    function handleDragEnd(oldIndex: number, newIndex: number) {
+        console.log(oldIndex, newIndex);
+
+    }
     return (
         // 根据当前问卷所包含的不同组件的配置来动态地生成组件及其对应的组件中的数据
         <div className={styles.canvas}>
-            {
-                components.map((componentInfo: ComponentInfo) => {
-                    const { fe_id, isLocked } = componentInfo;
-                    // 使用clsx拼接wrapper的className
-                    const wrapperDefaultClassName = styles['component-wrapper'];
-                    const wrapperSelectedClassName = styles.selected;
-                    const wrapperLockedClassName = styles.locked;
-                    const wrapperClassName = clsx({
-                        [wrapperDefaultClassName]: true,
-                        [wrapperSelectedClassName]: selectedId === fe_id,
-                        [wrapperLockedClassName] : isLocked,
+            <SortableContainer items={components.map(c => ({ ...c, id: c.fe_id }))} onDragEnd={handleDragEnd}>
+                {
+                    components.map((componentInfo: ComponentInfo) => {
+                        const { fe_id, isLocked } = componentInfo;
+                        // 使用clsx拼接wrapper的className
+                        const wrapperDefaultClassName = styles['component-wrapper'];
+                        const wrapperSelectedClassName = styles.selected;
+                        const wrapperLockedClassName = styles.locked;
+                        const wrapperClassName = clsx({
+                            [wrapperDefaultClassName]: true,
+                            [wrapperSelectedClassName]: selectedId === fe_id,
+                            [wrapperLockedClassName]: isLocked,
+                        })
+                        return (
+                            <SortableItem key={fe_id} id={fe_id}>
+                                <div className={wrapperClassName} onClick={(e) => handleClick(e, fe_id)}>
+                                    <div className={styles.component}>
+                                        {generateComponentByConfig(componentInfo)}
+                                    </div>
+                                </div>
+                            </SortableItem>
+                        )
                     })
-                    return (
-                        <div key={fe_id} className={wrapperClassName} onClick = {(e) => handleClick(e, fe_id)}>
-                            <div className={styles.component}>
-                                {generateComponentByConfig(componentInfo)}
-                            </div>
-                        </div>
-                    )
-                })
-            }
+                }
+            </SortableContainer>
         </div>
     )
 }

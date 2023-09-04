@@ -8,7 +8,7 @@ import {
     DragEndEvent,
 } from '@dnd-kit/core'
 import {
-    // arrayMove,
+    arrayMove,
     SortableContext,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
@@ -33,11 +33,11 @@ const SortableContainer: FC<SortableContainerProp> = (props: SortableContainerPr
     function handleDragEnd(event: DragEndEvent) {
         const { active, over } = event
         if (over == null) return
-
         if (active.id !== over.id) {
             const oldIndex = items.findIndex(c => c.fe_id === active.id)
             const newIndex = items.findIndex(c => c.fe_id === over.id)
-            onDragEnd(oldIndex, newIndex)
+            onDragEnd(oldIndex, newIndex);
+            arrayMove(items, oldIndex, newIndex);
         }
     }
 

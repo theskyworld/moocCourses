@@ -2,13 +2,14 @@ import React, { FC } from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-type PropsType = {
+interface SortableItemProps {
   id: string
   children: JSX.Element
 }
 
-const SortableItem: FC<PropsType> = ({ id, children }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id, resizeObserverConfig : undefined })
+// TODO fix : unable to sort  after drag
+const SortableItem: FC<SortableItemProps> = ({ id, children }) => {
+  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
 
   const style = {
     transform: CSS.Transform.toString(transform),
