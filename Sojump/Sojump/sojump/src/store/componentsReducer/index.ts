@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {ComponentInfoProps} from "../../components/questionComponents/componentsConfig";
+import { ComponentInfoProps } from "../../components/questionComponents/componentsConfig";
 import cloneDeep from "lodash.clonedeep";
 import insertComponent from '../../assets/utils/insertComponent';
 import getRandomId from '../../assets/utils/getRandomId';
+import { arrayMove } from '@dnd-kit/sortable';
 
 
 export interface ComponentInfo {
@@ -18,12 +19,12 @@ export interface ComponentsReducerState {
     selectedId: string; // 在画布中选中的问卷的组件id，以便进行左中右三栏中内容的联动
     components: ComponentInfo[];
     copiedComponent: ComponentInfo | null; // 存储已被复制的组件，用于组件的复制粘贴等
-} 
+}
 
 const INIT_STATE: ComponentsReducerState = {
-    selectedId : "",
+    selectedId: "",
     components: [],
-    copiedComponent : null,
+    copiedComponent: null,
 };
 
 const componentsReducer = createSlice({
@@ -33,22 +34,22 @@ const componentsReducer = createSlice({
     reducers: {
         // 初始化/重置所有组件
         initComponents: (state: ComponentsReducerState, action: PayloadAction<ComponentsReducerState>) => {
-            return action.payload;  
+            return action.payload;
         },
         // 根据在画布中鼠标点击的行为切换当前鼠标选中的组件的id
-        changeSelectedId :(state: ComponentsReducerState, action: PayloadAction<string>) => {
+        changeSelectedId: (state: ComponentsReducerState, action: PayloadAction<string>) => {
             return {
                 ...state,
                 selectedId: action.payload,
             }
         },
         // 新增组件到画布中
-        addComponent : (state: ComponentsReducerState, action: PayloadAction<ComponentInfo>) => {
+        addComponent: (state: ComponentsReducerState, action: PayloadAction<ComponentInfo>) => {
             return insertComponent(state, action.payload);
         },
 
         // 修改组件属性
-        changeComponentProps : (state: ComponentsReducerState, action: PayloadAction<{fe_id: string, newProps : ComponentInfoProps}>) => {
+        changeComponentProps: (state: ComponentsReducerState, action: PayloadAction<{ fe_id: string, newProps: ComponentInfoProps }>) => {
             const { fe_id, newProps } = action.payload;
 
             // 要修改的当前组件
@@ -77,14 +78,14 @@ const componentsReducer = createSlice({
         },
 
         // 隐藏/显示组件
-        toggleisHidden(state : ComponentsReducerState) {
+        toggleisHidden(state: ComponentsReducerState) {
             const { components = [], selectedId = '' } = state;
             const index = components.findIndex(component => component.fe_id === selectedId);
-            
+
             // 只显示不隐藏的组件
             const filterComponents = components.filter(component => {
                 // 对于当前选中的组件，进行隐藏操作，返回false
-                if(component.fe_id === selectedId) return false;
+                if (component.fe_id === selectedId) return false;
                 return !component.isHidden
             });
             return {
@@ -95,7 +96,7 @@ const componentsReducer = createSlice({
         },
 
         // 锁定/解锁组件
-        toggleIsLocked(state : ComponentsReducerState) {
+        toggleIsLocked(state: ComponentsReducerState) {
             const { selectedId, components } = state;
             const index = components.findIndex(component => component.fe_id === selectedId);
 
@@ -113,7 +114,7 @@ const componentsReducer = createSlice({
         },
         // 复制当前选中的组件
         copyComponent(state: ComponentsReducerState) {
-            const {components, selectedId } = state;
+            const { components, selectedId } = state;
             const currentComponent = state.components.find(component => component.fe_id === selectedId);
             if (!currentComponent) {
                 return {
@@ -123,11 +124,11 @@ const componentsReducer = createSlice({
 
                 }
             } else {
-                 return {
-                ...state,
-                components,
-                copiedComponent: cloneDeep(currentComponent), //对当前组件进行深拷贝
-            }
+                return {
+                    ...state,
+                    components,
+                    copiedComponent: cloneDeep(currentComponent), //对当前组件进行深拷贝
+                }
             }
         },
         //粘贴已复制的组件
@@ -142,7 +143,7 @@ const componentsReducer = createSlice({
             });
         },
         // 选中上一个组件
-        selectPrevComponent(state : ComponentsReducerState) {
+        selectPrevComponent(state: ComponentsReducerState) {
             const { selectedId, components } = state;
             const index = components.findIndex(component => component.fe_id === selectedId);
             if (index <= 0) return state; // 当前未选中任何组件或者当前选中的为第一个组件
@@ -152,7 +153,7 @@ const componentsReducer = createSlice({
             }
         },
         // 选中下一个组件
-        selectNextComponent(state : ComponentsReducerState) {
+        selectNextComponent(state: ComponentsReducerState) {
             const { selectedId, components } = state;
             const index = components.findIndex(component => component.fe_id === selectedId);
             if (index >= components.length - 1) return state; // 当前未选中任何组件或者当前选中的为最后一个组件
@@ -170,17 +171,32 @@ const componentsReducer = createSlice({
                         ...c,
                         title,
                     }
-                } 
+                }
                 return c;
-            } )
+            })
             return {
                 ...state,
                 components: newComponents,
             };
+        },
+
+        // 移动组件
+        moveComponent: (
+            state: ComponentsReducerState,
+            action: PayloadAction<{ oldIndex: number; newIndex: number }>
+        ) => {
+            const { components: curComponents } = state
+            const { oldIndex, newIndex } = action.payload
+
+            const newComponents = arrayMove(curComponents, oldIndex, newIndex)
+            return {
+                ...state,
+                components : newComponents,
+            }
         }
     }
 })
 
-export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent,toggleisHidden, toggleIsLocked, copyComponent, pasteCopiedComponent,selectPrevComponent, selectNextComponent, changeComponentTitle } = componentsReducer.actions;
+export const { initComponents, changeSelectedId, addComponent, changeComponentProps, removeSelectedComponent, toggleisHidden, toggleIsLocked, copyComponent, pasteCopiedComponent, selectPrevComponent, selectNextComponent, changeComponentTitle, moveComponent } = componentsReducer.actions;
 
 export default componentsReducer.reducer;

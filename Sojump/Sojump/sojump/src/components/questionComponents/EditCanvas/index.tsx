@@ -4,7 +4,7 @@ import QuestionTitle from "../QuestionTitle";
 import QuestionInput from "../QuestionInput";
 import { Spin } from "antd";
 import { ComponentInfoProps, ComponentsConfig, getComponentConfigByType } from "../componentsConfig";
-import { changeSelectedId, ComponentInfo } from "../../../store/componentsReducer";
+import { changeSelectedId, ComponentInfo, moveComponent } from "../../../store/componentsReducer";
 import useGetComponentInfo from "../../../hooks/useGetComponentInfo";
 import { useDispatch } from "react-redux";
 import clsx from "clsx";
@@ -59,8 +59,9 @@ const EditCanvas: FC<EditCanvasProps> = ({ loading }) => {
 
 
     function handleDragEnd(oldIndex: number, newIndex: number) {
-        console.log(oldIndex, newIndex);
-
+        // 拖拽结束时，移动组件位置，实现排序功能
+        // 相较于普通元素或者文本作为SortableItem的子元素，组件作为其子元素时需要自己实现拖拽结束后更新组件位置的功能
+        dispatch(moveComponent({ oldIndex, newIndex }))
     }
     return (
         // 根据当前问卷所包含的不同组件的配置来动态地生成组件及其对应的组件中的数据

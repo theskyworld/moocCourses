@@ -7,7 +7,7 @@ interface SortableItemProps {
   children: JSX.Element
 }
 
-// TODO fix : unable to sort  after drag
+
 const SortableItem: FC<SortableItemProps> = ({ id, children }) => {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id })
 

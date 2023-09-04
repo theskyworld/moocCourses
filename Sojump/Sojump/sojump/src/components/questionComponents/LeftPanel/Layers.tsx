@@ -6,7 +6,7 @@ import { ChangeEvent, FC, useState } from "react";
 import { useDispatch } from "react-redux";
 import useGetComponentInfo from "../../../hooks/useGetComponentInfo";
 import useLoadQuestionDataWithComponents from "../../../hooks/useLoadQuestionDataWithComponents";
-import { changeComponentTitle, changeSelectedId, ComponentInfo, toggleisHidden, toggleIsLocked } from "../../../store/componentsReducer";
+import { changeComponentTitle, changeSelectedId, ComponentInfo, moveComponent, toggleisHidden, toggleIsLocked } from "../../../store/componentsReducer";
 import SortableContainer from "../../dragSortable/SortableContainer";
 import SortableItem from "../../dragSortable/SortableItem";
 import styles from "./Layers.module.scss";
@@ -59,9 +59,10 @@ const Layers: FC = () => {
     }
 
 
-    function handleDragEnd(oldIndex : number, newIndex : number) {
-        console.log(oldIndex, newIndex);
-        
+    function handleDragEnd(oldIndex: number, newIndex: number) {
+        // 拖拽结束时，移动组件位置，实现排序功能
+        // 相较于普通元素或者文本作为SortableItem的子元素，组件作为其子元素时需要自己实现拖拽结束后更新组件位置的功能
+        dispatch(moveComponent({ oldIndex, newIndex }))
     }
     return (
         <SortableContainer items={components.map(c => ({ ...c, id: c.fe_id }))} onDragEnd={handleDragEnd}>
