@@ -1,14 +1,32 @@
 import { FileTextOutlined, SettingOutlined } from "@ant-design/icons";
 import { Tabs } from "antd";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
+import useGetComponentInfo from "../../../hooks/useGetComponentInfo";
+import PageSettings from "./PageSettings";
 import Prop from "./Prop";
 
+
+
+enum TAB_KEYS {
+    PROP_KEY = "prop",
+    SETTING_KEY = "setting"
+}
+
+
 const RightPanel: FC = () => {
+    const [activeKey, setActiveKey] = useState(TAB_KEYS.PROP_KEY);
+    const { selectedId } = useGetComponentInfo();
+
+    // 如果当前未选中任何画布中的组件，右侧栏中默认展示页面设置栏
+    useEffect(() => {
+        if (selectedId) setActiveKey(TAB_KEYS.PROP_KEY)
+        else setActiveKey(TAB_KEYS.SETTING_KEY);
+    }, [selectedId])
 
     const tabsItems = [
         // 属性
         {
-            key: "prop",
+            key: TAB_KEYS.PROP_KEY,
             label: (
                 <span>
                     <FileTextOutlined />
@@ -19,18 +37,18 @@ const RightPanel: FC = () => {
         },
         // 设置
         {
-            key: "setting",
+            key: TAB_KEYS.SETTING_KEY,
             label: (
                 <span>
                     <SettingOutlined />
                     页面设置
                 </span>
             ),
-            children: <p>页面设置</p>
+            children: <PageSettings/>
         }
     ]
-
-    return <Tabs defaultActiveKey="prop" items={tabsItems}></Tabs>
+    // 动态设置activeKey的值
+    return <Tabs activeKey={activeKey} items={tabsItems}></Tabs>
 }
 
 
