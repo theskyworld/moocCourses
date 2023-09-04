@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getQuestionService } from "../service/question";
 import { useEffect } from 'react';
 import { initComponents } from '../store/componentsReducer';
+import { initPageSetting } from '../store/PageSettingReducer';
 
 function useLoadQuestionDataWithComponents() {
     const { id = '' } = useParams();
@@ -22,14 +23,18 @@ function useLoadQuestionDataWithComponents() {
 
     useEffect(() => {
         if (!data) return;
-        const { title = "", components = [] } = data;
+        const { title = "",desc = "", js = "", css = "", isPublished = false, components = [] } = data;
 
         // 默认选中第一个组件
         let selectedId = "";
         if (components && components.length > 0) {
             selectedId = components[0].fe_id;
         }
+        // 将获取到的components存储到redux中，初始化画布中的components
         dispatch(initComponents({ components, selectedId, copiedComponent: null }));
+        
+        // 将获取到的pageSetting存储到redux中，初始化右侧栏中的页面设置
+        dispatch(initPageSetting({title, js, css, isPublished}))
     }, [data]);
 
     useEffect(() => {

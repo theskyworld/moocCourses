@@ -11,7 +11,11 @@ module.exports = [
                 errno: 0,
                 data: {
                     id: Random.id(),
-                    title: Random.title(),
+                    title: `问卷标题-${Random.title()}`,
+                    desc: "问卷描述...",
+                    js: "",
+                    css: "",
+                    isPublished: false,
                     // 当前问卷中所包含的组件列表属性
                     components: [
                         // QuestionInfo组件
