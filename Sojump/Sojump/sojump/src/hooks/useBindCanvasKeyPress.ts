@@ -49,10 +49,15 @@ export default function useBindCanvasKeyPress() {
 function isActiveElementValid() {
     const activeElem = document.activeElement;
 
-    if (activeElem && activeElem === document.body) {
-        return true;
-    }
+    // if (activeElem && activeElem === document.body) {
+    //     return true;
+    // }
 
+    // 增加了 dnd-kit 以后
+    // 解决按下快捷键例如Backspace时无法进行例如删除组件的快捷操作问题
+    if (activeElem === document.body) return true
+    if (activeElem?.matches('div[role="button"]')) return true
+    
     // 当光标在例如输入框上时，返回false
     return false;
 }

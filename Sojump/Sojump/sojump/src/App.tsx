@@ -2,7 +2,8 @@
 import React from "react";
 import { RouterProvider } from "react-router-dom";
 import routerConfig from "./router/index";
-import "./assets/css/reset.scss"
+import "./assets/css/reset.scss";
+import "./assets/css/base.scss";
 
 function App() {
   return (
