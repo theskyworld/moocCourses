@@ -5,6 +5,7 @@ import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import useGetPageSetting from "../../../hooks/useGetPageSetting";
 import useLoadQuestionDataWithComponents from "../../../hooks/useLoadQuestionDataWithComponents";
+import StatHeader from "./StatHeader";
 import styles from "./StatLayout.module.scss";
 
 
@@ -30,7 +31,7 @@ const StatIndex: FC = () => {
                 <div style={{ flex: '1' }}>
                     <Result
                         status="warning"
-                        title="该页面尚未发布"
+                        title="该问卷尚未发布"
                         extra={
                             <Button type="primary" onClick={() => nav(-1)}>
                                 返回
@@ -47,7 +48,7 @@ const StatIndex: FC = () => {
     }
     return (
         <div className={styles.container}>
-            <p>头部</p>
+            <StatHeader/>
             <div className={styles['content-wrapper']}>
                 {loading && LoadingElem}
                 {!loading && <div className={styles.content}>{generateContentElem()}</div>}

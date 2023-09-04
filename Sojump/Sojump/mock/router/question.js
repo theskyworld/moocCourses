@@ -15,7 +15,7 @@ module.exports = [
                     desc: "问卷描述...",
                     js: "",
                     css: "",
-                    isPublished: false,
+                    isPublished: true,
                     // 当前问卷中所包含的组件列表属性
                     components: [
                         // QuestionInfo组件
