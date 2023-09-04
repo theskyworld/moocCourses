@@ -2,10 +2,11 @@
 
 import { EditOutlined, LeftOutlined, LoadingOutlined } from "@ant-design/icons";
 import { useDebounce, useDebounceEffect, useKeyPress, useRequest } from "ahooks";
-import { Button, Input, Space, Typography } from "antd";
+import { Button, Input, message, Space, Typography } from "antd";
 import { ChangeEvent, FC, MouseEvent, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import { QUESTION_STAT_URL } from "../../../assets/ts/constants";
 import useGetComponentInfo from "../../../hooks/useGetComponentInfo";
 import useGetPageSetting from "../../../hooks/useGetPageSetting";
 import { updateQuestionService } from "../../../service/question";
@@ -91,6 +92,39 @@ const EditHeader: FC = () => {
         )
     }
 
+    // 发布按钮组件
+    const PublishButtonCom: FC = () => {
+        const nav = useNavigate()
+        const { id } = useParams()
+        const { components = [] } = useGetComponentInfo()
+        const pageInfo = useGetPageSetting()
+
+        const { loading, run: pub } = useRequest(
+            async () => {
+                if (!id) return
+                // 类似于假删除，发布就是将当前问卷的isPublished属性进行修改，并同步到后端
+                await updateQuestionService(id, {
+                    ...pageInfo,
+                    components,
+                    isPublished: true, // 标志着问卷已经被发布
+                })
+            },
+            {
+                manual: true,
+                onSuccess() {
+                    message.success('发布成功')
+                    nav(`${QUESTION_STAT_URL}/${id}`) // 发布成功，跳转到统计页面
+                },
+            }
+        )
+
+        return (
+            <Button type="primary" onClick={pub} disabled={loading}>
+                发布
+            </Button>
+        )
+    }
+
     return (
         <div className={styles['header-wrapper']}>
             <div className={styles.header}>
@@ -104,7 +138,7 @@ const EditHeader: FC = () => {
                 <div className={styles.right}>
                     <Space>
                         <SaveButtonCom/>
-                        <Button type="primary">发布</Button>
+                        <PublishButtonCom />
                     </Space>
                 </div>
             </div>
