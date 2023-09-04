@@ -1,3 +1,4 @@
+import { QuestionCheckboxStatProps } from './QuestionCheckbox/questionCheckbox.d';
 /**
  * @description 当前问卷中不同组件的共同配置
  */
@@ -14,7 +15,7 @@ import { QuestionInfoProps } from "./QuestionInfo/questionInfo";
 import questionInfoConfig from "./QuestionInfo/questionInfoConfig";
 import { QuestionTextareaProps } from "./QuestionTextarea/questionTextarea";
 import questionTextareaConfig from "./QuestionTextarea/questionTextareaConfig";
-import { QuestionRadioProps } from "./QuestionRadio/questionRadio";
+import { QuestionRadioProps, QuestionRadioStatProps } from "./QuestionRadio/questionRadio";
 import questionRadioConfig from "./QuestionRadio/questionRadioConfig";
 import { QuestionCheckboxProps } from "./QuestionCheckbox/questionCheckbox";
 import questionCheckboxConfig from "./QuestionCheckbox/questionCheckboxConfig";
@@ -29,8 +30,10 @@ export interface ComponentsConfig {
     Component: FC<ComponentInfoProps>; // 对应画布中的组件
     Prop: FC<ComponentInfoProps>; // 对应右侧栏中的根画布中组件对应的属性组件
     defaultProps: ComponentInfoProps;
+    StatComponent? : FC<ComponentStats>
 }
 
+type ComponentStats = QuestionRadioStatProps & QuestionCheckboxStatProps;
 
 // 当前问卷中包含的所有组件配置的列表
 const ComponentsConfigList: ComponentsConfig[] = [
