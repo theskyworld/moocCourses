@@ -11,7 +11,7 @@ module.exports = [
                 errno: 0,
                 data: {
                     id: Random.id(),
-                    title: `问卷标题-${Random.title()}`,
+                    title: `问卷标题-${Random.integer()}`,
                     desc: "问卷描述...",
                     js: "",
                     css: "",
