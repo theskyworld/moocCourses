@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import { HOME_URL, LOGIN_URL, MANAGE_LIST_URL, MANAGE_STAR_URL, MANAGE_TRASH_URL, MANAGE_URL, QUESTION_EDIT_URL, QUESTION_STAT_URL, QUESTION_URL, REGISTER_URL } from "../assets/ts/constants";
 import MainLayout from "../layouts/MainLayout";
@@ -9,9 +10,16 @@ import List from "../pages/manage/List";
 import Star from "../pages/manage/Star";
 import Trash from "../pages/manage/Trash";
 import NotFound from "../pages/NotFound";
-import EditIndex from "../pages/question/Edit";
-import StatIndex from "../pages/question/Stat";
+// import EditIndex from "../pages/question/Edit";
+// import StatIndex from "../pages/question/Stat";
 import Register from "../pages/Register";
+
+// 使用路由懒加载,将EditIndex和SateIndex组件单独加载,从打包后的main.js文件中拆分出来,
+// 不在进行首页的时候就将这两个路由对应的组件进行加载, 需要时进行加载
+// /*webpackChunkName : EditPage*/在打包后的文件名中添加EditPage的前缀,增加打包后文件名的可读性
+const EditIndex = lazy(() => import(/*webpackChunkName : "EditPage"*/ "../pages/question/Edit"));
+const StatIndex = lazy(() => import(/*webpackChunkName : "StatPage"*/"../pages/question/Stat"));
+
 
 
 const router = createBrowserRouter([
