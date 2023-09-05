@@ -9,7 +9,8 @@ import "./styles/index.css";
 // import App from "./usage/basicUsage/reduxDemo/Count";
 // import App from "./usage/basicUsage/reduxDemo/TodoList";
 // import App from "./usage/basicUsage/useReducerDemo/CountReducer";
-import App from "./usage/basicUsage/useReducerDemo/todoListReducer/TodoListReducer";
+// import App from "./usage/basicUsage/useReducerDemo/todoListReducer/TodoListReducer";
+import App from "./usage/basicUsage/UseStateFnDemo";
 
 
 import store from "./usage/basicUsage/reduxDemo/store"; 
