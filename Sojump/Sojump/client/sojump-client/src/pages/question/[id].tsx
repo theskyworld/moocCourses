@@ -1,9 +1,9 @@
 // 动态路由文件
 // 访问该文件时,输入的url中要包含id参数
 // 例如"/question/1"
-import PageWrapper from '@/components/PageWrapper'
-import { getQuestionById } from '@/services/question'
-import { getComponent } from '@/components/QuestionComponents'
+import PageWrapper from '@/components/PageWrapper/index'
+import { getQuestionById } from '@/service/question'
+import { getComponent } from '@/components/QuestionComponents/index'
 import styles from '@/styles/Question.module.scss'
 
 interface QuestionProps{

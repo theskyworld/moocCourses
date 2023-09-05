@@ -1,10 +1,10 @@
-import QuestionInput from "./QuestionInput"
-import QuestionRadio from "./QuestionRadio"
-import QuestionTitle from './QuestionTitle'
-import QuestionParagraph from './QuestionParagraph'
-import QuestionInfo from "./QuestionInfo"
-import QuestionTextarea from "./QuestionTextarea"
-import QuestionCheckbox from "./QuestionCheckbox"
+import QuestionInput from "./QuestionInput/index"
+import QuestionRadio from "./QuestionRadio/index"
+import QuestionTitle from './QuestionTitle/index'
+import QuestionParagraph from './QuestionParagraph/index'
+import QuestionInfo from "./QuestionInfo/index"
+import QuestionTextarea from "./QuestionTextarea/index"
+import QuestionCheckbox from "./QuestionCheckbox/index"
 
 interface ComponentInfo {
     fe_id: string
