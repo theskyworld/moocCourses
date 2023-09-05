@@ -16,7 +16,7 @@ interface QuestionProps{
         css?: string
         isPublished: boolean
         isDeleted: boolean
-        componentList: Array<any>
+        components: Array<any>
     }
     msg?: string
 }
@@ -32,7 +32,7 @@ export default function Question(props: QuestionProps) {
         </PageWrapper>
     }
 
-    const { id, title = '', desc = '', isDeleted, isPublished, componentList = [] } = data || {}
+    const { id, title = '', desc = '', isDeleted, isPublished, components = [] } = data || {}
 
     // 已经被删除的，提示错误
     if (isDeleted) {
@@ -52,7 +52,7 @@ export default function Question(props: QuestionProps) {
 
     // 遍历组件
     const ComponentListElem = <>
-        {componentList.map(c => {
+        {components.map(c => {
             const ComponentElem = getComponent(c)
             return <div key={c.fe_id} className={styles.componentWrapper}>
                 {ComponentElem}
