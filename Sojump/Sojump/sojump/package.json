@@ -37,7 +37,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "craco  start",
     "build": "craco  build",
-    "test": "craco  test",
+    "test": "craco test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "browserslist": {
@@ -53,10 +53,17 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.22.15",
+    "@babel/preset-env": "^7.22.15",
+    "@babel/preset-react": "^7.22.15",
+    "@babel/preset-typescript": "^7.22.15",
     "@craco/craco": "^7.1.0",
     "@types/lodash.clonedeep": "^4.5.7",
+    "babel-jest": "^29.6.4",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "prettier": "^3.0.2"
+    "jest": "^27.5.1",
+    "prettier": "^3.0.2",
+    "react-test-renderer": "^18.2.0"
   }
 }
