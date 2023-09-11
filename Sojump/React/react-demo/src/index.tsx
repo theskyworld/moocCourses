@@ -1,4 +1,6 @@
 import React from "react";
+import { enableMapSet } from "immer";
+enableMapSet();
 import ReactDOM from "react-dom/client";
 import "./styles/index.css";
 // import App from "./usage/basicUsage/JSX/App";
