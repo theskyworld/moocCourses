@@ -74,7 +74,9 @@ const App = () => {
   const App = () => {
     const [userInfo, setUserInfo] = useState({name : 'Alice', age : 12})
     const [nums, setNums] = useState([1,2,3]);
+    const [num, setNum] = useState(0);
 
+    // 对于引用类型的数据
     function addUserInfoAge() {
         // 对响应式数据进行修改时，并不是直接对原来的值进行修改
         // 而是传入一个新的值来覆盖原来的值
@@ -85,17 +87,25 @@ const App = () => {
         })
     };
 
-    function addNum() {
+    function addNums() {
         setNums(nums.concat(4, 5));
         // 或
         // setNums([...nums, 4, 5]);
     }
+
+    // 对于基本类型的数据
+    function addNum() {
+      setNum(num + 1);
+    }
+
     return (
         <div className="App">
         {/* <button onClick={addCount}>{count}</button> */}
         <p>{JSON.stringify(userInfo)}</p>
         <button onClick={addUserInfoAge}>click</button>
         <p>{JSON.stringify(nums)}</p>
+        <button onClick={addNums}>click</button>
+        <p>{num}</p>
         <button onClick={addNum}>click</button>
         </div>
     );
